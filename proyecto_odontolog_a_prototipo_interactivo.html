@@ -1,0 +1,1868 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ODONTO · Proyecto Odontología — Prototipo Sobrinos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0&display=block">
+<style>
+:root{
+  --bg:#F9F7F3; --surface:#FFFFFF; --surface-2:#F2ECE4; --surface-3:#E7DFD3;
+  --ink:#23201C; --muted:#575048; --subtle:#787067; --line:#EAE3D9; --line-2:#DCD2C4;
+  --primary:#2B6B64; --primary-deep:#1D4F49; --primary-ink:#FFFFFF; --primary-soft:#E3F1EF;
+  --accent:#D6603F; --accent-deep:#9F3C20; --accent-soft:#FBECE7;
+  --blue:#285E8E; --blue-soft:#E5EFF8;
+  --mustard:#B87D1E; --mustard-soft:#FDF4E3;
+  --ok:#2E7A53; --ok-soft:#E2F2E9; --warn:#B07219; --warn-soft:#FDF2DF; --bad:#C83E37; --bad-soft:#FCE6E5;
+  --frame:#1F1D1A; --overlay:rgba(35,32,28,.42);
+  --f:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif;
+  --r1:6px; --r2:10px; --r3:14px; --r4:18px;
+  --sh1:0 1px 3px rgba(60,50,40,.06), 0 3px 10px -2px rgba(60,50,40,.06);
+  --sh2:0 12px 28px -8px rgba(60,50,40,.16), 0 4px 10px -2px rgba(60,50,40,.07);
+  --sh3:0 24px 60px -16px rgba(35,32,28,.35);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box}
+html,body{height:100%; margin:0}
+body{background:var(--bg); color:var(--ink); font-family:var(--f); font-size:14.5px; line-height:1.48; -webkit-font-smoothing:antialiased; padding-left:248px}
+h1,h2,h3,h4{margin:0; font-weight:750; letter-spacing:-.02em}
+h1{font-size:28px; line-height:1.15} h2{font-size:18px} h3{font-size:15.5px} h4{font-size:13.5px}
+p{margin:0}
+button,input,select,textarea{font:inherit; color:inherit}
+button{cursor:pointer}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)} .subtle{color:var(--subtle)}
+.eyebrow{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--subtle)}
+.ms{font-family:"Material Symbols Rounded"; font-weight:normal; font-style:normal; font-size:20px; line-height:1; display:inline-block; vertical-align:middle; user-select:none; font-variation-settings:'FILL' 0,'wght' 450,'GRAD' 0,'opsz' 24; flex:none}
+.ms.fill{font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24}
+
+/* Barra lateral */
+.side{position:fixed; top:0; left:0; bottom:0; width:248px; z-index:40; background:var(--surface); border-right:1px solid var(--line); display:flex; flex-direction:column; gap:20px; padding:18px 14px; overflow-y:auto}
+.brand{display:flex; align-items:center; gap:10px; padding:0 6px}
+.logo{width:38px; height:38px; border-radius:var(--r2); background:var(--primary); color:var(--primary-ink); display:grid; place-items:center; font-weight:800; font-size:13px; letter-spacing:.04em; flex:none}
+.brand b{display:block; font-size:15px; line-height:1.15}
+.brand span{font-size:11.5px; color:var(--muted)}
+.nav{display:flex; flex-direction:column; gap:18px}
+.ngrp{display:flex; flex-direction:column; gap:3px}
+.nav .grp{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--subtle); padding:0 12px 5px}
+.nav button{display:flex; gap:11px; align-items:center; width:100%; border:0; background:none; padding:10px 12px; border-radius:var(--r2); color:var(--muted); font-weight:600; font-size:14px; text-align:left; transition:background .18s, color .18s}
+.nav button:hover{background:var(--surface-2); color:var(--ink)}
+.nav button[aria-current="page"]{background:var(--primary-soft); color:var(--primary-deep); font-weight:700}
+.side-foot{margin-top:auto; padding:10px 12px; border-radius:var(--r2); background:var(--surface-2); font-size:12px}
+.proto{display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent-deep); background:var(--accent-soft); padding:3px 7px; border-radius:var(--r1)}
+
+/* Header superior */
+.top{position:sticky; top:0; z-index:30; background:rgba(255,255,255,.9); backdrop-filter:blur(12px); border-bottom:1px solid var(--line)}
+.wrap{max-width:1360px; margin:0 auto; padding:0 22px}
+.top-row{display:flex; align-items:center; gap:12px; padding:10px 0; flex-wrap:wrap}
+.top-brand{display:none}
+.gsearch{position:relative; flex:1; max-width:360px}
+.gsearch .ms{position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--subtle); font-size:19px}
+.gsearch input{width:100%; height:38px; border:1px solid var(--line-2); background:var(--bg); border-radius:var(--r2); padding:0 12px 0 38px; font-size:13.5px}
+.gsearch input:focus{outline:none; border-color:var(--primary); background:var(--surface)}
+.role-bar{display:flex; align-items:center; gap:6px; margin-left:auto; background:var(--surface-2); padding:3px; border-radius:var(--r2)}
+.role-bar button{border:0; background:none; padding:6px 10px; border-radius:var(--r1); font-size:12.5px; font-weight:600; color:var(--muted); display:flex; align-items:center; gap:5px}
+.role-bar button[aria-pressed="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--sh1)}
+.iconbtn{position:relative; width:38px; height:38px; border-radius:var(--r2); border:1px solid var(--line-2); background:var(--surface); display:grid; place-items:center; color:var(--muted)}
+.iconbtn:hover{background:var(--surface-2); color:var(--ink)}
+.count{position:absolute; top:-5px; right:-5px; min-width:18px; height:18px; padding:0 4px; border-radius:9px; background:var(--accent); color:#fff; font-size:10.5px; font-weight:800; display:grid; place-items:center}
+
+/* Estructura general */
+main{padding:24px 0 80px}
+.view{display:none; animation:fadeIn .25s var(--ease)}
+.view.on{display:block}
+@keyframes fadeIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+.vhead{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:20px}
+.vhead p{color:var(--muted); margin-top:5px; max-width:65ch}
+.vhead .eyebrow{color:var(--primary); display:flex; align-items:center; gap:5px; margin-bottom:6px}
+.row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.grid{display:grid; gap:16px}
+.g-2{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.g-2e{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r4); padding:18px; box-shadow:var(--sh1)}
+.chead{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:14px; flex-wrap:wrap}
+.chead p{color:var(--muted); font-size:13px; margin-top:2px}
+
+/* Botones y chips */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:6px; height:38px; padding:0 14px; border-radius:var(--r2); border:1px solid var(--line-2); background:var(--surface); font-weight:600; font-size:13.5px; white-space:nowrap; transition:all .15s}
+.btn:hover{background:var(--surface-2)}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.45; pointer-events:none}
+.btn.pri{background:var(--primary); border-color:var(--primary); color:var(--primary-ink)}
+.btn.pri:hover{background:var(--primary-deep)}
+.btn.acc{background:var(--accent); border-color:var(--accent); color:#fff}
+.btn.ghost{border-color:transparent; background:none; color:var(--primary-deep)}
+.btn.ghost:hover{background:var(--primary-soft)}
+.btn.sm{height:30px; padding:0 10px; font-size:12.5px; border-radius:var(--r1)}
+.btn.lg{height:46px; padding:0 18px; font-size:15px; border-radius:var(--r3)}
+.btn.block{width:100%}
+.chip{display:inline-flex; align-items:center; gap:4px; height:24px; padding:0 8px; border-radius:var(--r1); font-size:12px; font-weight:700; white-space:nowrap}
+.chip .ms{font-size:15px}
+.chip.ok{background:var(--ok-soft); color:var(--ok)}
+.chip.warn{background:var(--warn-soft); color:var(--warn)}
+.chip.bad{background:var(--bad-soft); color:var(--bad)}
+.chip.neu{background:var(--surface-2); color:var(--muted)}
+.chip.acc{background:var(--accent-soft); color:var(--accent-deep)}
+.chip.blue{background:var(--blue-soft); color:var(--blue)}
+
+/* KPIs */
+.kpis{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px}
+.kpi .ic{width:38px; height:38px; border-radius:var(--r2); display:grid; place-items:center}
+.kpi .v{font-size:28px; font-weight:800; margin-top:12px; line-height:1.1}
+.kpi .l{font-size:13.5px; color:var(--muted); margin-top:3px}
+.kpi .d{font-size:12.5px; font-weight:600; margin-top:10px; display:flex; align-items:center; gap:4px}
+
+/* Listas */
+.li{display:flex; align-items:center; gap:12px; padding:11px 0; border-top:1px solid var(--line)}
+.li:first-child{border-top:0; padding-top:2px}
+.li .grow{flex:1; min-width:0}
+.li .grow b{display:block; font-size:14px}
+.li .grow small{display:block; color:var(--muted); font-size:12.5px}
+.av{width:36px; height:36px; border-radius:50%; display:grid; place-items:center; font-weight:700; font-size:12.5px; flex:none; background:var(--surface-2); color:var(--muted)}
+.av.pat{background:var(--primary-soft); color:var(--primary-deep)}
+.inp{width:100%; height:38px; border:1px solid var(--line-2); background:var(--surface); border-radius:var(--r2); padding:0 11px; font-size:13.5px}
+textarea.inp{height:auto; min-height:76px; padding:8px 11px; resize:vertical}
+
+/* Grilla de Sillones */
+.cal-wrap{overflow-x:auto}
+.cal{display:grid; grid-template-columns:64px repeat(5,minmax(155px,1fr)); min-width:840px}
+.cal .hd{background:var(--surface-2); padding:10px; font-size:12.5px; font-weight:700; border-bottom:1px solid var(--line); border-left:1px solid var(--line)}
+.cal .hd small{display:block; font-weight:500; color:var(--subtle); font-size:11px; margin-top:2px}
+.cal .hr{padding:10px 8px; font-size:12px; font-weight:700; color:var(--subtle); border-top:1px solid var(--line)}
+.cal .sl{border-top:1px solid var(--line); border-left:1px solid var(--line); padding:5px; min-height:78px}
+.tn{width:100%; height:100%; border:0; border-radius:var(--r2); padding:7px 9px; text-align:left; display:flex; flex-direction:column; gap:3px; position:relative; border-left:4px solid var(--primary); background:var(--primary-soft); transition:transform .15s, box-shadow .15s}
+.tn:hover{transform:translateY(-2px); box-shadow:var(--sh2)}
+.tn.sel{outline:2px solid var(--ink)}
+.tn b{font-size:13px; color:var(--ink)}
+.tn small{font-size:11.5px; color:var(--muted)}
+.free-sl{width:100%; height:100%; min-height:66px; border:1.5px dashed var(--line-2); border-radius:var(--r2); background:none; color:var(--subtle); font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:4px}
+.free-sl:hover{border-color:var(--primary); color:var(--primary-deep); background:var(--primary-soft)}
+
+/* Layout Legajo + Odontograma */
+.leg-grid{display:grid; grid-template-columns:260px minmax(0,1fr); gap:16px; align-items:start}
+.plist{display:flex; flex-direction:column; gap:4px; max-height:620px; overflow-y:auto}
+.prow{display:flex; gap:10px; align-items:flex-start; width:100%; padding:10px; border:0; border-radius:var(--r2); background:none; text-align:left}
+.prow:hover{background:var(--surface-2)}
+.prow[aria-current="true"]{background:var(--primary-soft)}
+.prow b{display:block; font-size:14px}
+.prow small{display:block; font-size:12px; color:var(--muted)}
+.med-alerts{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
+.tabs{display:flex; gap:4px; border-bottom:1px solid var(--line); margin:16px 0; overflow-x:auto}
+.tabs button{border:0; background:none; padding:10px 14px; font-weight:700; font-size:13.5px; color:var(--muted); border-bottom:2.5px solid transparent; display:flex; align-items:center; gap:6px; white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--primary-deep); border-bottom-color:var(--primary)}
+
+/* ===== ODONTOGRAMA INTERACTIVO + PLAN DE 20 ÍTEMS (PLANILLA 1 DIGITAL) ===== */
+.odonto-split{display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:18px; align-items:start}
+.tool-palette{display:flex; gap:6px; flex-wrap:wrap; padding:10px; background:var(--surface-2); border-radius:var(--r3); margin-bottom:14px}
+.tool-btn{border:1.5px solid var(--line-2); background:var(--surface); border-radius:var(--r2); padding:6px 10px; font-size:12.5px; font-weight:700; display:flex; align-items:center; gap:6px; transition:all .15s}
+.tool-btn[aria-pressed="true"]{border-color:var(--ink); box-shadow:0 0 0 2px var(--ink)}
+.tool-dot{width:12px; height:12px; border-radius:3px; display:inline-block}
+
+.arch-box{border:1px solid var(--line); border-radius:var(--r3); padding:14px 10px; background:var(--bg); overflow-x:auto}
+.quad-row{display:grid; grid-template-columns:1fr 2px 1fr; gap:10px; align-items:center; min-width:540px}
+.quad-div{background:var(--line-2); height:100%; width:2px}
+.quad-hdiv{height:2px; background:var(--line-2); margin:12px 0; min-width:540px}
+.teeth-grp{display:flex; justify-content:center; gap:5px}
+
+/* Cada Diente SVG / Geométrico de 5 Caras */
+.tooth-card{display:flex; flex-direction:column; align-items:center; gap:3px; padding:3px; border-radius:var(--r1); cursor:pointer; user-select:none; transition:background .15s}
+.tooth-card:hover{background:var(--surface-2)}
+.tooth-card.sel{background:var(--primary-soft); outline:1.5px solid var(--primary)}
+.tooth-num{font-size:11.5px; font-weight:800; color:var(--muted)}
+.tooth-svg{width:38px; height:38px; display:block}
+.tooth-svg polygon, .tooth-svg rect{stroke:#787067; stroke-width:1.4; fill:#FFFFFF; transition:fill .15s}
+.tooth-svg polygon:hover, .tooth-svg rect:hover{filter:brightness(.92)}
+.tooth-svg .f-caries{fill:#E04F44 !important}
+.tooth-svg .f-realizado{fill:#3474B4 !important}
+.tooth-svg .f-presup{fill:#2E8B63 !important}
+.tooth-badge{font-size:10px; font-weight:800; height:16px; padding:0 4px; border-radius:4px; display:flex; align-items:center; justify-content:center}
+
+/* Lista de los 20 Ítems de la Planilla 1 */
+.plan20-list{max-height:540px; overflow-y:auto; border:1px solid var(--line); border-radius:var(--r3); divide-y:1px solid var(--line)}
+.p20-row{display:grid; grid-template-columns:28px minmax(0,1fr) auto 92px; gap:8px; align-items:center; padding:8px 12px; border-bottom:1px solid var(--line); font-size:13px; transition:background .2s}
+.p20-row.active{background:var(--primary-soft); font-weight:700}
+.p20-num{color:var(--subtle); font-weight:700; font-size:12px}
+.qty-ctrl{display:inline-flex; align-items:center; border:1px solid var(--line-2); border-radius:var(--r1); background:var(--surface)}
+.qty-ctrl button{border:0; background:none; width:24px; height:24px; font-weight:800; color:var(--muted); padding:0}
+.qty-ctrl button:hover{background:var(--surface-2); color:var(--ink)}
+.qty-ctrl span{min-width:22px; text-align:center; font-size:12.5px; font-weight:700}
+
+/* ===== EXAMEN ESTOMATOLÓGICO E ÍNDICE IHOS (PLANILLA 2 DIGITAL) ===== */
+.estoma-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
+.estoma-item{border:1.5px solid var(--line); border-radius:var(--r3); padding:11px 14px; background:var(--surface); transition:all .2s}
+.estoma-item.abn{border-color:var(--warn); background:var(--warn-soft)}
+.ihos-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:420px}
+.ihos-cell{border:1.5px solid var(--line-2); border-radius:var(--r2); padding:8px; background:var(--surface); text-align:center}
+.ihos-cell b{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
+.ihos-btns{display:grid; grid-template-columns:repeat(4,1fr); gap:3px}
+.ihos-btns button{border:1px solid var(--line-2); background:var(--bg); border-radius:4px; height:26px; font-weight:700; font-size:12px; padding:0}
+.ihos-btns button[aria-pressed="true"]{background:var(--primary); color:#fff; border-color:var(--primary)}
+
+/* Simulador de Celular */
+.stage{display:grid; grid-template-columns:390px minmax(0,1fr); gap:36px; align-items:start}
+.phone{width:100%; max-width:390px; background:var(--frame); border-radius:42px; padding:10px; box-shadow:var(--sh3)}
+.screen{background:var(--bg); border-radius:33px; height:760px; overflow:hidden; display:flex; flex-direction:column; position:relative}
+.sbar{display:flex; justify-content:space-between; align-items:center; padding:12px 24px 6px; font-size:12px; font-weight:700}
+.sbar .isl{width:88px; height:22px; border-radius:12px; background:var(--frame)}
+.sbody{flex:1; overflow-y:auto; padding:8px 16px 24px; display:flex; flex-direction:column; gap:12px}
+.mcard{background:var(--surface); border:1px solid var(--line); border-radius:var(--r3); padding:14px}
+.sig-canvas{width:100%; height:135px; border:1.5px dashed var(--line-2); border-radius:var(--r2); background:#fff; touch-action:none; cursor:crosshair}
+
+/* Notificación flotante Sala de Espera + Toast */
+.pings{position:fixed; top:68px; right:20px; z-index:90; width:min(380px, calc(100% - 32px)); display:flex; flex-direction:column; gap:10px}
+.ping{display:flex; gap:12px; padding:15px; background:var(--surface); border:2px solid var(--mustard); border-radius:var(--r4); box-shadow:var(--sh3); animation:fadeIn .3s}
+.toast{position:fixed; left:50%; bottom:24px; transform:translate(-50%,20px); background:var(--ink); color:#fff; padding:10px 16px; border-radius:var(--r3); display:flex; gap:8px; align-items:center; font-weight:600; font-size:13.5px; opacity:0; pointer-events:none; transition:all .25s; z-index:95; box-shadow:var(--sh3)}
+.toast.on{opacity:1; transform:translate(-50%,0)}
+
+/* Drawer modal */
+.scrim{position:fixed; inset:0; background:var(--overlay); opacity:0; pointer-events:none; transition:opacity .25s; z-index:70}
+.scrim.on{opacity:1; pointer-events:auto}
+.drawer{position:fixed; top:0; right:0; bottom:0; width:min(460px,100%); background:var(--surface); box-shadow:var(--sh3); z-index:71; transform:translateX(102%); transition:transform .3s var(--ease); display:flex; flex-direction:column}
+.drawer.on{transform:none}
+.drawer .dh{display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid var(--line)}
+.drawer .db{flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:14px}
+.drawer .df{padding:14px 20px; border-top:1px solid var(--line); display:flex; gap:8px}
+
+/* Adaptabilidad Mobile */
+@media (max-width:1120px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g-2,.g-2e,.odonto-split,.stage{grid-template-columns:minmax(0,1fr)}
+  .leg-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:860px){
+  body{padding-left:0; padding-bottom:74px}
+  .side{top:auto; right:0; width:100%; flex-direction:row; padding:6px 8px; border-right:0; border-top:1px solid var(--line); box-shadow:0 -6px 20px rgba(0,0,0,.08)}
+  .side .brand,.side-foot,.nav .grp{display:none}
+  .nav{flex-direction:row; width:100%; gap:2px; overflow-x:auto}
+  .ngrp{display:contents}
+  .nav button{flex:1 0 64px; flex-direction:column; gap:3px; padding:6px 4px; font-size:11px; text-align:center; justify-content:center}
+  .top-brand{display:flex}
+  .estoma-grid{grid-template-columns:minmax(0,1fr)}
+  .toast{bottom:84px}
+}
+</style>
+</head>
+<body>
+
+<!-- BARRA LATERAL (En Mobile pasa a Barra Inferior App) -->
+<aside class="side">
+  <div class="brand">
+    <span class="logo">ODO</span>
+    <div>
+      <b>Proyecto Odontología</b>
+      <span>Clínica Dental · Demo MDP</span>
+    </div>
+  </div>
+  <nav class="nav" id="nav" aria-label="Navegación principal">
+    <div class="ngrp">
+      <span class="grp">Día a día</span>
+      <button data-v="tablero" aria-current="page"><span class="ms">space_dashboard</span><span>Tablero</span></button>
+      <button data-v="sillones"><span class="ms">chair</span><span>Sillones y Agenda</span></button>
+      <button data-v="legajo"><span class="ms">clinical_notes</span><span>Pacientes y Ficha</span></button>
+    </div>
+    <div class="ngrp">
+      <span class="grp">Gestión y Auditoría</span>
+      <button data-v="obras"><span class="ms">receipt_long</span><span>Obras Sociales</span></button>
+    </div>
+    <div class="ngrp">
+      <span class="grp">Celular e IA</span>
+      <button data-v="manoslibres"><span class="ms">mic</span><span>Manos Libres IA</span></button>
+      <button data-v="portal"><span class="ms">smartphone</span><span>Portal Paciente</span></button>
+    </div>
+  </nav>
+  <div class="side-foot">
+    <span class="proto">Sobrinos · Demo v2</span>
+    <p class="muted" style="margin-top:6px">Adaptado a clínicas odontológicas de Mar del Plata + Dental Scan.</p>
+  </div>
+</aside>
+
+<!-- BARRA SUPERIOR CON CAMBIO DE ROL EN VIVO -->
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div class="brand top-brand"><span class="logo">ODO</span><b>Odonto</b></div>
+      <div class="gsearch">
+        <span class="ms">search</span>
+        <input id="q-global" placeholder="Buscar paciente, DNI, obra social o pieza..." autocomplete="off">
+      </div>
+      <div class="role-bar" role="group" aria-label="Vista por Rol">
+        <button data-act="set-role" data-r="dir" aria-pressed="true"><span class="ms" style="font-size:17px">admin_panel_settings</span>Dirección</button>
+        <button data-act="set-role" data-r="sec" aria-pressed="false"><span class="ms" style="font-size:17px">support_agent</span>Recepción</button>
+        <button data-act="set-role" data-r="pro" aria-pressed="false"><span class="ms" style="font-size:17px">medical_services</span>Odontólogo</button>
+      </div>
+      <button class="iconbtn" data-act="sim-sala" title="Simular llegada de paciente a Sala de Espera">
+        <span class="ms">notifications_active</span>
+        <span class="count num" id="badge-count">3</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="view on" id="v-tablero"></section>
+  <section class="view" id="v-sillones"></section>
+  <section class="view" id="v-legajo"></section>
+  <section class="view" id="v-obras"></section>
+  <section class="view" id="v-manoslibres"></section>
+  <section class="view" id="v-portal"></section>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Detalle"></aside>
+<div class="pings" id="pings" aria-live="polite"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* =========================================================================
+   DATOS MAESTROS ODONTOLÓGICOS (MAR DEL PLATA) + LAS 2 PLANILLAS EN PAPEL
+   ========================================================================= */
+const SILLONES = [
+  {id:1, n:'Sillón 1 · Cirugía e Implantes', esp:'Dr. Martín Alvear (Implantólogo)', equip:'Motor implantes + Rx Periapical'},
+  {id:2, n:'Sillón 2 · Ortodoncia y Alineadores', esp:'Dra. Lucía Mercadal (Ortodoncista)', equip:'Escáner Intraoral 3D'},
+  {id:3, n:'Sillón 3 · Endodoncia y Rehab.', esp:'Dr. Julián Tenaglia (Endodoncista)', equip:'Localizador apical + Rotatorio'},
+  {id:4, n:'Sillón 4 · Odontopediatría', esp:'Dra. Sofía Zubiaurre (Odontopediatra)', equip:'Adaptado niños + Pantallas'},
+  {id:5, n:'Sillón 5 · Gral. y Urgencias', esp:'Dra. Valentina Paz (Odont. General)', equip:'Ultrasonido + Profilaxis'}
+];
+
+/* Los 20 ítems exactos de tu Planilla 1 ("PLAN DE TRATAMIENTO Y PRESUPUESTO") */
+const PLAN20_CATALOG = [
+  {id:1,  code:'01.01', n:'Consulta diagnóstica y fichado', price:25000, osCov:1.0},
+  {id:2,  code:'05.01', n:'Destartraje + Profilaxis (Limpieza)', price:42000, osCov:1.0},
+  {id:3,  code:'05.02', n:'Flúor en barniz (Preventivo)', price:28000, osCov:1.0},
+  {id:4,  code:'09.01', n:'Rx periapical digital', price:18000, osCov:1.0},
+  {id:5,  code:'10.01', n:'Extracción simple (Exodoncia)', price:55000, osCov:1.0},
+  {id:6,  code:'02.01', n:'Resina simple (1 cara)', price:48000, osCov:1.0},
+  {id:7,  code:'02.02', n:'Resina compuesta (2 caras)', price:64000, osCov:1.0},
+  {id:8,  code:'02.04', n:'Resina compleja (3 o más caras)', price:82000, osCov:0.8},
+  {id:9,  code:'03.01', n:'End. Ant. (Conducto unirradicular)', price:135000, osCov:1.0},
+  {id:10, code:'03.02', n:'End. Post. (Conducto multirradicular)', price:185000, osCov:0.85},
+  {id:11, code:'07.04', n:'Pulpotomía (Odontopediatría)', price:62000, osCov:1.0},
+  {id:12, code:'07.05', n:'Pulpectomía (Odontopediatría)', price:78000, osCov:1.0},
+  {id:13, code:'04.01', n:'Perno muñón / Fibra de vidrio', price:110000, osCov:0.5},
+  {id:14, code:'04.02', n:'Corona de Zirconio / Porcelana', price:340000, osCov:0.35},
+  {id:15, code:'04.05', n:'Prótesis total acrílica', price:420000, osCov:0.5},
+  {id:16, code:'04.08', n:'Prótesis Removible (Cromo-Cobalto)', price:480000, osCov:0.5},
+  {id:17, code:'04.09', n:'Modelo sup. e inf. de estudio', price:32000, osCov:1.0},
+  {id:18, code:'05.05', n:'Sellantes de puntos y fisuras', price:26000, osCov:1.0},
+  {id:19, code:'06.01', n:'Ortodoncia / Alineadores (Anticipo)', price:580000, osCov:0.25},
+  {id:20, code:'99.00', n:'Otros / Implante osteointegrado', price:620000, osCov:0.3}
+];
+
+/* Las 8 Estructuras del Examen Estomatológico de tu Planilla 2 */
+const ESTOMA_STRUCTS = [
+  {k:'labios', n:'Labios', sug:['Queilitis angular','Herpes labial cicatrizal','Frenillo labial hipertrófico']},
+  {k:'surcos', n:'Surcos vestibulares', sug:['Borramiento de fondo de surco','Fístula activa nivel apical']},
+  {k:'lengua', n:'Lengua', sug:['Lengua geográfica','Saburra lingual','Indentación lateral por bruxismo']},
+  {k:'encia',  n:'Encía', sug:['Gingivitis marginal localizada','Sangrado al sondaje','Recesión gingival en premolares']},
+  {k:'frenillos', n:'Frenillos', sug:['Frenillo lingual corto (Anquiloglosia)','Inserción baja papilar']},
+  {k:'paladar', n:'Paladar', sug:['Paladar ojival / profundo','Torus palatino benigno']},
+  {k:'mucosa', n:'Mucosa vestibular', sug:['Línea alba oclusal marcada (Bruxismo)','Afta menor']},
+  {k:'piso',   n:'Piso de boca', sug:['Conductos salivales permeables s/p','Várices sublinguales']}
+];
+
+/* Dientes permanentes (Adulto 11-48) y temporarios (Niños 51-85) tal cual Planilla 1 */
+const TEETH_ADULT = {
+  q1:[18,17,16,15,14,13,12,11],
+  q2:[21,22,23,24,25,26,27,28],
+  q4:[48,47,46,45,44,43,42,41],
+  q3:[31,32,33,34,35,36,37,38]
+};
+const TEETH_CHILD = {
+  q5:[55,54,53,52,51],
+  q6:[61,62,63,64,65],
+  q8:[85,84,83,82,81],
+  q7:[71,72,73,74,75]
+};
+const IHOS_TEETH = ['16 (55)','11 (51)','26 (65)','46 (85)','31 (71)','36 (75)'];
+
+/* Pacientes de muestra con las particularidades odontológicas */
+const PATIENTS = [
+  {
+    id:'p1', n:'Camila Echeverría', short:'CE', age:34, dni:'36.412.890', os:'OSDE 310', af:'61-0498212-01',
+    tel:'223 15-542-8819', barrio:'Güemes, MDP', dent:'adult', selTooth:16,
+    medAlerts:['Alergia a Penicilina','Usa Guantes Nitrilo'],
+    habitos:['Bruxismo nocturno','Café / Mate frecuente'],
+    antecedentesMed:'Alérgica a betalactámicos (usar Claritromicina o Azitromicina si requiere profilaxis). Dermatitis de contacto al látex.',
+    antecedentesOdo:'Último control hace 14 meses. Refiere sensibilidad al frío en sector superior derecho.',
+    carenciaWarning:{tooth:36, msg:'Pieza 36 facturada a OSDE hace 7 meses (Código 02.02 · Carencia de 12 meses vigente).'},
+    presupuestoSt:'Pendiente de aprobación ($458.000)',
+    lab:{item:'Corona Zirconio Pza. 24 · Color Vita A2', labName:'Lab. Dental Marplatense', st:'recibido', due:'Hoy · Listo en gaveta 3'},
+    dentalScan:{fecha:'18 oct 2026', estudio:'Ortopantomografía Digital + Cone Beam Pza. 24', sede:'Dental Scan · La Rioja 3501', adjunto:true, obs:'Hueso alveolar conservado. Lesión periapical leve en pza 16.'},
+    teeth:{
+      16:{M:'caries', O:'caries', whole:'endo_pend'},
+      24:{whole:'corona_pend'},
+      36:{O:'realizado', D:'realizado'},
+      18:{whole:'ausente'}, 28:{whole:'ausente'}
+    },
+    extraItems:{1:1, 4:1},
+    estoma:{
+      labios:{ok:true, obs:''}, surcos:{ok:true, obs:''}, lengua:{ok:true, obs:''},
+      encia:{ok:false, obs:'Gingivitis marginal localizada en sector postero-superior'},
+      frenillos:{ok:true, obs:''}, paladar:{ok:true, obs:''},
+      mucosa:{ok:false, obs:'Línea alba oclusal marcada compatible con bruxismo'}, piso:{ok:true, obs:''}
+    },
+    ihos:{pdb:[2,1,2,2,1,2], pdd:[1,0,1,2,1,1]},
+    evol:[
+      {d:'Hoy · 10:00', pro:'Dr. Julián Tenaglia', esp:'Endodoncia', code:'03.02', pza:'16', t:'Se recibe panorámica de Dental Scan. Se diagnostica pulpitis irreversible en pza 16 (caries mesio-oclusal profunda). Se presupuesta Endodoncia Posterior + Resina compuesta.', signed:true},
+      {d:'12 mar 2026', pro:'Dra. Valentina Paz', esp:'Odont. General', code:'02.02', pza:'36', t:'Obturación con resina fotopolimerizable en caras Ocluso-Distal de pieza 36. Paciente firmó conformidad OSDE.', signed:true}
+    ]
+  },
+  {
+    id:'p2', n:'Roberto Fangio', short:'RF', age:62, dni:'16.890.114', os:'Círculo Odontológico MDP (IOMA)', af:'20-16890114-4',
+    tel:'223 15-419-3302', barrio:'La Perla, MDP', dent:'adult', selTooth:46,
+    medAlerts:['Anticoagulado (Rivaroxabán)','Hipertenso controlado','Profilaxis Antibiótica'],
+    habitos:['Ex fumador','Cepillado 2 veces/día'],
+    antecedentesMed:'Toma Rivaroxabán 20mg. NO realizar exodoncias ni cirugía sin suspensión coordinada con hematólogo (Dr. Méndez).',
+    antecedentesOdo:'Portador de prótesis parcial removible inferior que desadapta.',
+    carenciaWarning:{tooth:46, msg:'Requiere Rx Pre y Post operatoria obligatoria para auditoría del Círculo Odontológico.'},
+    presupuestoSt:'Señado 50% · En curso',
+    lab:{item:'Prótesis Removible Cromo Inferior', labName:'Lab. ProDental MDP', st:'protesico', due:'Jueves 14:00 (En enfilado)'},
+    dentalScan:{fecha:'10 oct 2026', estudio:'Radiografía Panorámica Digital', sede:'Dental Scan · La Rioja 3501', adjunto:true, obs:'Reabsorción ósea moderada en reborde residual inferior.'},
+    teeth:{
+      46:{whole:'extraccion_pend'},
+      45:{whole:'ausente'}, 44:{whole:'ausente'}, 35:{whole:'ausente'}, 36:{whole:'ausente'},
+      11:{V:'caries'}, 21:{V:'caries'}
+    },
+    extraItems:{1:1, 16:1, 17:1},
+    estoma:{
+      labios:{ok:true, obs:''}, surcos:{ok:true, obs:''}, lengua:{ok:true, obs:''},
+      encia:{ok:false, obs:'Recesión gingival generalizada'},
+      frenillos:{ok:true, obs:''}, paladar:{ok:true, obs:''}, mucosa:{ok:true, obs:''}, piso:{ok:true, obs:''}
+    },
+    ihos:{pdb:[2,2,3,2,2,3], pdd:[2,1,2,2,2,2]},
+    evol:[
+      {d:'15 oct 2026', pro:'Dr. Martín Alvear', esp:'Prótesis y Cirugía', code:'04.09', pza:'Inf', t:'Toma de impresiones con alginato para modelos de estudio superior e inferior. Enviado a Lab. ProDental.', signed:true}
+    ]
+  },
+  {
+    id:'p3', n:'Bautista Pereyra (Niño)', short:'BP', age:7, dni:'56.102.445', os:'Swiss Medical SMG30', af:'8004-29182-03',
+    tel:'223 15-601-9044 (Mamá: Carla)', barrio:'Chauvín, MDP', dent:'child', selTooth:55,
+    medAlerts:['Sin alergias medicamentosas'],
+    habitos:['Respiración bucal','Dieta alta en azúcares'],
+    antecedentesMed:'Sano. Control pediátrico al día.',
+    antecedentesOdo:'Primera experiencia en odontopediatría. Muy colaborador.',
+    carenciaWarning:null,
+    presupuestoSt:'Aprobado por la familia',
+    lab:{item:'Placa expansora de Schwartz superior', labName:'Lab. Ortodoncia Austral', st:'recibido', due:'Recibido · Listo para instalar'},
+    dentalScan:{fecha:'19 oct 2026', estudio:'Panorámica + Teleradiografía Lateral (Ricketts)', sede:'Dental Scan · La Rioja 3501', adjunto:true, obs:'Dentición mixta temprana. Gérmenes definitivos presentes.'},
+    teeth:{
+      55:{O:'caries', M:'caries'},
+      65:{O:'caries'},
+      75:{whole:'sellante_pend'}, 85:{whole:'sellante_pend'}
+    },
+    extraItems:{1:1, 3:1},
+    estoma:{
+      labios:{ok:true, obs:''}, surcos:{ok:true, obs:''}, lengua:{ok:true, obs:''}, encia:{ok:true, obs:''},
+      frenillos:{ok:false, obs:'Frenillo lingual ligeramente corto, en control con fonoaudiología'},
+      paladar:{ok:false, obs:'Paladar levemente profundo por respiración bucal'}, mucosa:{ok:true, obs:''}, piso:{ok:true, obs:''}
+    },
+    ihos:{pdb:[1,1,1,1,0,1], pdd:[0,0,0,0,0,0]},
+    evol:[
+      {d:'19 oct 2026', pro:'Dra. Sofía Zubiaurre', esp:'Odontopediatría', code:'05.02', pza:'Gral', t:'Adaptación al sillón excelente. Topicación con flúor en barniz y enseñanza de técnica de cepillado con revelador de placa.', signed:true}
+    ]
+  },
+  {
+    id:'p4', n:'Mariana Iraola', short:'MI', age:28, dni:'41.008.712', os:'Particular (Plan Alineadores)', af:'Particular',
+    tel:'223 15-588-1209', barrio:'Centro, MDP', dent:'adult', selTooth:11,
+    medAlerts:['Sin alertas médicas'],
+    habitos:['Bruxismo diurno leve'],
+    antecedentesMed:'Sin particularidades.',
+    antecedentesOdo:'En tratamiento de ortodoncia con alineadores transparentes (Etapa 4 de 12).',
+    carenciaWarning:null,
+    presupuestoSt:'Cuota 4 de 12 al día',
+    lab:{item:'Set Alineadores Etapas 5 a 8', labName:'KeepSmiling / Lab Digital', st:'recibido', due:'En consultorio'},
+    dentalScan:{fecha:'02 ago 2026', estudio:'Escaneo Intraoral 3D + Panorámica', sede:'Dental Scan · La Rioja 3501', adjunto:true, obs:'Terceros molares inferiores retenidos asintomáticos.'},
+    teeth:{14:{O:'realizado'}, 24:{O:'realizado'}},
+    extraItems:{19:1},
+    estoma:{
+      labios:{ok:true, obs:''}, surcos:{ok:true, obs:''}, lengua:{ok:true, obs:''}, encia:{ok:true, obs:''},
+      frenillos:{ok:true, obs:''}, paladar:{ok:true, obs:''}, mucosa:{ok:true, obs:''}, piso:{ok:true, obs:''}
+    },
+    ihos:{pdb:[0,0,1,0,0,1], pdd:[0,0,0,0,0,0]},
+    evol:[
+      {d:'05 oct 2026', pro:'Dra. Lucía Mercadal', esp:'Ortodoncia', code:'06.01', pza:'Arcadas', t:'Control mensual de alineadores. Se realiza stripping mesial en incisivos inferiores y se entrega alineador N°4.', signed:true}
+    ]
+  }
+];
+
+/* Turnos de hoy en los 5 sillones */
+const TURNOS_HOY = [
+  {id:'t1', h:9,  sillon:1, pid:'p2', prac:'Control pre-quirúrgico + Prueba Cromo', labSt:'protesico', st:'pres'},
+  {id:'t2', h:9,  sillon:3, pid:'p1', prac:'Endodoncia Pza. 16 (Código 03.02)', labSt:'ok', st:'sala'},
+  {id:'t3', h:10, sillon:1, pid:'p1', prac:'Instalación Corona Zirconio Pza. 24', labSt:'recibido', st:'pend'},
+  {id:'t4', h:10, sillon:2, pid:'p4', prac:'Control Alineadores Etapa 5 + Stripping', labSt:'recibido', st:'pend'},
+  {id:'t5', h:10, sillon:4, pid:'p3', prac:'Resina compuesta Pza. 55 + Sellantes', labSt:'recibido', st:'pend'},
+  {id:'t6', h:11, sillon:5, pid:'p2', prac:'Destartraje por ultrasonido (IHOS alto)', labSt:'ok', st:'pend'}
+];
+
+/* Estado interactivo de la SPA */
+const S = {
+  view:'tablero',
+  role:'dir',
+  selTurn:'t2',
+  pid:'p1',
+  legTab:'odonto', // 'odonto' | 'estoma' | 'placas'
+  tool:'caries',   // 'caries' | 'realizado' | 'endo_pend' | 'corona_pend' | 'extraccion_pend' | 'sellante_pend' | 'ausente' | 'clear'
+  iaMode:'voz',    // 'voz' | 'foto'
+  iaPhase:'idle',  // 'idle' | 'rec' | 'done'
+  iaTranscript:'',
+  portalSigned:false,
+  portalPaid:false,
+  portalIceTimer:1200
+};
+
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const money = n => '$' + Math.round(n).toLocaleString('es-AR');
+const ico = (n, c='') => `<span class="ms ${c}" aria-hidden="true">${n}</span>`;
+const patById = id => PATIENTS.find(p=>p.id===id) || PATIENTS[0];
+
+let toastTimer;
+function toast(msg, ic='check_circle'){
+  const t = $('#toast');
+  t.innerHTML = `${ico(ic,'fill')}<span>${msg}</span>`;
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('on'), 3400);
+}
+
+function openDrawer(title, body, foot=''){
+  $('#drawer').innerHTML = `
+    <div class="dh"><h2>${title}</h2><button class="iconbtn" data-act="close-drawer">${ico('close')}</button></div>
+    <div class="db">${body}</div>
+    ${foot ? `<div class="df">${foot}</div>` : ''}`;
+  $('#drawer').classList.add('on');
+  $('#scrim').classList.add('on');
+}
+function closeDrawer(){
+  $('#drawer').classList.remove('on');
+  $('#scrim').classList.remove('on');
+}
+
+/* =========================================================================
+   MOTOR DE CONEXIÓN VIVA: ODONTOGRAMA -> PLAN DE 20 ÍTEMS (PLANILLA 1)
+   ========================================================================= */
+function computePlan20(p){
+  const counts = {};
+  PLAN20_CATALOG.forEach(it => counts[it.id] = p.extraItems[it.id] || 0);
+
+  // Recorrer piezas del odontograma para calcular ítems 5 a 14 y 18 automáticamente
+  Object.entries(p.teeth).forEach(([tNum, data]) => {
+    const num = +tNum;
+    const isChild = num >= 51;
+    const isAnterior = [13,12,11,21,22,23,43,42,41,31,32,33,53,52,51,61,62,63,83,82,81,71,72,73].includes(num);
+
+    // Contar caras con caries/a realizar ('caries')
+    const facesCaries = ['V','P','M','D','O'].filter(f => data[f] === 'caries').length;
+    if(facesCaries === 1) counts[6] = (counts[6]||0) + 1;      // 6. Resina simple (1 cara)
+    else if(facesCaries === 2) counts[7] = (counts[7]||0) + 1; // 7. Resina compuesta (2 caras)
+    else if(facesCaries >= 3) counts[8] = (counts[8]||0) + 1;  // 8. Resina compleja (3+ caras)
+
+    // Tratamientos de pieza entera
+    if(data.whole === 'extraccion_pend') counts[5] = (counts[5]||0) + 1;
+    if(data.whole === 'endo_pend'){
+      if(isChild) counts[11] = (counts[11]||0) + 1; // 11. Pulpotomía
+      else if(isAnterior) counts[9] = (counts[9]||0) + 1; // 9. End. Ant.
+      else counts[10] = (counts[10]||0) + 1; // 10. End. Post.
+    }
+    if(data.whole === 'corona_pend') counts[14] = (counts[14]||0) + 1; // 14. Corona
+    if(data.whole === 'sellante_pend') counts[18] = (counts[18]||0) + 1; // 18. Sellantes
+  });
+
+  let totalBruto = 0, totalOS = 0, totalPaciente = 0;
+  const rows = PLAN20_CATALOG.map(it => {
+    const qty = counts[it.id] || 0;
+    const sub = qty * it.price;
+    const covFactor = p.os.startsWith('Particular') ? 0 : it.osCov;
+    const osPay = sub * covFactor;
+    const patPay = sub - osPay;
+    totalBruto += sub;
+    totalOS += osPay;
+    totalPaciente += patPay;
+    return {...it, qty, sub, osPay, patPay};
+  });
+
+  return {rows, totalBruto, totalOS, totalPaciente};
+}
+
+/* =========================================================================
+   CÁLCULO AUTOMÁTICO DEL ÍNDICE IHOS (PLANILLA 2)
+   ========================================================================= */
+function computeIHOS(p){
+  const pdbAvg = p.ihos.pdb.reduce((a,b)=>a+b,0) / 6;
+  const pddAvg = p.ihos.pdd.reduce((a,b)=>a+b,0) / 6;
+  const total = +(pdbAvg + pddAvg).toFixed(2);
+  let k = 'ok', label = 'Bueno (0.0 a 1.2) · Higiene adecuada';
+  if(total > 3.0){ k = 'bad'; label = 'Deficiente (3.1 a 6.0) · Requiere Destartraje urgente'; }
+  else if(total > 1.2){ k = 'warn'; label = 'Regular (1.3 a 3.0) · Indicar Profilaxis y técnica de cepillado'; }
+  return {pdbAvg:pdbAvg.toFixed(2), pddAvg:pddAvg.toFixed(2), total, k, label};
+}
+
+/* =========================================================================
+   1. VISTA: TABLERO DE DIRECCIÓN ODONTOLÓGICO
+   ========================================================================= */
+const R = {};
+
+R.tablero = function(){
+  const p1 = patById('p1');
+  const p1Plan = computePlan20(p1);
+  $('#v-tablero').innerHTML = `
+    <div class="vhead">
+      <div>
+        <div class="eyebrow">${ico('monitoring')} Gestión Odontológica Mar del Plata</div>
+        <h1>Tablero de la Clínica</h1>
+        <p>Estado en tiempo real de los 5 sillones, presupuestos pendientes de aprobación, trabajos de laboratorio dental y alertas de facturación.</p>
+      </div>
+      <div class="row">
+        <button class="btn" data-act="sim-sala">${ico('chair')}Simular llegada ("Llegó")</button>
+        <button class="btn pri" data-act="go-odonto">${ico('clinical_notes')}Abrir Odontograma + Presupuesto</button>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="card kpi">
+        <span class="ic" style="background:var(--primary-soft);color:var(--primary-deep)">${ico('chair')}</span>
+        <div class="v num">86%</div>
+        <div class="l">Ocupación de los 5 Sillones</div>
+        <div class="d" style="color:var(--ok)">${ico('trending_up')}4 huecos hoy para urgencias</div>
+      </div>
+      <div class="card kpi">
+        <span class="ic" style="background:var(--accent-soft);color:var(--accent-deep)">${ico('request_quote')}</span>
+        <div class="v num">${money(p1Plan.totalPaciente + 640000)}</div>
+        <div class="l">Presupuestos por cerrar</div>
+        <div class="d" style="color:var(--accent-deep)">${ico('schedule')}4 planes entregados esta semana</div>
+      </div>
+      <div class="card kpi">
+        <span class="ic" style="background:var(--blue-soft);color:var(--blue)">${ico('precision_manufacturing')}</span>
+        <div class="v num">3 / 4</div>
+        <div class="l">Trabajos de Laboratorio listos</div>
+        <div class="d" style="color:var(--warn)">${ico('warning')}1 prótesis aún en el protésico</div>
+      </div>
+      <div class="card kpi">
+        <span class="ic" style="background:var(--ok-soft);color:var(--ok)">${ico('verified')}</span>
+        <div class="v num">94%</div>
+        <div class="l">Prácticas blindadas s/ débitos</div>
+        <div class="d" style="color:var(--muted)">Con firma + Placa de Dental Scan</div>
+      </div>
+    </div>
+
+    <div class="grid g-2e" style="margin-top:16px">
+      <div class="card">
+        <div class="chead">
+          <div>
+            <h2>Limbo de Presupuestos (Seguimiento comercial)</h2>
+            <p>Planes armados en el Odontograma que el paciente dijo "lo pienso y te aviso"</p>
+          </div>
+          <span class="chip acc">Prioridad Alta</span>
+        </div>
+        ${PATIENTS.map(p => {
+          const pl = computePlan20(p);
+          return `<div class="li">
+            <span class="av pat">${p.short}</span>
+            <div class="grow">
+              <b>${p.n} <span class="chip neu" style="height:20px">${p.os}</span></b>
+              <small>${p.presupuestoSt} · Copago paciente: <b style="display:inline;color:var(--ink)" class="num">${money(pl.totalPaciente)}</b></small>
+            </div>
+            <button class="btn sm ghost" data-act="open-pat" data-pid="${p.id}">Ver Plan</button>
+            <button class="btn sm pri" data-act="wa-presu" data-pid="${p.id}">${ico('send')}WhatsApp 3 cuotas</button>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <div class="card">
+        <div class="chead">
+          <div>
+            <h2>Semáforo de Laboratorio Dental (Protésicos)</h2>
+            <p>Evita sentar al paciente en el sillón si el laboratorio no entregó la corona o prótesis</p>
+          </div>
+          <button class="btn sm" data-v-go="sillones">Ver Sillones</button>
+        </div>
+        ${PATIENTS.map(p => `
+          <div class="li">
+            <span class="av" style="background:${p.lab.st==='recibido'?'var(--ok-soft)':'var(--bad-soft)'};color:${p.lab.st==='recibido'?'var(--ok)':'var(--bad)'}">
+              ${ico(p.lab.st==='recibido'?' inventory':'hourglass_top')}
+            </span>
+            <div class="grow">
+              <b>${p.lab.item}</b>
+              <small>${p.n} · ${p.lab.labName} · ${p.lab.due}</small>
+            </div>
+            <span class="chip ${p.lab.st==='recibido'?'ok':'bad'}">
+              ${p.lab.st==='recibido'?'Recibido en clínica':'En el protésico'}
+            </span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="grid g-2e" style="margin-top:16px">
+      <div class="card">
+        <div class="chead">
+          <div>
+            <h2>Recall Automático de 6 Meses (Profilaxis y Control)</h2>
+            <p>Pacientes que cumplieron 6 meses desde su última limpieza (Código 05.01 cubierto al 100%)</p>
+          </div>
+          <span class="chip ok">Reactivación</span>
+        </div>
+        <div class="li">
+          <span class="av pat">MG</span>
+          <div class="grow"><b>Martín Garmendia · OSDE 210</b><small>Última limpieza: 20 de abril (hace 6 meses) · Sin caries activas</small></div>
+          <button class="btn sm" onclick="toast('WhatsApp de Recall enviado a Martín Garmendia','send')">${ico('sms')}Invitar a control</button>
+        </div>
+        <div class="li">
+          <span class="av pat">SL</span>
+          <div class="grow"><b>Silvina Luro · Swiss Medical</b><small>Último control de implante Pza. 36: hace 6 meses · Requiere panorámica anual</small></div>
+          <button class="btn sm" onclick="toast('WhatsApp + Orden Dental Scan enviada a Silvina Luro','send')">${ico('sms')}Invitar + Orden Rx</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="chead">
+          <div>
+            <h2>Conexión Diagnóstico por Imágenes · Dental Scan</h2>
+            <p>Estudios recibidos automáticamente de La Rioja 3501 listos para abrochar a Obras Sociales</p>
+          </div>
+          <span class="chip blue">${ico('radiology')}Dental Scan MDP</span>
+        </div>
+        ${PATIENTS.slice(0,3).map(p => `
+          <div class="li">
+            <span class="av" style="background:var(--blue-soft);color:var(--blue)">${ico('radiology')}</span>
+            <div class="grow">
+              <b>${p.dentalScan.estudio}</b>
+              <small>${p.n} · Recibido el ${p.dentalScan.fecha} · Abrochado al legajo</small>
+            </div>
+            <button class="btn sm ghost" data-act="open-pat-tab" data-pid="${p.id}" data-tab="placas">${ico('visibility')}Ver Placa</button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+};
+
+/* =========================================================================
+   2. VISTA: SILLONES, SALA DE ESPERA Y TRAZABILIDAD DE LABORATORIO
+   ========================================================================= */
+R.sillones = function(){
+  const hours = [9,10,11,12,15,16,17,18];
+  const selT = TURNOS_HOY.find(t=>t.id===S.selTurn) || TURNOS_HOY[0];
+  const selP = patById(selT.pid);
+
+  $('#v-sillones').innerHTML = `
+    <div class="vhead">
+      <div>
+        <div class="eyebrow">${ico('chair')} Rotación de Especialistas y Equipamiento</div>
+        <h1>Sillones y Sala de Espera</h1>
+        <p>Cada columna es un sillón odontológico equipado. Incluye alerta de Laboratorio Dental y botón «Llegó» para avisar al especialista sin golpear la puerta del box.</p>
+      </div>
+      <div class="row">
+        <button class="btn" data-act="urgencia-modal">${ico('emergency')}Sobreturno de Urgencia (Dolor / Bracket)</button>
+        <button class="btn pri" data-act="sim-sala">${ico('notifications_active')}Probar aviso de Sala de Espera</button>
+      </div>
+    </div>
+
+    <div class="grid g-2">
+      <div class="card" style="padding:0; overflow:hidden">
+        <div class="cal-wrap">
+          <div class="cal">
+            <div class="hd">Hora</div>
+            ${SILLONES.map(s=>`<div class="hd">${s.n}<small>${s.esp}</small></div>`).join('')}
+            ${hours.map(h => `
+              <div class="hr num">${h}:00</div>
+              ${SILLONES.map(s => {
+                const t = TURNOS_HOY.find(x=>x.h===h && x.sillon===s.id);
+                if(!t) return `<div class="sl"><button class="free-sl" onclick="toast('Hueco disponible en ${s.n} a las ${h}:00','event_available')">${ico('add')}Libre</button></div>`;
+                const p = patById(t.pid);
+                const hasAllergy = p.medAlerts.some(a=>a.includes('Alergia')||a.includes('Anticoagulado'));
+                return `<div class="sl">
+                  <button class="tn ${S.selTurn===t.id?'sel':''}" data-act="pick-turn" data-tid="${t.id}">
+                    <div class="row" style="justify-content:space-between; width:100%">
+                      <b>${p.n}</b>
+                      ${t.st==='sala' ? `<span class="chip warn" style="height:18px;font-size:10px">En Sala</span>` : t.st==='pres' ? `<span class="chip ok" style="height:18px;font-size:10px">Atendido</span>` : ''}
+                    </div>
+                    <small>${t.prac}</small>
+                    <div class="row" style="gap:4px; margin-top:auto">
+                      ${hasAllergy ? `<span class="chip bad" style="height:18px;font-size:10px;padding:0 5px">${ico('warning')}Alerta Médica</span>` : ''}
+                      ${t.labSt==='protesico' ? `<span class="chip bad" style="height:18px;font-size:10px;padding:0 5px">🔴 Lab sin llegar</span>` : t.labSt==='recibido' ? `<span class="chip ok" style="height:18px;font-size:10px;padding:0 5px">🟢 Lab en clínica</span>` : ''}
+                    </div>
+                  </button>
+                </div>`;
+              }).join('')}
+            `).join('')}
+          </div>
+        </div>
+      </div>
+
+      <div class="grid" style="align-content:start">
+        <div class="card">
+          <div class="eyebrow">Detalle del Turno Seleccionado</div>
+          <div class="row" style="margin-top:10px">
+            <span class="av pat">${selP.short}</span>
+            <div>
+              <h3>${selP.n} (${selP.age} años)</h3>
+              <small class="muted">${SILLONES.find(s=>s.id===selT.sillon).n} · ${selT.h}:00 hs · ${selP.os}</small>
+            </div>
+          </div>
+
+          <div class="med-alerts">
+            ${selP.medAlerts.map(a => `<span class="chip ${a.includes('Sin ')?'ok':'bad'}">${ico(a.includes('Sin ')?'check':'warning')}${a}</span>`).join('')}
+          </div>
+
+          <div style="margin-top:14px; padding:12px; border-radius:var(--r2); background:var(--surface-2)">
+            <div class="eyebrow">Práctica programada hoy</div>
+            <b style="display:block; margin-top:4px">${selT.prac}</b>
+            <small class="muted" style="display:block; margin-top:4px">Laboratorio: <b>${selP.lab.item}</b> (${selP.lab.due})</small>
+          </div>
+
+          <div class="row" style="margin-top:14px">
+            <button class="btn pri sm" data-act="sim-sala" data-pid="${selP.id}">${ico('chair')}Avisar «Llegó en Sala»</button>
+            <button class="btn sm" data-act="open-pat" data-pid="${selP.id}">${ico('clinical_notes')}Abrir Odontograma</button>
+            <button class="btn sm ghost" data-v-go="manoslibres">${ico('mic')}Dictar evolución con IA</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="chead" style="margin-bottom:8px">
+            <div>
+              <h2>Equipamiento por Sillón</h2>
+              <p>Asignación inteligente según especialidad</p>
+            </div>
+          </div>
+          ${SILLONES.map(s=>`
+            <div class="li">
+              <span class="av">${s.id}</span>
+              <div class="grow"><b>${s.n}</b><small>${s.esp} · ${s.equip}</small></div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+/* =========================================================================
+   3. VISTA CENTRAL: PACIENTES + LAS 2 PLANILLAS DIGITALIZADAS Y MEJORADAS 100%
+   ========================================================================= */
+R.legajo = function(){
+  const p = patById(S.pid);
+  const ihos = computeIHOS(p);
+  const plan = computePlan20(p);
+
+  $('#v-legajo').innerHTML = `
+    <div class="vhead">
+      <div>
+        <div class="eyebrow">${ico('clinical_notes')} Historia Clínica Digital · Cero Papel</div>
+        <h1>Pacientes, Odontograma y Fichas Clínicas</h1>
+        <p>Digitalización 100% interactiva de las planillas de Odontograma + Presupuesto de 20 ítems y Examen Estomatológico + Índice IHOS.</p>
+      </div>
+      <div class="row">
+        <button class="btn" data-v-go="manoslibres">${ico('photo_camera')}Cargar desde Foto de Planilla o Voz IA</button>
+        <button class="btn pri" data-act="wa-presu" data-pid="${p.id}">${ico('send')}Enviar Presupuesto al Celular del Paciente</button>
+      </div>
+    </div>
+
+    <div class="leg-grid">
+      <!-- Lista lateral de pacientes -->
+      <div class="card" style="padding:12px">
+        <div class="eyebrow" style="padding:4px 6px 8px">Pacientes activos (${PATIENTS.length})</div>
+        <div class="plist">
+          ${PATIENTS.map(x => {
+            const hasCrit = x.medAlerts.some(m=>!m.includes('Sin '));
+            return `<button class="prow" data-act="select-pat" data-pid="${x.id}" aria-current="${x.id===p.id}">
+              <span class="av pat">${x.short}</span>
+              <div style="min-width:0; flex:1">
+                <b>${x.n}</b>
+                <small>${x.os}</small>
+                <div class="row" style="gap:4px; margin-top:4px">
+                  ${hasCrit ? `<span class="chip bad" style="height:20px;font-size:10.5px">${x.medAlerts[0]}</span>` : `<span class="chip ok" style="height:20px;font-size:10.5px">S/ alertas</span>`}
+                </div>
+              </div>
+            </button>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- Panel Principal del Paciente -->
+      <div class="card">
+        <!-- Cabezal con Alertas Médicas Críticas (Bioseguridad) -->
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap; padding-bottom:14px; border-bottom:1px solid var(--line)">
+          <div class="row" style="gap:14px">
+            <span class="av pat" style="width:52px;height:52px;font-size:17px">${p.short}</span>
+            <div>
+              <div class="row" style="gap:8px">
+                <h2 style="font-size:22px">${p.n}</h2>
+                <span class="chip neu">${p.age} años · DNI ${p.dni}</span>
+                <span class="chip blue">${p.os}</span>
+              </div>
+              <small class="muted" style="display:block; margin-top:3px">Tel: <b>${p.tel}</b> · ${p.barrio} · Afiliado N° ${p.af}</small>
+              <div class="med-alerts">
+                ${p.medAlerts.map(a => `<span class="chip ${a.includes('Sin ')?'ok':'bad'}">${ico(a.includes('Sin ')?'verified':'medical_information')}${a}</span>`).join('')}
+                ${p.habitos.map(h => `<span class="chip warn">${ico('self_improvement')}${h}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <span class="chip ${ihos.k}">IHOS: ${ihos.total} (${ihos.k==='ok'?'Bueno':ihos.k==='warn'?'Regular':'Alto'})</span>
+            <button class="btn sm" data-v-go="portal">${ico('smartphone')}Ver en Celular del Paciente</button>
+          </div>
+        </div>
+
+        <!-- Pestañas de las 2 Planillas Digitalizadas + Dental Scan -->
+        <div class="tabs" role="tablist">
+          <button role="tab" data-act="leg-tab" data-t="odonto" aria-selected="${S.legTab==='odonto'}">
+            ${ico('dentistry')}1. Odontograma + Presupuesto (Planilla 1)
+          </button>
+          <button role="tab" data-act="leg-tab" data-t="estoma" aria-selected="${S.legTab==='estoma'}">
+            ${ico('fact_check')}2. Examen Estomatológico + IHOS (Planilla 2)
+          </button>
+          <button role="tab" data-act="leg-tab" data-t="placas" aria-selected="${S.legTab==='placas'}">
+            ${ico('radiology')}3. Placas Dental Scan + Evoluciones
+          </button>
+        </div>
+
+        <div id="leg-tab-body">
+          ${S.legTab==='odonto' ? renderTabOdonto(p, plan) : S.legTab==='estoma' ? renderTabEstoma(p, ihos) : renderTabPlacas(p)}
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+/* ----- PESTAÑA 1: ODONTOGRAMA + PLAN DE TRATAMIENTO DE 20 ÍTEMS CONECTADOS ----- */
+function renderToothSVG(p, num){
+  const d = p.teeth[num] || {};
+  const fc = f => d[f]==='caries' ? 'f-caries' : d[f]==='realizado' ? 'f-realizado' : '';
+  let badge = '';
+  if(d.whole==='endo_pend') badge = `<span class="tooth-badge" style="background:var(--bad-soft);color:var(--bad)">ENDO</span>`;
+  else if(d.whole==='corona_pend') badge = `<span class="tooth-badge" style="background:var(--warn-soft);color:var(--warn)">COR</span>`;
+  else if(d.whole==='extraccion_pend') badge = `<span class="tooth-badge" style="background:var(--bad);color:#fff">EXTR</span>`;
+  else if(d.whole==='sellante_pend') badge = `<span class="tooth-badge" style="background:var(--ok-soft);color:var(--ok)">SELL</span>`;
+  else if(d.whole==='ausente') badge = `<span class="tooth-badge" style="background:var(--surface-3);color:var(--muted)">AUS</span>`;
+  else badge = `<span class="tooth-badge" style="opacity:0">-</span>`;
+
+  const isAus = d.whole==='ausente' || d.whole==='extraccion_pend';
+  return `
+    <div class="tooth-card ${p.selTooth===num?'sel':''}" data-act="sel-tooth" data-num="${num}">
+      <span class="tooth-num num">${num}</span>
+      <svg class="tooth-svg" viewBox="0 0 40 40" style="${isAus?'opacity:.45':''}">
+        <!-- Vestibular (Arriba) -->
+        <polygon points="2,2 38,2 28,12 12,12" class="${fc('V')}" data-act="tooth-face" data-num="${num}" data-f="V"><title>Pieza ${num} · Cara Vestibular</title></polygon>
+        <!-- Palatina / Lingual (Abajo) -->
+        <polygon points="12,28 28,28 38,38 2,38" class="${fc('P')}" data-act="tooth-face" data-num="${num}" data-f="P"><title>Pieza ${num} · Cara Palatina/Lingual</title></polygon>
+        <!-- Mesial (Izquierda) -->
+        <polygon points="2,2 12,12 12,28 2,38" class="${fc('M')}" data-act="tooth-face" data-num="${num}" data-f="M"><title>Pieza ${num} · Cara Mesial</title></polygon>
+        <!-- Distal (Derecha) -->
+        <polygon points="28,12 38,2 38,38 28,28" class="${fc('D')}" data-act="tooth-face" data-num="${num}" data-f="D"><title>Pieza ${num} · Cara Distal</title></polygon>
+        <!-- Oclusal / Incisal (Centro) -->
+        <rect x="12" y="12" width="16" height="16" class="${fc('O')}" data-act="tooth-face" data-num="${num}" data-f="O"><title>Pieza ${num} · Cara Oclusal/Incisal</title></rect>
+        ${d.whole==='extraccion_pend' ? `<line x1="4" y1="4" x2="36" y2="36" stroke="#C83E37" stroke-width="3.5"/><line x1="36" y1="4" x2="4" y2="36" stroke="#C83E37" stroke-width="3.5"/>` : ''}
+        ${d.whole==='ausente' ? `<line x1="4" y1="20" x2="36" y2="20" stroke="#575048" stroke-width="3"/>` : ''}
+        ${d.whole==='corona_pend' ? `<circle cx="20" cy="20" r="16" fill="none" stroke="#D6603F" stroke-width="3"/>` : ''}
+      </svg>
+      ${badge}
+    </div>
+  `;
+}
+
+function renderTabOdonto(p, plan){
+  const tools = [
+    {k:'caries', l:'Caries / Resina (Suma auto 1, 2 o 3 caras)', c:'#E04F44'},
+    {k:'realizado', l:'Arreglo ya realizado (Azul)', c:'#3474B4'},
+    {k:'endo_pend', l:'Endodoncia / Pulpo (Suma ítem 9, 10 u 11)', c:'#9F3C20'},
+    {k:'corona_pend', l:'Corona (Suma ítem 14)', c:'#B87D1E'},
+    {k:'extraccion_pend', l:'Extracción (Suma ítem 5)', c:'#C83E37'},
+    {k:'sellante_pend', l:'Sellante (Suma ítem 18)', c:'#2E7A53'},
+    {k:'ausente', l:'Pieza ausente', c:'#787067'},
+    {k:'clear', l:'Borrar marca', c:'#FFFFFF'}
+  ];
+
+  return `
+    ${p.carenciaWarning ? `
+      <div style="display:flex; gap:10px; align-items:center; padding:10px 14px; border-radius:var(--r2); background:var(--warn-soft); color:var(--ink); margin-bottom:14px; border:1px solid var(--warn)">
+        ${ico('gpp_maybe')}
+        <div style="flex:1; font-size:13px"><b>Filtro Anti-Débitos de Obra Social:</b> ${p.carenciaWarning.msg}</div>
+        <span class="chip warn">Auditoría activa</span>
+      </div>
+    ` : ''}
+
+    <div class="odonto-split">
+      <!-- COLUMNA IZQUIERDA: ODONTOGRAMA INTERACTIVO -->
+      <div>
+        <div class="row" style="justify-content:space-between; margin-bottom:10px">
+          <div>
+            <h3>Odontograma Interactivo</h3>
+            <small class="muted">Tocá cualquier cara del diente: actualiza solo el presupuesto de la derecha</small>
+          </div>
+          <div class="role-bar">
+            <button data-act="set-dent" data-d="adult" aria-pressed="${p.dent==='adult'}">Permanente (11-48)</button>
+            <button data-act="set-dent" data-d="child" aria-pressed="${p.dent==='child'}">Niños / Temp. (51-85)</button>
+          </div>
+        </div>
+
+        <!-- Paleta de herramientas clínicas -->
+        <div class="tool-palette" role="group" aria-label="Herramienta de marcado">
+          ${tools.map(t => `
+            <button class="tool-btn" data-act="pick-tool" data-k="${t.k}" aria-pressed="${S.tool===t.k}">
+              <i class="tool-dot" style="background:${t.c}; border:1px solid #888"></i>${t.l}
+            </button>
+          `).join('')}
+        </div>
+
+        <!-- Arcadas Dentales -->
+        <div class="arch-box">
+          ${p.dent==='adult' ? `
+            <div class="eyebrow" style="text-align:center; margin-bottom:6px">Arcada Superior Permanente (Cuadrantes 1 y 2)</div>
+            <div class="quad-row">
+              <div class="teeth-grp">${TEETH_ADULT.q1.map(n=>renderToothSVG(p,n)).join('')}</div>
+              <div class="quad-div"></div>
+              <div class="teeth-grp">${TEETH_ADULT.q2.map(n=>renderToothSVG(p,n)).join('')}</div>
+            </div>
+            <div class="quad-hdiv"></div>
+            <div class="quad-row">
+              <div class="teeth-grp">${TEETH_ADULT.q4.map(n=>renderToothSVG(p,n)).join('')}</div>
+              <div class="quad-div"></div>
+              <div class="teeth-grp">${TEETH_ADULT.q3.map(n=>renderToothSVG(p,n)).join('')}</div>
+            </div>
+            <div class="eyebrow" style="text-align:center; margin-top:6px">Arcada Inferior Permanente (Cuadrantes 4 y 3)</div>
+          ` : `
+            <div class="eyebrow" style="text-align:center; margin-bottom:6px">Arcada Superior Temporaria · Niños (Cuadrantes 5 y 6)</div>
+            <div class="quad-row">
+              <div class="teeth-grp">${TEETH_CHILD.q5.map(n=>renderToothSVG(p,n)).join('')}</div>
+              <div class="quad-div"></div>
+              <div class="teeth-grp">${TEETH_CHILD.q6.map(n=>renderToothSVG(p,n)).join('')}</div>
+            </div>
+            <div class="quad-hdiv"></div>
+            <div class="quad-row">
+              <div class="teeth-grp">${TEETH_CHILD.q8.map(n=>renderToothSVG(p,n)).join('')}</div>
+              <div class="quad-div"></div>
+              <div class="teeth-grp">${TEETH_CHILD.q7.map(n=>renderToothSVG(p,n)).join('')}</div>
+            </div>
+            <div class="eyebrow" style="text-align:center; margin-top:6px">Arcada Inferior Temporaria · Niños (Cuadrantes 8 y 7)</div>
+          `}
+        </div>
+
+        <div style="margin-top:12px; padding:12px; border-radius:var(--r2); background:var(--surface-2); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
+          <div>
+            <b>Pieza seleccionada: #${p.selTooth}</b>
+            <small class="muted" style="display:block">Podés tocar cada una de las 5 caras (V, P/L, M, D, O) o aplicar un tratamiento a toda la pieza.</small>
+          </div>
+          <span class="chip ok">${ico('bolt')}Sincronizado con los 20 ítems</span>
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA: PLAN DE TRATAMIENTO Y PRESUPUESTO (LOS 20 ÍTEMS DE LA PLANILLA 1) -->
+      <div>
+        <div class="row" style="justify-content:space-between; margin-bottom:10px">
+          <div>
+            <h3>Plan de Tratamiento y Presupuesto (20 Ítems)</h3>
+            <small class="muted">Se calcula solo al marcar el odontograma o con los botones + / −</small>
+          </div>
+          <span class="chip acc num">${plan.rows.filter(r=>r.qty>0).length} activos</span>
+        </div>
+
+        <div class="plan20-list">
+          ${plan.rows.map(r => `
+            <div class="p20-row ${r.qty>0?'active':''}">
+              <span class="p20-num num">${r.id}.</span>
+              <div style="min-width:0">
+                <div style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis">${r.n}</div>
+                <small class="muted num">Cód. ${r.code} · Unit: ${money(r.price)}</small>
+              </div>
+              <div class="qty-ctrl">
+                <button data-act="p20- delta" data-id="${r.id}" data-d="-1" aria-label="Restar">−</button>
+                <span class="num">${r.qty}</span>
+                <button data-act="p20-delta" data-id="${r.id}" data-d="1" aria-label="Sumar">+</button>
+              </div>
+              <div style="text-align:right" class="num">
+                ${r.qty>0 ? `<b>${money(r.sub)}</b>` : `<span class="subtle">$0</span>`}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Totales automáticos + Cobertura Obra Social vs Bolsillo del Paciente -->
+        <div style="margin-top:12px; padding:14px; border-radius:var(--r3); background:var(--surface-2); border:1px solid var(--line-2)">
+          <div class="row" style="justify-content:space-between; font-size:13px; padding:3px 0">
+            <span class="muted">Subtotal Tratamiento:</span>
+            <b class="num">${money(plan.totalBruto)}</b>
+          </div>
+          <div class="row" style="justify-content:space-between; font-size:13px; padding:3px 0; color:var(--ok)">
+            <span>Cobertura estimada (${p.os}):</span>
+            <b class="num">− ${money(plan.totalOS)}</b>
+          </div>
+          <div class="row" style="justify-content:space-between; font-size:17px; padding-top:8px; margin-top:6px; border-top:1.5px dashed var(--line-2)">
+            <b>TOTAL A PAGAR PACIENTE:</b>
+            <b class="num" style="color:var(--primary-deep)">${money(plan.totalPaciente)}</b>
+          </div>
+          <small class="muted" style="display:block; margin-top:4px">Opciones automáticas en el Portal: 3 cuotas sin interés de <b>${money(plan.totalPaciente/3)}</b> o 15% OFF transferencia.</small>
+          <div class="row" style="margin-top:12px">
+            <button class="btn pri block" data-v-go="portal">${ico('smartphone')}Ver y Firmar este Presupuesto en el Celular del Paciente</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ----- PESTAÑA 2: EXAMEN ESTOMATOLÓGICO + ÍNDICE IHOS (PLANILLA 2 DIGITAL) ----- */
+function renderTabEstoma(p, ihos){
+  return `
+    <div class="grid g-2">
+      <!-- Izquierda: Examen Estomatológico por Excepción -->
+      <div>
+        <div class="chead">
+          <div>
+            <h3>Examen Estomatológico (Tejidos Blandos)</h3>
+            <p>Por defecto todo figura Normal (SÍ). Tocá solo la estructura donde encuentres un hallazgo.</p>
+          </div>
+          <span class="chip ok">Carga en 1 toque</span>
+        </div>
+
+        <div class="estoma-grid">
+          ${ESTOMA_STRUCTS.map(st => {
+            const val = p.estoma[st.k] || {ok:true, obs:''};
+            return `
+              <div class="estoma-item ${val.ok?'':'abn'}">
+                <div class="row" style="justify-content:space-between">
+                  <b>${st.n}</b>
+                  <button class="btn sm ${val.ok?'':'acc'}" data-act="toggle-estoma" data-k="${st.k}">
+                    ${val.ok ? `${ico('check_circle')}Normal (SÍ)` : `${ico('warning')}Con Hallazgo (NO)`}
+                  </button>
+                </div>
+                ${!val.ok ? `
+                  <div style="margin-top:8px">
+                    <input class="inp" data-act="estoma-obs" data-k="${st.k}" value="${val.obs}" placeholder="Describí el hallazgo clínico...">
+                    <div class="row" style="gap:4px; margin-top:6px">
+                      ${st.sug.map(sg => `<button class="chip neu" style="border:0;cursor:pointer" data-act="estoma-sug" data-k="${st.k}" data-v="${sg}">+ ${sg}</button>`).join('')}
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <div style="margin-top:16px" class="card">
+          <h4>Antecedentes Médicos y Odontológicos (Planilla 2)</h4>
+          <p class="muted" style="font-size:13px; margin:6px 0"><b>Médicos:</b> ${p.antecedentesMed}</p>
+          <p class="muted" style="font-size:13px"><b>Odontológicos:</b> ${p.antecedentesOdo}</p>
+        </div>
+      </div>
+
+      <!-- Derecha: Calculadora Visual de Índice de Higiene Oral Simplificado (IHOS) -->
+      <div>
+        <div class="chead">
+          <div>
+            <h3>Índice de Higiene Oral Simplificado (IHOS)</h3>
+            <p>Tocá de 0 a 3 en los 6 dientes testigo. El sistema promedia solo y alerta si requiere Destartraje.</p>
+          </div>
+        </div>
+
+        <div class="card" style="background:var(--bg)">
+          <div class="row" style="justify-content:space-between; margin-bottom:8px">
+            <b>1. Placa Dental Blanda (PDB)</b>
+            <span class="chip neu num">Promedio PDB: ${ihos.pdbAvg}</span>
+          </div>
+          <small class="muted" style="display:block; margin-bottom:10px">0: Sin placa · 1: Menos de 1/3 · 2: Hasta 2/3 · 3: Más de 2/3</small>
+          <div class="ihos-grid">
+            ${IHOS_TEETH.map((tLabel, idx) => `
+              <div class="ihos-cell">
+                <b>Pza. ${tLabel}</b>
+                <div class="ihos-btns">
+                  ${[0,1,2,3].map(v => `<button data-act="set-ihos" data-type="pdb" data-i="${idx}" data-v="${v}" aria-pressed="${p.ihos.pdb[idx]===v}">${v}</button>`).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="row" style="justify-content:space-between; margin:18px 0 8px">
+            <b>2. Placa Dental Dura / Cálculo (PDD)</b>
+            <span class="chip neu num">Promedio PDD: ${ihos.pddAvg}</span>
+          </div>
+          <small class="muted" style="display:block; margin-bottom:10px">0: Sin cálculos · 1: Cálculo supragingival &lt;1/3 · 2: Hasta 2/3 · 3: Más de 2/3</small>
+          <div class="ihos-grid">
+            ${IHOS_TEETH.map((tLabel, idx) => `
+              <div class="ihos-cell">
+                <b>Pza. ${tLabel}</b>
+                <div class="ihos-btns">
+                  ${[0,1,2,3].map(v => `<button data-act="set-ihos" data-type="pdd" data-i="${idx}" data-v="${v}" aria-pressed="${p.ihos.pdd[idx]===v}">${v}</button>`).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div style="margin-top:16px; padding:14px; border-radius:var(--r3); background:var(--${ihos.k}-soft); border:1px solid var(--${ihos.k})">
+            <div class="row" style="justify-content:space-between">
+              <b>Resultado IHOS Total (PDB + PDD):</b>
+              <span class="num" style="font-size:20px; font-weight:800; color:var(--${ihos.k})">${ihos.total}</span>
+            </div>
+            <small style="display:block; margin-top:4px">${ihos.label}</small>
+            ${ihos.total > 1.2 ? `
+              <button class="btn sm pri" style="margin-top:10px" data-act="ihos-add-limpieza">
+                ${ico('add_shopping_cart')}Sumar «2. Destartraje + Profilaxis» al Presupuesto
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ----- PESTAÑA 3: VISOR DE PLACA DENTAL SCAN + EVOLUCIONES ----- */
+function renderTabPlacas(p){
+  return `
+    <div class="grid g-2">
+      <div>
+        <div class="chead">
+          <div>
+            <h3>Estudio recibido de Dental Scan (La Rioja 3501)</h3>
+            <p>${p.dentalScan.estudio} · ${p.dentalScan.fecha}</p>
+          </div>
+          <span class="chip ok">${ico('link')}Abrochado a facturación</span>
+        </div>
+
+        <!-- Radiografía Panorámica Simulada de Alto Contraste -->
+        <div style="background:#0e1318; border-radius:var(--r3); padding:16px; color:#d0e2f2; position:relative; overflow:hidden; border:2px solid #2b3947">
+          <div class="row" style="justify-content:space-between; font-size:11.5px; opacity:.8; margin-bottom:8px">
+            <span>DENTAL SCAN S.R.L. · MAR DEL PLATA</span>
+            <span class="num">PACIENTE: ${p.n.toUpperCase()} · DNI ${p.dni}</span>
+          </div>
+          <svg viewBox="0 0 600 230" style="width:100%; height:auto; display:block; filter:drop-shadow(0 0 8px rgba(140,200,255,.25))">
+            <rect width="600" height="230" fill="#090d11" rx="8"/>
+            <!-- Curva mandibular y maxilar -->
+            <path d="M 60 45 Q 300 95 540 45" fill="none" stroke="#3a4f63" stroke-width="26" stroke-linecap="round" opacity=".5"/>
+            <path d="M 45 95 Q 300 205 555 95" fill="none" stroke="#476078" stroke-width="32" stroke-linecap="round" opacity=".55"/>
+            <!-- Dientes superiores e inferiores estilizados en Rx -->
+            ${Array.from({length:14}, (_,i)=>{
+              const x = 95 + i*31;
+              const yTop = 58 + Math.sin((i/13)*Math.PI)*18;
+              const yBot = 122 + Math.sin((i/13)*Math.PI)*24;
+              const isAlert = (i===2 || i===10);
+              return `
+                <g opacity=".9">
+                  <rect x="${x}" y="${yTop}" width="18" height="24" rx="5" fill="${isAlert?'#fff':'#b8cde0'}"/>
+                  <path d="M ${x+4} ${yTop} L ${x+6} ${yTop-18} M ${x+14} ${yTop} L ${x+12} ${yTop-18}" stroke="${isAlert?'#ff7b72':'#8aa8c4'}" stroke-width="3" stroke-linecap="round"/>
+                  ${isAlert ? `<circle cx="${x+9}" cy="${yTop-20}" r="9" fill="none" stroke="#ff7b72" stroke-width="2" stroke-dasharray="3 2"/>` : ''}
+                  <rect x="${x}" y="${yBot}" width="18" height="24" rx="5" fill="#b8cde0"/>
+                  <path d="M ${x+5} ${yBot+24} L ${x+7} ${yBot+42} M ${x+13} ${yBot+24} L ${x+11} ${yBot+42}" stroke="#8aa8c4" stroke-width="3" stroke-linecap="round"/>
+                </g>
+              `;
+            }).join('')}
+          </svg>
+          <div class="row" style="justify-content:space-between; margin-top:10px; font-size:12px">
+            <span style="color:#8cd4ff">${ico('info')}Informe: ${p.dentalScan.obs}</span>
+            <button class="btn sm" style="background:#1c2836;color:#fff;border-color:#384d63" data-act="orden-dentalscan">${ico('add_circle')}Pedir nueva orden a Dental Scan</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="chead">
+          <div>
+            <h3>Historial de Evoluciones por Pieza y Código</h3>
+            <p>Cada prestación registra pieza, código del nomenclador y firma del paciente</p>
+          </div>
+          <button class="btn sm pri" data-v-go="manoslibres">${ico('mic')}Cargar por Voz IA</button>
+        </div>
+        ${p.evol.map(e => `
+          <div style="border:1px solid var(--line); border-left:4px solid var(--primary); border-radius:var(--r2); padding:12px; margin-bottom:10px">
+            <div class="row" style="justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:4px">
+              <span><b>${e.d}</b> · ${e.pro} (${e.esp})</span>
+              <span class="chip ok" style="height:20px">${ico('draw')}Firmado</span>
+            </div>
+            <div class="row" style="gap:6px; margin-bottom:6px">
+              <span class="chip blue">Pieza ${e.pza}</span>
+              <span class="chip neu">Código ${e.code}</span>
+            </div>
+            <p style="font-size:13.5px">${e.t}</p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+/* =========================================================================
+   4. VISTA: OBRAS SOCIALES Y CÍRCULO ODONTOLÓGICO (AUDITORÍA ANTI-DÉBITOS)
+   ========================================================================= */
+R.obras = function(){
+  $('#v-obras').innerHTML = `
+    <div class="vhead">
+      <div>
+        <div class="eyebrow">${ico('receipt_long')} Presentación Mensual sin Débitos</div>
+        <h1>Obras Sociales y Círculo Odontológico MDP</h1>
+        <p>En odontología, si falta la firma del paciente por diente o falta la placa pre/post operatoria en una endodoncia, la obra social debita la orden. Acá el sistema valida todo antes de presentar.</p>
+      </div>
+      <button class="btn pri" onclick="toast('Lote de Octubre exportado para Círculo Odontológico y OSDE','inventory_2')">${ico('inventory_2')}Generar Lote de Presentación</button>
+    </div>
+
+    <div class="kpis" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card kpi">
+        <span class="ic" style="background:var(--ok-soft);color:var(--ok)">${ico('task_alt')}</span>
+        <div class="v num">42 de 45</div>
+        <div class="l">Prácticas listas para cobrar</div>
+        <div class="d" style="color:var(--ok)">Con código, pieza, firma y Rx adjunta</div>
+      </div>
+      <div class="card kpi">
+        <span class="ic" style="background:var(--warn-soft);color:var(--warn)">${ico('pending_actions')}</span>
+        <div class="v num">3</div>
+        <div class="l">Frenadas por auditoría preventiva</div>
+        <div class="d" style="color:var(--warn)">2 sin firma de paciente · 1 carencia</div>
+      </div>
+      <div class="card kpi">
+        <span class="ic" style="background:var(--primary-soft);color:var(--primary-deep)">${ico('payments')}</span>
+        <div class="v num">$3.840.000</div>
+        <div class="l">Total a presentar este mes</div>
+        <div class="d" style="color:var(--muted)">Círculo MDP, OSDE, Swiss Medical</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="chead">
+        <div>
+          <h2>Checklist Anti-Débitos por Práctica Realizada</h2>
+          <p>Ninguna práctica sale a facturación si le falta alguno de los 3 requisitos obligatorios</p>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%; border-collapse:collapse; min-width:760px; font-size:13.5px">
+          <thead>
+            <tr style="background:var(--surface-2); text-align:left; font-size:11.5px; text-transform:uppercase; color:var(--subtle)">
+              <th style="padding:10px">Paciente / Obra Social</th>
+              <th style="padding:10px">Código y Pieza</th>
+              <th style="padding:10px">Placa Rx (Dental Scan)</th>
+              <th style="padding:10px">Control Carencia</th>
+              <th style="padding:10px">Firma Conformidad</th>
+              <th style="padding:10px; text-align:right">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-top:1px solid var(--line)">
+              <td style="padding:12px"><b>Camila Echeverría</b><br><small class="muted">OSDE 310</small></td>
+              <td style="padding:12px"><span class="chip blue">03.02 · Endodoncia Post.</span> <span class="chip neu">Pza. 16</span></td>
+              <td style="padding:12px"><span class="chip ok">${ico('check')}Panorámica adjunta</span></td>
+              <td style="padding:12px"><span class="chip ok">${ico('check')}Apta</span></td>
+              <td style="padding:12px">${S.portalSigned ? `<span class="chip ok">${ico('verified')}Firmada hoy</span>` : `<span class="chip warn">${ico('draw')}Falta firma</span>`}</td>
+              <td style="padding:12px; text-align:right">
+                ${S.portalSigned ? `<span class="chip ok">Lista</span>` : `<button class="btn sm pri" data-v-go="portal">Firmar en Celular</button>`}
+              </td>
+            </tr>
+            <tr style="border-top:1px solid var(--line)">
+              <td style="padding:12px"><b>Roberto Fangio</b><br><small class="muted">Círculo Odontológico (IOMA)</small></td>
+              <td style="padding:12px"><span class="chip blue">04.08 · Cromo Inferior</span> <span class="chip neu">Arcada Inf.</span></td>
+              <td style="padding:12px"><span class="chip ok">${ico('check')}Rx Pre-operatoria</span></td>
+              <td style="padding:12px"><span class="chip ok">${ico('check')}Autorizada</span></td>
+              <td style="padding:12px"><span class="chip ok">${ico('verified')}Firmada</span></td>
+              <td style="padding:12px; text-align:right"><span class="chip ok">Lista</span></td>
+            </tr>
+            <tr style="border-top:1px solid var(--line)">
+              <td style="padding:12px"><b>Bautista Pereyra</b><br><small class="muted">Swiss Medical SMG30</small></td>
+              <td style="padding:12px"><span class="chip blue">02.02 · Resina 2 caras</span> <span class="chip neu">Pza. 55 (MO)</span></td>
+              <td style="padding:12px"><span class="chip ok">${ico('check')}No requiere Rx</span></td>
+              <td style="padding:12px"><span class="chip ok">${ico('check')}Apta</span></td>
+              <td style="padding:12px"><span class="chip ok">${ico('verified')}Firmada por madre</span></td>
+              <td style="padding:12px; text-align:right"><span class="chip ok">Lista</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+};
+
+/* =========================================================================
+   5. VISTA: MODO MANOS LIBRES IA (BIOSEGURIDAD EN EL SILLÓN: VOZ O FOTO)
+   ========================================================================= */
+R.manoslibres = function(){
+  const p = patById(S.pid);
+  $('#v-manoslibres').innerHTML = `
+    <div class="stage">
+      <div class="phone">
+        <div class="screen">
+          <div class="sbar"><span class="num">11:42</span><span class="isl"></span><span>${ico('wifi')}${ico('battery_full')}</span></div>
+          <div class="sbody" id="ia-phone-body">
+            ${renderIAPhoneBody(p)}
+          </div>
+        </div>
+      </div>
+
+      <div style="padding-top:12px">
+        <span class="proto">Bioseguridad en el Sillón · Manos Libres</span>
+        <h1 style="margin:10px 0">El odontólogo no toca el teclado con los guantes puestos</h1>
+        <p class="muted" style="font-size:15px; line-height:1.6; margin-bottom:16px">
+          Mientras atiende o apenas se saca los guantes de látex, el profesional tiene dos formas instantáneas de actualizar el Odontograma, el IHOS y el Presupuesto sin tipear:
+        </p>
+        <div class="card" style="margin-bottom:12px">
+          <h3>1. Dictado por Voz con IA Odontológica</h3>
+          <p class="muted" style="font-size:13.5px; margin-top:4px">
+            Tocá <b>«Dictar evolución por voz»</b> en el teléfono de muestra: vas a ver cómo la IA escucha el lenguaje clínico (<i>"Pieza 26 caries ocluso-mesial, cargar resina compuesta código 02.02..."</i>), marca automáticamente las caras del diente 26 en el Odontograma y suma el ítem 7 al presupuesto.
+          </p>
+        </div>
+        <div class="card">
+          <h3>2. Escaneo por Foto de la Planilla en Papel</h3>
+          <p class="muted" style="font-size:13.5px; margin-top:4px">
+            Para los profesionales que prefieren seguir marcando con birome la hoja de Odontograma durante la consulta: le sacan una foto y la IA lee las cruces y números escritos a mano.
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+  if(S.iaMode==='foto') drawPaperOdontoCanvas();
+};
+
+function renderIAPhoneBody(p){
+  return `
+    <div class="row" style="justify-content:space-between">
+      <div><small class="subtle" style="font-weight:700">Sillón 3 · Modo Clínico</small><h2 style="font-size:19px">${p.n}</h2></div>
+      <span class="av pat">${p.short}</span>
+    </div>
+
+    <div class="role-bar" style="width:100%">
+      <button style="flex:1;justify-content:center" data-act="ia-mode" data-m="voz" aria-pressed="${S.iaMode==='voz'}">${ico('mic')}Dictado por Voz IA</button>
+      <button style="flex:1;justify-content:center" data-act="ia-mode" data-m="foto" aria-pressed="${S.iaMode==='foto'}">${ico('photo_camera')}Foto de Planilla</button>
+    </div>
+
+    ${S.iaMode==='voz' ? `
+      <div class="mcard" style="text-align:center; padding:18px 14px">
+        <div style="width:64px;height:64px;border-radius:50%;background:${S.iaPhase==='rec'?'var(--bad-soft)':'var(--primary-soft)'};color:${S.iaPhase==='rec'?'var(--bad)':'var(--primary-deep)'};display:grid;place-items:center;margin:0 auto 10px">
+          ${ico(S.iaPhase==='rec'?'graphic_eq':'mic','fill')}
+        </div>
+        <b>${S.iaPhase==='rec' ? 'Escuchando dictado clínico...' : 'Dictá sin tocar el teclado'}</b>
+        <small class="muted" style="display:block; margin:4px 0 12px">Decí pieza, caras afectadas, código o hallazgo estomatológico</small>
+        <button class="btn ${S.iaPhase==='rec'?'acc':'pri'} lg block" data-act="start-voice-ia">
+          ${ico('mic')}${S.iaPhase==='rec' ? 'Transcribiendo...' : 'Probar Dictado de Ejemplo con IA'}
+        </button>
+      </div>
+
+      ${S.iaTranscript ? `
+        <div class="mcard" style="border-color:var(--primary)">
+          <div class="eyebrow" style="color:var(--primary)">Transcripción + Acciones Detectadas por IA</div>
+          <p style="font-size:13.5px; margin:8px 0; background:var(--surface-2); padding:10px; border-radius:var(--r2)">“${S.iaTranscript}”</p>
+          <div style="display:flex; flex-direction:column; gap:6px; font-size:12.5px">
+            <div class="row">${ico('check_circle')}<span><b>Odontograma:</b> Pieza 26 marcada en caras Oclusal + Mesial</span></div>
+            <div class="row">${ico('check_circle')}<span><b>Presupuesto (Ítem 7):</b> +1 Resina compuesta (Cód. 02.02)</span></div>
+            <div class="row">${ico('check_circle')}<span><b>Examen Estomatológico:</b> Encía actualizada</span></div>
+          </div>
+          <button class="btn pri block" style="margin-top:12px" data-act="apply-ia-to-odonto">
+            ${ico('done_all')}Confirmar e Impactar en el Odontograma
+          </button>
+        </div>
+      ` : ''}
+    ` : `
+      <div class="mcard">
+        <div class="eyebrow" style="margin-bottom:6px">Foto de la Planilla en Papel (Simulación)</div>
+        <canvas id="paper-canvas" width="320" height="230" style="width:100%; border-radius:var(--r2); border:1px solid var(--line)"></canvas>
+        <p class="muted" style="font-size:12px; margin:8px 0">La IA detectó a mano alzada: <b>Pieza 16 (Endo Post.)</b>, <b>Pieza 24 (Corona)</b> e <b>IHOS = 2.5</b>.</p>
+        <button class="btn pri block" data-act="apply-ia-to-odonto">${ico('document_scanner')}Pasar datos de la foto a la Ficha Digital</button>
+      </div>
+    `}
+  `;
+}
+
+function drawPaperOdontoCanvas(){
+  const c = $('#paper-canvas');
+  if(!c) return;
+  const x = c.getContext('2d');
+  x.fillStyle = '#fdfaf2'; x.fillRect(0,0,320,230);
+  x.fillStyle = '#2B6B64'; x.fillRect(0,0,320,32);
+  x.fillStyle = '#fff'; x.font = 'bold 12px "Plus Jakarta Sans", sans-serif';
+  x.fillText('PLANILLA ODONTOGRAMA Y PRESUPUESTO', 12, 20);
+  // Dibujar dientitos y marcas en birome azul/roja
+  for(let i=0;i<8;i++){
+    const tx = 18 + i*36, ty = 52;
+    x.strokeStyle = '#666'; x.lineWidth = 1;
+    x.strokeRect(tx, ty, 24, 24);
+    x.strokeRect(tx+6, ty+6, 12, 12);
+    x.fillStyle = '#555'; x.font = '10px sans-serif';
+    x.fillText(String(18-i), tx+6, ty-4);
+    if(i===2){ // Pieza 16 marcada en rojo
+      x.fillStyle = 'rgba(220,50,40,.75)';
+      x.fillRect(tx+6, ty+6, 12, 12);
+    }
+    if(i===5){ // Cruz en birome
+      x.strokeStyle = '#1e40af'; x.lineWidth = 2.2;
+      x.beginPath(); x.moveTo(tx,ty); x.lineTo(tx+24,ty+24); x.moveTo(tx+24,ty); x.lineTo(tx,ty+24); x.stroke();
+    }
+  }
+  x.fillStyle = '#1e3a8a'; x.font = '20px "Caveat", cursive';
+  x.fillText('7. Resina compuesta x2  --> $128.000', 16, 122);
+  x.fillText('10. End. Post (Pza 16)  --> $185.000', 16, 150);
+  x.fillText('Obs: Encía inflamada - Pedir Panorámica', 16, 185);
+}
+
+/* =========================================================================
+   6. VISTA: PORTAL DEL PACIENTE EN SU CELULAR (PRESUPUESTO, FIRMA, POST-OP)
+   ========================================================================= */
+R.portal = function(){
+  const p = patById(S.pid);
+  const plan = computePlan20(p);
+  $('#v-portal').innerHTML = `
+    <div class="stage">
+      <div class="phone">
+        <div class="screen">
+          <div class="sbar"><span class="num">12:15</span><span class="isl"></span><span>${ico('signal_cellular_alt')}${ico('battery_full')}</span></div>
+          <div class="sbody">
+            <div class="row" style="justify-content:space-between">
+              <div><small class="subtle" style="font-weight:700">Portal Paciente · Link WhatsApp</small><h2 style="font-size:19px">Hola, ${p.n.split(' ')[0]}</h2></div>
+              <span class="av pat">${p.short}</span>
+            </div>
+
+            <!-- Tarjeta 1: Presupuesto Interactivo conectado a la Planilla 1 -->
+            <div class="mcard" style="background:var(--primary); color:#fff">
+              <span class="chip" style="background:rgba(255,255,255,.2);color:#fff">Plan de Tratamiento Actualizado</span>
+              <h3 style="font-size:22px; margin:8px 0 4px" class="num">${money(plan.totalPaciente)}</h3>
+              <small style="opacity:.9; display:block">Cobertura ${p.os} ya descontada (−${money(plan.totalOS)})</small>
+              <div style="margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,.2); font-size:12.5px">
+                ${plan.rows.filter(r=>r.qty>0).map(r=>`<div class="row" style="justify-content:space-between"><span>${r.qty}× ${r.n}</span><b class="num">${money(r.patPay)}</b></div>`).join('')}
+              </div>
+              <button class="btn block" style="margin-top:12px; background:#fff; color:var(--primary-deep); border:0" data-act="portal-pay">
+                ${S.portalPaid ? `${ico('check_circle')}Anticipo abonado · Turnos reservados` : `${ico('credit_card')}Aprobar y Pagar en 3 cuotas de ${money(plan.totalPaciente/3)}`}
+              </button>
+            </div>
+
+            <!-- Tarjeta 2: Firma Digital de Conformidad para Obra Social -->
+            <div class="mcard">
+              <div class="row" style="justify-content:space-between; margin-bottom:6px">
+                <b>Conformidad de Práctica (${p.os})</b>
+                <span class="chip ${S.portalSigned?'ok':'warn'}">${S.portalSigned?'Firmado':'Pendiente'}</span>
+              </div>
+              <small class="muted" style="display:block; margin-bottom:8px">Firmá con el dedo la conformidad de atención (Pieza ${p.selTooth}) para presentar a tu obra social:</small>
+              ${S.portalSigned ? `
+                <div style="padding:12px; border-radius:var(--r2); background:var(--ok-soft); color:var(--ok); text-align:center; font-weight:700">
+                  ${ico('verified')} Firma digital registrada y abrochada al expediente
+                </div>
+              ` : `
+                <canvas id="sig-pad" class="sig-canvas"></canvas>
+                <div class="row" style="margin-top:8px">
+                  <button class="btn sm ghost" data-act="sig-clear">Borrar</button>
+                  <button class="btn sm pri" style="flex:1" data-act="sig-save">${ico('draw')}Confirmar Firma Digital</button>
+                </div>
+              `}
+            </div>
+
+            <!-- Tarjeta 3: Cuidados Post-Operatorios + Botón de Urgencia -->
+            <div class="mcard" style="background:var(--accent-soft); border-color:var(--accent)">
+              <div class="row" style="justify-content:space-between">
+                <b style="color:var(--accent-deep)">${ico('ac_unit')}Cuidados Post-Operatorios Hoy</b>
+                <span class="chip acc num">Hielo: 15 min</span>
+              </div>
+              <ul style="margin:8px 0 10px; padding-left:18px; font-size:12.5px; color:var(--ink)">
+                <li>Aplicar frío local 15 min sí / 15 min no durante las primeras 4 horas.</li>
+                <li>Dieta blanda y fría/tibia hoy. No salivar ni hacer buches fuertes.</li>
+                <li>Próxima toma de analgésico sugerida: <b>20:00 hs</b>.</li>
+              </ul>
+              <button class="btn sm block" style="background:#fff" data-act="urgencia-modal">
+                ${ico('emergency')}Tengo dolor agudo / Se me despegó un bracket
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding-top:12px">
+        <span class="proto">Experiencia del Paciente</span>
+        <h1 style="margin:10px 0">Qué recibe el paciente en su WhatsApp</h1>
+        <p class="muted" style="font-size:15px; line-height:1.6; margin-bottom:16px">
+          Todo lo que el odontólogo marca en el <b>Odontograma + Plan de 20 ítems</b> impacta en vivo en esta vista móvil sin que el paciente tenga que bajar ninguna aplicación:
+        </p>
+        <div class="card" style="margin-bottom:12px">
+          <h3>✓ Cierra presupuestos en el momento</h3>
+          <p class="muted" style="font-size:13.5px; margin-top:4px">El paciente ve exactamente qué cubre su obra social, cuánto le queda de bolsillo y puede aprobar el plan pagando la seña con Mercado Pago.</p>
+        </div>
+        <div class="card" style="margin-bottom:12px">
+          <h3>✓ Firma de conformidad por diente (Adiós planillas de papel)</h3>
+          <p class="muted" style="font-size:13.5px; margin-top:4px">Cuando firmás en el recuadro de la izquierda, pasá a la pestaña <b>Obras Sociales</b>: vas a ver cómo el expediente de Camila Echeverría pasa automáticamente a estado «Listo para cobrar».</p>
+        </div>
+        <div class="card">
+          <h3>✓ Indicaciones Post-Cirugía y Botón de Urgencia</h3>
+          <p class="muted" style="font-size:13.5px; margin-top:4px">Evita decenas de audios a la secretaria preguntando qué comer después de una extracción o pidiendo un sobreturno corto por un bracket despegado.</p>
+        </div>
+      </div>
+    </div>
+  `;
+  initSignaturePad();
+};
+
+function initSignaturePad(){
+  const c = $('#sig-pad');
+  if(!c) return;
+  const r = c.getBoundingClientRect();
+  c.width = r.width; c.height = r.height;
+  const ctx = c.getContext('2d');
+  ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.strokeStyle = '#1D4F49';
+  let drawing = false;
+  const pos = e => { const b = c.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
+  c.addEventListener('pointerdown', e => { drawing = true; c.setPointerCapture(e.pointerId); ctx.beginPath(); ctx.moveTo(...pos(e)); });
+  c.addEventListener('pointermove', e => { if(!drawing) return; ctx.lineTo(...pos(e)); ctx.stroke(); });
+  c.addEventListener('pointerup', () => { drawing = false; });
+}
+
+/* =========================================================================
+   CONTROLADOR DE EVENTOS Y ACCIONES INTERACTIVAS
+   ========================================================================= */
+function goView(v){
+  S.view = v;
+  $$('.view').forEach(el => el.classList.toggle('on', el.id === 'v-'+v));
+  $$('#nav [data-v]').forEach(b => b.setAttribute('aria-current', b.dataset.v===v ? 'page' : 'false'));
+  R[v]();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('click', e => {
+  const navBtn = e.target.closest('#nav [data-v]');
+  if(navBtn){ goView(navBtn.dataset.v); return; }
+
+  const vGo = e.target.closest('[data-v-go]');
+  if(vGo){ goView(vGo.dataset.vGo); return; }
+
+  const actEl = e.target.closest('[data-act]');
+  if(!actEl) return;
+  const act = actEl.dataset.act;
+  const p = patById(S.pid);
+
+  if(act === 'close-drawer'){ closeDrawer(); return; }
+
+  if(act === 'set-role'){
+    S.role = actEl.dataset.r;
+    $$('[data-act="set-role"]').forEach(b => b.setAttribute('aria-pressed', b===actEl));
+    const labels = {dir:'Vista Dirección: acceso total a métricas, sillones y facturación', sec:'Vista Recepción: sala de espera, presupuestos y cobros', pro:'Vista Odontólogo: ficha clínica, odontograma y modo manos libres'};
+    toast(labels[S.role], 'switch_account');
+    return;
+  }
+
+  if(act === 'go-odonto'){ S.legTab = 'odonto'; goView('legajo'); return; }
+  if(act === 'open-pat'){ S.pid = actEl.dataset.pid; S.legTab = 'odonto'; goView('legajo'); return; }
+  if(act === 'open-pat-tab'){ S.pid = actEl.dataset.pid; S.legTab = actEl.dataset.tab; goView('legajo'); return; }
+  if(act === 'select-pat'){ S.pid = actEl.dataset.pid; R.legajo(); return; }
+  if(act === 'leg-tab'){ S.legTab = actEl.dataset.t; R.legajo(); return; }
+
+  if(act === 'pick-turn'){ S.selTurn = actEl.dataset.tid; R.sillones(); return; }
+
+  /* Interacción con el Odontograma y las 5 caras */
+  if(act === 'set-dent'){
+    p.dent = actEl.dataset.d;
+    p.selTooth = p.dent==='adult' ? 16 : 55;
+    R.legajo();
+    return;
+  }
+  if(act === 'pick-tool'){
+    S.tool = actEl.dataset.k;
+    R.legajo();
+    return;
+  }
+  if(act === 'sel-tooth' && !e.target.closest('[data-act="tooth-face"]')){
+    p.selTooth = +actEl.dataset.num;
+    R.legajo();
+    return;
+  }
+  if(act === 'tooth-face'){
+    e.stopPropagation();
+    const num = +actEl.dataset.num;
+    const face = actEl.dataset.f;
+    p.selTooth = num;
+    if(!p.teeth[num]) p.teeth[num] = {};
+
+    if(S.tool === 'clear'){
+      delete p.teeth[num];
+      toast(`Pieza ${num} limpia · Presupuesto recalculado`, 'ink_eraser');
+    } else if(['caries','realizado'].includes(S.tool)){
+      p.teeth[num][face] = p.teeth[num][face] === S.tool ? null : S.tool;
+      const facesCount = ['V','P','M','D','O'].filter(f => p.teeth[num][f]==='caries').length;
+      const itemAuto = facesCount===1 ? '6. Resina simple' : facesCount===2 ? '7. Resina compuesta' : facesCount>=3 ? '8. Resina compleja' : 'actualizado';
+      toast(`Pieza ${num} (Cara ${face}) marcada · Sumado a ${itemAuto}`, 'dentistry');
+    } else {
+      p.teeth[num].whole = p.teeth[num].whole === S.tool ? null : S.tool;
+      toast(`Tratamiento aplicado en Pieza ${num} · Presupuesto actualizado`, 'Calculate');
+    }
+    R.legajo();
+    return;
+  }
+
+  /* Botones +/- de la lista de 20 ítems del presupuesto */
+  if(act === 'p20-delta' || act === 'p20- delta'){
+    const id = +actEl.dataset.id;
+    const d = +actEl.dataset.d;
+    p.extraItems[id] = Math.max(0, (p.extraItems[id]||0) + d);
+    R.legajo();
+    return;
+  }
+
+  /* Examen Estomatológico (Planilla 2) */
+  if(act === 'toggle-estoma'){
+    const k = actEl.dataset.k;
+    p.estoma[k].ok = !p.estoma[k].ok;
+    R.legajo();
+    return;
+  }
+  if(act === 'estoma-sug'){
+    const k = actEl.dataset.k;
+    p.estoma[k].obs = actEl.dataset.v;
+    R.legajo();
+    toast('Hallazgo clínico agregado al Examen Estomatológico', 'fact_check');
+    return;
+  }
+
+  /* Índice IHOS (Planilla 2) */
+  if(act === 'set-ihos'){
+    const type = actEl.dataset.type;
+    const i = +actEl.dataset.i;
+    const v = +actEl.dataset.v;
+    p.ihos[type][i] = v;
+    R.legajo();
+    return;
+  }
+  if(act === 'ihos-add-limpieza'){
+    p.extraItems[2] = (p.extraItems[2]||0) + 1;
+    S.legTab = 'odonto';
+    R.legajo();
+    toast('Ítem «2. Destartraje + Profilaxis» sumado al Presupuesto de ' + p.n, 'add_task');
+    return;
+  }
+
+  /* Orden Digital para Dental Scan */
+  if(act === 'orden-dentalscan'){
+    openDrawer('Nueva Orden Digital · Dental Scan MDP', `
+      <p class="muted">Reemplaza el talonario de papel de Dental Scan (La Rioja 3501). El paciente recibe la orden autorizada en su WhatsApp y el estudio vuelve directo a este legajo.</p>
+      <div><label class="eyebrow">Paciente</label><input class="inp" value="${p.n} · DNI ${p.dni} (${p.os})" readonly></div>
+      <div><label class="eyebrow">Estudio solicitado</label>
+        <select class="inp" id="ds-est">
+          <option>Ortopantomografía (Panorámica Digital)</option>
+          <option>Tomografía Cone Beam 3D (Sector / Maxilar)</option>
+          <option>Teleradiografía Lateral + Trazado Cefalométrico</option>
+          <option>Seriada Periapical Completa</option>
+        </select>
+      </div>
+      <div><label class="eyebrow">Pieza / Zona de interés clínico</label><input class="inp" value="Evaluación Pieza ${p.selTooth} y control general"></div>
+    `, `<button class="btn" data-act="close-drawer">Cancelar</button><button class="btn pri" style="flex:1" data-act="send-dentalscan">${ico('send')}Enviar Orden Digital al Paciente</button>`);
+    return;
+  }
+  if(act === 'send-dentalscan'){
+    closeDrawer();
+    toast('Orden digital de Dental Scan enviada por WhatsApp a ' + p.n, 'radiology');
+    return;
+  }
+
+  /* Simulador de Sala de Espera ("Llegó") */
+  if(act === 'sim-sala'){
+    const box = $('#pings');
+    box.innerHTML = `
+      <div class="ping">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--mustard-soft);color:var(--mustard);display:grid;place-items:center;flex:none">
+          ${ico('chair','fill')}
+        </div>
+        <div style="flex:1">
+          <small class="subtle" style="font-weight:700">Recepción · Ahora mismo</small>
+          <b style="display:block;font-size:16px;margin-top:2px">${p.n} llegó a Sala</b>
+          <p class="muted" style="font-size:13px;margin:4px 0 10px">Turno de Sillón 3 · 🟢 Corona de Laboratorio ya recibida en gaveta · ⚠️ Alergia a Penicilina.</p>
+          <div class="row">
+            <button class="btn pri sm" data-act="ping-ok">${ico('directions_walk')}Hacer pasar al Sillón</button>
+            <button class="btn sm" data-act="ping-ok">En 5 minutos</button>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  if(act === 'ping-ok'){
+    $('#pings').innerHTML = '';
+    toast('Recepción notificada: el paciente ya pasa al sillón', 'check_circle');
+    return;
+  }
+
+  /* Modo Manos Libres IA */
+  if(act === 'ia-mode'){
+    S.iaMode = actEl.dataset.m;
+    R.manoslibres();
+    return;
+  }
+  if(act === 'start-voice-ia'){
+    S.iaPhase = 'rec';
+    S.iaTranscript = '';
+    R.manoslibres();
+    setTimeout(() => {
+      S.iaPhase = 'done';
+      S.iaTranscript = 'Paciente en sillón. En pieza 26 se observa caries ocluso-mesial profunda, presupuestar resina compuesta código 02.02. Encía con leve inflamación marginal. Pedir control en 6 meses.';
+      R.manoslibres();
+      toast('Audio clínico transcripto y estructurado por IA', 'auto_awesome');
+    }, 1100);
+    return;
+  }
+  if(act === 'apply-ia-to-odonto'){
+    if(!p.teeth[26]) p.teeth[26] = {};
+    p.teeth[26].O = 'caries';
+    p.teeth[26].M = 'caries';
+    p.selTooth = 26;
+    p.estoma.encia = {ok:false, obs:'Inflamación gingival marginal detectada en sesión'};
+    S.legTab = 'odonto';
+    goView('legajo');
+    toast('¡Odontograma (Pieza 26) y Presupuesto actualizados por IA!', 'bolt');
+    return;
+  }
+
+  /* Portal del Paciente y Firma Digital */
+  if(act === 'sig-clear'){ R.portal(); return; }
+  if(act === 'sig-save'){
+    S.portalSigned = true;
+    R.portal();
+    toast('Firma de conformidad guardada · Ya figura lista en Obras Sociales', 'verified');
+    return;
+  }
+  if(act === 'portal-pay'){
+    S.portalPaid = true;
+    p.presupuestoSt = 'Aprobado y señado online';
+    R.portal();
+    toast('Presupuesto aprobado y pago acreditado por Mercado Pago', 'paid');
+    return;
+  }
+
+  if(act === 'wa-presu'){
+    const targetP = patById(actEl.dataset.pid || S.pid);
+    const pl = computePlan20(targetP);
+    toast(`Presupuesto de ${money(pl.totalPaciente)} enviado por WhatsApp a ${targetP.n}`, 'send');
+    return;
+  }
+
+  if(act === 'urgencia-modal'){
+    openDrawer('Sobreturno de Urgencia Odontológica (15 min)', `
+      <p class="muted">En odontología las urgencias diarias (dolor agudo, flemón, corona caída o bracket despegado) requieren un hueco corto sin desarmar la agenda.</p>
+      <div><label class="eyebrow">Paciente</label><input class="inp" value="${p.n} (${p.tel})"></div>
+      <div><label class="eyebrow">Motivo de la urgencia</label>
+        <select class="inp">
+          <option>Dolor agudo / Pulpitis (Requiere apertura)</option>
+          <option>Se despegó un bracket / Arco pincha mucosa</option>
+          <option>Se descementó provisorio o corona</option>
+          <option>Inflamación / Flemón (Evaluar antibiótico)</option>
+        </select>
+      </div>
+      <div><label class="eyebrow">Hueco sugerido hoy</label><input class="inp" value="Hoy 11:45 hs · Sillón 5 (Urgencias · Dra. Valentina Paz)" readonly></div>
+    `, `<button class="btn" data-act="close-drawer">Cancelar</button><button class="btn acc" style="flex:1" onclick="closeDrawer();toast('Sobreturno de urgencia asignado en Sillón 5 · Aviso enviado por WhatsApp','emergency')">${ico('emergency')}Confirmar Sobreturno</button>`);
+    return;
+  }
+});
+
+document.addEventListener('input', e => {
+  if(e.target.dataset.act === 'estoma-obs'){
+    const p = patById(S.pid);
+    p.estoma[e.target.dataset.k].obs = e.target.value;
+  }
+  if(e.target.id === 'q-global'){
+    const q = e.target.value.trim().toLowerCase();
+    const hit = PATIENTS.find(x => (x.n + ' ' + x.os + ' ' + x.dni).toLowerCase().includes(q));
+    if(hit && q.length >= 2){
+      S.pid = hit.id;
+      if(S.view !== 'legajo') goView('legajo');
+      else R.legajo();
+    }
+  }
+});
+
+$('#scrim').addEventListener('click', closeDrawer);
+
+// Inicializar vista principal
+R.tablero();
+</script>
+</body>
+</html>
