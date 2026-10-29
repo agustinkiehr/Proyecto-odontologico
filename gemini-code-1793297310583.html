@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propuesta Proyecto Odontología — Sobrinos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
+    .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 4rem 2rem; border-bottom: 1px solid #1e293b; max-width: 1100px; margin: 0 auto; }
+    @media print {
+      body { background-color: #0f172a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .slide { page-break-after: always; min-height: 100vh; border: none; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-teal-500 selection:text-white">
+  <div class="no-print fixed top-4 right-4 z-50 flex gap-3">
+    <button onclick="window.print()" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold px-4 py-2 rounded-lg shadow-lg text-sm transition">
+      Descargar / Guardar PDF
+    </button>
+  </div>
+
+  <section class="slide">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-semibold tracking-wider uppercase w-fit mb-6">
+      Propuesta de Innovación Clínica · Mar del Plata 2026
+    </div>
+    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+      Plataforma Integral de Gestión Odontológica, <span class="text-teal-400">Odontograma Cotizador e IA</span>
+    </h1>
+    <p class="text-xl text-slate-300 max-w-3xl mb-12">
+      Diseñada para clínicas multiespecialidad: rotación inteligente de sillones, odontograma conectado en vivo al presupuesto, control de laboratorio protésico, integración con <b>Dental Scan</b> y evolución por voz manos libres.
+    </p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 border-t border-slate-800">
+      <div><span class="text-xs text-slate-400 uppercase">Vertical</span><p class="font-bold text-lg text-white">Clínicas Odontológicas</p></div>
+      <div><span class="text-xs text-slate-400 uppercase">Desarrollado por</span><p class="font-bold text-lg text-teal-400">Sobrinos</p></div>
+      <div><span class="text-xs text-slate-400 uppercase">Implementación</span><p class="font-bold text-lg text-white">4 Etapas Mensuales</p></div>
+      <div><span class="text-xs text-slate-400 uppercase">Prototipo Interactivo</span><p class="font-bold text-lg text-emerald-400">Operativo ✓</p></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <span class="text-teal-400 font-semibold text-sm uppercase tracking-wider mb-2">01 · Impacto Directo</span>
+    <h2 class="text-3xl md:text-4xl font-bold mb-8">Los 3 problemas que eliminamos desde el primer mes</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl">
+        <div class="text-teal-400 font-extrabold text-2xl mb-3">01. Odontograma = Presupuesto</div>
+        <h3 class="font-bold text-lg mb-2">Cero doble carga y más cierres</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Al marcar una pieza en el odontograma (o dictarla por voz al sacarse los guantes), el sistema cotiza al instante los 20 ítems del plan de tratamiento y lo envía al celular del paciente.</p>
+      </div>
+      <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl">
+        <div class="text-emerald-400 font-extrabold text-2xl mb-3">02. Cero Débitos de Obras Sociales</div>
+        <h3 class="font-bold text-lg mb-2">Control de carencias, firmas y placas</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Alerta automática si una pieza ya fue facturada en período de garantía, vinculación de placas de <b>Dental Scan</b> y firma digital del paciente por cada código trabajado.</p>
+      </div>
+      <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl">
+        <div class="text-amber-400 font-extrabold text-2xl mb-3">03. Sillones y Laboratorio al 100%</div>
+        <h3 class="font-bold text-lg mb-2">Semáforo de protésico y sala en vivo</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Ningún paciente se sienta en el sillón sin que la corona haya llegado del laboratorio. Recepción avisa con un clic cuando llega el paciente sin golpear la puerta del box.</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
