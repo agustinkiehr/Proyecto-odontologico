@@ -4,29 +4,31 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Proyecto Odontología · Plataforma Clínica</title>
+<title>Proyecto Odontología · Plataforma Clínica Integral</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0&display=block">
 <style>
 :root{
-  --bg:#F6F9FB; --surface:#FFFFFF; --surface-2:#EDF3F7; --surface-3:#E1EBF2;
-  --ink:#18242E; --muted:#4A5B68; --subtle:#6C7E8C; --line:#E2EAF0; --line-2:#CBD8E3;
-  --primary:#0E7490; --primary-deep:#0B576C; --primary-ink:#FFFFFF; --primary-soft:#E0F2FE;
-  --accent:#D95D39; --accent-deep:#A63A1B; --accent-soft:#FDECE6;
-  --mustard:#C27D1A; --mustard-soft:#FEF5E6;
-  --ok:#15803D; --ok-soft:#DCFCE7; --warn:#B45309; --warn-soft:#FEF3C7; --bad:#DC2626; --bad-soft:#FEE2E2;
+  --bg:#F4F7FA; --surface:#FFFFFF; --surface-2:#EDF2F7; --surface-3:#E2E8F0;
+  --ink:#0F172A; --muted:#475569; --subtle:#64748B; --line:#E2E8F0; --line-2:#CBD5E1;
+  --primary:#0284C7; --primary-deep:#0369A1; --primary-ink:#FFFFFF; --primary-soft:#E0F2FE;
+  --accent:#EA580C; --accent-deep:#C2410C; --accent-soft:#FFEDD5;
+  --mustard:#D97706; --mustard-soft:#FEF3C7;
+  --ok:#16A34A; --ok-soft:#DCFCE7; --warn:#D97706; --warn-soft:#FEF3C7; --bad:#DC2626; --bad-soft:#FEE2E2;
+  --wa:#25D366; --wa-deep:#128C7E; --wa-bg:#ECE5DD;
   --f:"Plus Jakarta Sans","Segoe UI",system-ui,-apple-system,sans-serif;
   --r1:6px; --r2:10px; --r3:14px; --r4:18px;
-  --sh1:0 1px 3px rgba(15,35,50,.06), 0 2px 8px -2px rgba(15,35,50,.05);
-  --sh2:0 10px 28px -8px rgba(15,35,50,.14);
+  --sh1:0 1px 3px rgba(15,23,42,.06), 0 2px 8px -2px rgba(15,23,42,.05);
+  --sh2:0 12px 32px -8px rgba(15,23,42,.14);
+  --sh3:0 24px 60px -16px rgba(15,23,42,.35);
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:14.5px;line-height:1.5;padding-left:240px;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:14px;line-height:1.5;padding-left:250px;-webkit-font-smoothing:antialiased}
 h1,h2,h3,h4{margin:0;font-weight:700;letter-spacing:-.02em}
-h1{font-size:28px;line-height:1.15} h2{font-size:18px} h3{font-size:15.5px} h4{font-size:13px}
+h1{font-size:25px;line-height:1.15} h2{font-size:17.5px} h3{font-size:15px} h4{font-size:12.5px}
 p{margin:0}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -36,41 +38,56 @@ button{cursor:pointer}
 .ms{font-family:"Material Symbols Rounded";font-weight:normal;font-style:normal;font-size:20px;line-height:1;display:inline-block;vertical-align:middle;user-select:none}
 [hidden]{display:none!important}
 
-/* Sidebar & Topbar */
-.side{position:fixed;top:0;left:0;bottom:0;width:240px;z-index:35;background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:20px;padding:18px 14px;overflow-y:auto}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:38px;height:38px;border-radius:var(--r2);background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
-.brand b{display:block;font-size:15px;line-height:1.1}
-.brand span{font-size:11.5px;color:var(--muted)}
-.nav{display:flex;flex-direction:column;gap:16px}
-.ngrp{display:flex;flex-direction:column;gap:3px}
-.grp{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--subtle);padding:0 10px 4px}
-.nav button{display:flex;gap:11px;align-items:center;width:100%;border:0;background:none;padding:9px 12px;border-radius:var(--r2);color:var(--muted);font-weight:600;font-size:14px;text-align:left;transition:.15s}
-.nav button:hover{background:var(--surface-2);color:var(--ink)}
-.nav button[aria-current="page"]{background:var(--primary-soft);color:var(--primary-deep);font-weight:700}
-.side-foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
-.proto{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary-deep);background:var(--primary-soft);padding:4px 8px;border-radius:var(--r1);width:fit-content}
+/* Sidebar estilo SaaS Moderno */
+.side{position:fixed;top:0;left:0;bottom:0;width:250px;z-index:35;background:#0F172A;color:#F8FAFC;display:flex;flex-direction:column;gap:14px;padding:18px 14px;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:10px;padding:0 4px}
+.logo{width:38px;height:38px;border-radius:var(--r2);background:linear-gradient(135deg,#0284C7,#38BDF8);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;box-shadow:0 4px 12px rgba(2,132,199,.4)}
+.brand b{display:block;font-size:15px;line-height:1.1;color:#fff}
+.brand span{font-size:11.5px;color:#94A3B8}
+.role-box{padding:10px 12px;border-radius:var(--r3);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:3px}
+.role-box small{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#38BDF8}
+.role-box b{font-size:13px;color:#fff}
+.role-box span{color:#94A3B8;font-size:11px}
+.nav{display:flex;flex-direction:column;gap:12px}
+.ngrp{display:flex;flex-direction:column;gap:2px}
+.grp{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#64748B;padding:0 10px 4px}
+.nav button{display:flex;gap:10px;align-items:center;width:100%;border:0;background:none;padding:8.5px 12px;border-radius:var(--r2);color:#CBD5E1;font-weight:600;font-size:13.5px;text-align:left;transition:.15s}
+.nav button:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav button[aria-current="page"]{background:var(--primary);color:#fff;font-weight:700;box-shadow:0 4px 12px rgba(2,132,199,.35)}
+.side-foot{margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:6px}
+.proto{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#38BDF8;background:rgba(56,189,248,.14);padding:4px 8px;border-radius:var(--r1);width:fit-content}
 
-.top{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.wrap{max-width:1380px;margin:0 auto;padding:0 20px}
-.top-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 0}
+/* Topbar */
+.top{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.wrap{max-width:1400px;margin:0 auto;padding:0 20px}
+.top-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;flex-wrap:wrap}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .grid{display:grid;gap:16px}
-.g-2{grid-template-columns:1.5fr 1fr}
+.g-2{grid-template-columns:1.45fr 1fr}
 .g-2e{grid-template-columns:repeat(2,minmax(0,1fr))}
 .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r4);padding:18px;box-shadow:var(--sh1)}
 .chead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px;flex-wrap:wrap}
 .chead p{color:var(--muted);font-size:12.5px;margin-top:2px}
-.vhead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:20px 0}
-.vhead p{color:var(--muted);margin-top:4px;max-width:65ch}
+.vhead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:18px 0}
+.vhead p{color:var(--muted);margin-top:4px;max-width:68ch}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 14px;border-radius:var(--r2);border:1px solid var(--line-2);background:var(--surface);font-weight:600;font-size:13px;transition:.15s}
+/* Selector de Perfiles */
+.prof-sw{display:inline-flex;padding:3px;gap:3px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r3)}
+.prof-sw button{border:0;background:none;height:32px;padding:0 11px;border-radius:var(--r2);font-weight:700;font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:5px;transition:.15s}
+.prof-sw button .ms{font-size:17px}
+.prof-sw button[aria-pressed="true"]{background:var(--primary);color:#fff;box-shadow:var(--sh1)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 14px;border-radius:var(--r2);border:1px solid var(--line-2);background:var(--surface);font-weight:600;font-size:13px;transition:.15s;white-space:nowrap}
 .btn:hover{background:var(--surface-2)}
 .btn.pri{background:var(--primary);border-color:var(--primary);color:#fff}
 .btn.pri:hover{background:var(--primary-deep)}
 .btn.acc{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.wa:hover{background:var(--wa-deep)}
+.btn.ghost{border-color:transparent;background:none;color:var(--primary-deep)}
+.btn.ghost:hover{background:var(--primary-soft)}
 .btn.sm{height:30px;padding:0 10px;font-size:12px}
 .btn.done{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
 .chip{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:var(--r1);font-size:11.5px;font-weight:700}
@@ -86,16 +103,33 @@ button{cursor:pointer}
 .li .grow b{display:block;font-size:14px}
 .li .grow small{display:block;color:var(--muted);font-size:12.5px}
 .av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:12px;background:var(--primary-soft);color:var(--primary-deep);flex:none}
+.av.acc{background:var(--accent-soft);color:var(--accent-deep)}
 .inp{width:100%;height:38px;border:1px solid var(--line-2);background:var(--surface);border-radius:var(--r2);padding:0 11px}
+textarea.inp{height:auto;min-height:92px;padding:10px 11px;resize:vertical}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* Legajo & Odontograma Elástico (Cero Scroll Horizontal) + Presupuesto 20 items */
-.leg{display:grid;grid-template-columns:240px minmax(0,1fr);gap:14px;align-items:start}
+table{border-collapse:collapse;width:100%}
+th{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--subtle);text-align:left;padding:11px 12px;background:var(--surface-2)}
+td{padding:12px;border-top:1px solid var(--line);font-size:13px}
+
+/* Barra interactiva del Simulador Manual */
+.simbar{background:linear-gradient(90deg, var(--primary-soft), #F0F9FF);border:1.5px solid var(--primary);border-radius:var(--r3);padding:10px 14px;margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.sim-steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.sim-st{display:flex;align-items:center;gap:6px;padding:7px 9px;border-radius:var(--r2);background:var(--surface);border:1px solid var(--line-2);font-size:11.5px;font-weight:700;color:var(--muted);text-align:left;transition:.15s}
+.sim-st:hover{border-color:var(--primary);color:var(--ink)}
+.sim-st.done{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.sim-st.curr{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:var(--sh1)}
+.sim-st .num{width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.08);display:grid;place-items:center;font-size:10.5px;flex:none}
+.sim-st.curr .num{background:rgba(255,255,255,.25)}
+
+/* Legajo & Odontograma Elástico (Cero Scroll Horizontal) */
+.leg{display:grid;grid-template-columns:235px minmax(0,1fr);gap:14px;align-items:start}
 .plist{display:flex;flex-direction:column;gap:4px;max-height:70vh;overflow-y:auto}
 .prow{display:flex;gap:10px;align-items:center;width:100%;padding:8px;border:0;border-radius:var(--r2);background:none;text-align:left}
 .prow:hover{background:var(--surface-2)}
 .prow[aria-current="true"]{background:var(--primary-soft)}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:14px 0;overflow-x:auto}
-.tabs button{border:0;background:none;padding:9px 13px;font-weight:600;color:var(--muted);border-bottom:2.5px solid transparent;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.tabs button{border:0;background:none;padding:9px 12px;font-weight:600;color:var(--muted);border-bottom:2.5px solid transparent;white-space:nowrap;display:flex;gap:5px;align-items:center;font-size:13px}
 .tabs button[aria-selected="true"]{color:var(--primary-deep);border-bottom-color:var(--primary);font-weight:700}
 
 .od-split{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.9fr);gap:14px;align-items:start}
@@ -127,7 +161,7 @@ button{cursor:pointer}
 .presu-qty{display:inline-flex;align-items:center;gap:4px;justify-content:flex-end}
 .presu-qty button{width:21px;height:21px;border-radius:4px;border:1px solid var(--line-2);background:#fff;font-weight:800;padding:0}
 
-/* Estomatológico e IHOS */
+/* Estomatológico, IHOS y Pasaporte de Implantes */
 .est-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .est-card{border:1.5px solid var(--line);border-radius:var(--r3);padding:10px 12px;background:var(--surface)}
 .est-card.abn{border-color:var(--warn);background:var(--warn-soft)}
@@ -137,43 +171,102 @@ button{cursor:pointer}
 .ihos-opts button{height:25px;border:1px solid var(--line-2);border-radius:4px;background:var(--bg);font-weight:800;font-size:12px}
 .ihos-opts button[aria-pressed="true"]{background:var(--primary);color:#fff;border-color:var(--primary)}
 .pano-card{background:#11161B;color:#E8F1F5;border-radius:var(--r3);padding:16px;border:1px solid #26323D}
+.imp-pass{background:linear-gradient(135deg,#0F172A,#1E293B);color:#F8FAFC;border-radius:var(--r3);padding:14px;border:1px solid #334155}
+
+/* NUEVO: Hoja Membretada de Receta Rp/ (Inspirado en DentalSoft) */
+.paper-preview{background:#F1F5F9;border:1px solid var(--line-2);border-radius:var(--r3);padding:18px}
+.rx-sheet{background:#FFFFFF;border:1px solid #CBD5E1;border-radius:6px;padding:28px 30px;box-shadow:0 8px 24px rgba(15,23,42,.08);color:#0F172A;font-size:13px;position:relative}
+.rx-sheet-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1.5px solid #E2E8F0;padding-bottom:16px;margin-bottom:16px}
+.rx-rp{font-family:Georgia,serif;font-style:italic;font-size:24px;font-weight:700;color:#0F172A;margin:16px 0 8px}
+.rx-sig-line{margin-top:42px;display:flex;justify-content:flex-end}
+.rx-sig-box{text-align:center;width:200px;border-top:1px solid #94A3B8;padding-top:4px}
+.rx-sig-hand{font-family:"Caveat",cursive;font-size:28px;color:#1E3A8A;line-height:1;margin-bottom:-6px}
+
+/* NUEVO: Planilla Oficial de Obra Social ("Registro de Prestaciones" estilo DentalSoft) */
+.os-form-sheet{background:#FFFFFF;border:1.5px solid #1E293B;padding:20px;color:#0F172A;font-size:11.5px;box-shadow:var(--sh1)}
+.os-form-hdr{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;border-bottom:2px solid #1E293B;padding-bottom:10px;margin-bottom:10px;align-items:center}
+.os-form-line{border-bottom:1px dotted #64748B;display:inline-block;min-width:110px;padding:0 4px;font-weight:700}
+.os-form-table th,.os-form-table td{border:1px solid #1E293B;padding:5px 6px;font-size:11px}
+.os-form-table th{background:#F1F5F9;color:#0F172A;text-align:center}
+.os-kpi-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.os-kpi{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--c,var(--primary));border-radius:var(--r3);padding:14px 16px;box-shadow:var(--sh1)}
+.os-kpi b{font-size:26px;display:block;line-height:1.1}
+.os-chk-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--r2);border:1.5px solid var(--line-2);background:var(--surface);font-size:12.5px;font-weight:600;cursor:pointer}
+.os-chk-pill.on{border-color:var(--primary);background:var(--primary-soft);color:var(--primary-deep)}
+
+/* NUEVO: Editor de Plantillas WhatsApp + Chat (Estilo DentalSoft) */
+.var-pill{display:inline-flex;align-items:center;padding:4px 9px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line-2);font-family:monospace;font-size:12px;font-weight:700;color:var(--primary-deep);cursor:pointer;transition:.12s}
+.var-pill:hover{background:var(--primary-soft);border-color:var(--primary)}
+.wa-preview-box{background:var(--wa-bg);border-radius:var(--r3);padding:20px;border:1px solid #D1C7B7}
+.wa-bubble{background:#FFFFFF;border-radius:0 12px 12px 12px;padding:14px 16px;max-width:420px;box-shadow:0 2px 5px rgba(0,0,0,.08);font-size:13.5px;line-height:1.5;white-space:pre-line;color:#111B21;position:relative}
+.wa-bubble.out{background:#D9FDD3;border-radius:12px 0 12px 12px;margin-left:auto}
+.chat-layout{display:grid;grid-template-columns:280px minmax(0,1fr);border:1px solid var(--line);border-radius:var(--r4);overflow:hidden;background:var(--surface);min-height:520px}
+.chat-side{border-right:1px solid var(--line);background:var(--surface)}
+.chat-main{display:flex;flex-direction:column;background:var(--wa-bg)}
+.chat-msgs{flex:1;padding:20px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
+.chat-24h{background:#FEF3C7;border-bottom:1px solid #FDE68A;color:#92400E;padding:9px 16px;font-size:12.5px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+/* NUEVO: Modal Guía Rápida de 6 Tarjetas ("¡Bienvenido!") */
+.guide-ov{position:fixed;inset:0;z-index:95;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);display:grid;place-items:center;padding:20px;overflow-y:auto}
+.guide-modal{background:var(--surface);border-radius:22px;max-width:980px;width:100%;padding:32px;box-shadow:var(--sh3);position:relative;animation:pop .22s ease}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98)}}
+.guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
+.guide-card{border:1.5px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;transition:.18s;background:var(--surface);text-align:left}
+.guide-card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:var(--sh2)}
+.guide-num{font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;background:var(--primary-soft);color:var(--primary-deep)}
 
 /* Agenda de Sillones */
-.cal{display:grid;grid-template-columns:60px repeat(5,minmax(125px,1fr));min-width:720px;border:1px solid var(--line);border-radius:var(--r3);overflow:hidden;background:var(--surface)}
+.cal{display:grid;grid-template-columns:60px repeat(auto-fit,minmax(130px,1fr));min-width:720px;border:1px solid var(--line);border-radius:var(--r3);overflow:hidden;background:var(--surface)}
 .cal .hd{background:var(--surface-2);padding:9px 8px;font-size:12px;font-weight:700;border-bottom:1px solid var(--line)}
 .cal .hr{padding:10px 8px;font-size:11.5px;color:var(--subtle);font-weight:700;border-top:1px solid var(--line)}
-.cal .sl{border-top:1px solid var(--line);border-left:1px solid var(--line);padding:4px;min-height:64px}
-.tn{width:100%;border:0;border-radius:var(--r2);padding:6px 8px;text-align:left;background:var(--primary-soft);color:var(--primary-deep);display:flex;flex-direction:column;gap:2px;font-size:11.5px}
+.cal .sl{border-top:1px solid var(--line);border-left:1px solid var(--line);padding:4px;min-height:68px}
+.tn{width:100%;height:100%;border:0;border-radius:var(--r2);padding:6px 8px;text-align:left;background:var(--primary-soft);color:var(--primary-deep);display:flex;flex-direction:column;gap:2px;font-size:11.5px;transition:transform .15s,box-shadow .15s}
+.tn:hover{transform:translateY(-2px);box-shadow:var(--sh1)}
+.tn.new{outline:2px solid var(--accent);background:var(--accent-soft);color:var(--accent-deep)}
 .tn b{font-size:12.5px;color:var(--ink)}
+.free-btn{width:100%;height:100%;min-height:58px;border:1.5px dashed var(--line-2);border-radius:var(--r2);background:none;color:var(--subtle);font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:4px;transition:.15s}
+.free-btn:hover{border-color:var(--primary);color:var(--primary-deep);background:var(--primary-soft)}
+
+/* Drawer Lateral */
+.scrim{position:fixed;inset:0;background:rgba(15,23,42,.42);opacity:0;pointer-events:none;transition:opacity .25s;z-index:60}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--surface);box-shadow:var(--sh3);z-index:61;transform:translateX(105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.drawer .dh{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.drawer .db{flex:1;overflow-y:auto;padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.drawer .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:8px}
+.drawer label.eyebrow{display:block;margin-bottom:5px}
 
 /* Phone preview */
-.stage{display:grid;grid-template-columns:380px minmax(0,1fr);gap:32px;align-items:start}
-.phone{background:#18242E;border-radius:40px;padding:10px;box-shadow:var(--sh2)}
-.screen{background:var(--bg);border-radius:32px;height:720px;overflow-y:auto;padding:18px 15px;display:flex;flex-direction:column;gap:12px}
-.sig{width:100%;height:140px;border:1.5px dashed var(--line-2);border-radius:var(--r2);background:#fff;touch-action:none;cursor:crosshair}
+.stage{display:grid;grid-template-columns:395px minmax(0,1fr);gap:32px;align-items:start}
+.phone{background:#0F172A;border-radius:40px;padding:10px;box-shadow:var(--sh2)}
+.screen{background:var(--bg);border-radius:32px;height:760px;overflow-y:auto;padding:18px 15px;display:flex;flex-direction:column;gap:12px}
+.sig{width:100%;height:130px;border:1.5px dashed var(--line-2);border-radius:var(--r2);background:#fff;touch-action:none;cursor:crosshair}
 
-.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:var(--r3);display:flex;gap:8px;align-items:center;font-weight:600;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:90}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:var(--r3);display:flex;gap:8px;align-items:center;font-weight:600;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:98}
 .toast.on{opacity:1;transform:translate(-50%,0)}
-.pings{position:fixed;top:68px;right:20px;z-index:85;width:min(360px,calc(100% - 32px));display:flex;flex-direction:column;gap:8px}
+.pings{position:fixed;top:68px;right:20px;z-index:85;width:min(380px,calc(100% - 32px));display:flex;flex-direction:column;gap:8px}
 .ping{background:var(--surface);border:2px solid var(--mustard);border-radius:var(--r3);padding:14px;box-shadow:var(--sh2)}
 
 @media (max-width:1180px){
   .od-split{grid-template-columns:minmax(0,1fr)}
+  .sim-steps,.guide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:980px){
   body{padding-left:0;padding-bottom:74px}
-  .side{top:auto;right:0;width:auto;flex-direction:row;padding:6px;border-right:0;border-top:1px solid var(--line)}
-  .side .brand,.side-foot,.grp{display:none}
+  .side{top:auto;right:0;width:auto;flex-direction:row;padding:6px;border-right:0;border-top:1px solid rgba(255,255,255,.15)}
+  .side .brand,.side-foot,.grp,.role-box{display:none}
   .nav{flex-direction:row;width:100%;overflow-x:auto;gap:2px}
   .ngrp{display:contents}
-  .nav button{flex:1 0 70px;flex-direction:column;gap:2px;padding:6px 4px;font-size:11px;text-align:center;justify-content:center}
-  .kpis,.g-2,.g-2e,.leg,.stage,.est-grid{grid-template-columns:minmax(0,1fr)}
+  .nav button{flex:1 0 72px;flex-direction:column;gap:2px;padding:6px 4px;font-size:10.5px;text-align:center;justify-content:center}
+  .kpis,.os-kpi-cards,.g-2,.g-2e,.leg,.stage,.est-grid,.chat-layout{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:680px){
   .od-jaw{grid-template-columns:minmax(0,1fr);gap:10px}
   .od-midline{height:1px;width:100%}
   .od-svg{max-width:38px}
   .od-tooth b{font-size:11.5px}
+  .frow,.sim-steps,.guide-grid{grid-template-columns:minmax(0,1fr)}
 }
 </style>
 </head>
@@ -182,27 +275,33 @@ button{cursor:pointer}
 <aside class="side">
   <div class="brand">
     <span class="logo">ODO</span>
-    <div><b>Proyecto Odontología</b><span>Clínica Dental & Imágenes</span></div>
+    <div><b>Proyecto Odontología</b><span>Clínica Dental + IA</span></div>
   </div>
+  <div class="role-box" id="side-role-box"></div>
   <nav class="nav" id="nav">
-    <div class="ngrp"><span class="grp">Clínica Diaria</span>
-      <button data-v="tablero"><span class="ms">space_dashboard</span><span>Tablero</span></button>
-      <button data-v="sillones"><span class="ms">chair</span><span>Sillones y Sala</span></button>
-      <button data-v="legajo"><span class="ms">clinical_notes</span><span>Pacientes y Ficha</span></button>
+    <div class="ngrp"><span class="grp">Principal y Sillón</span>
+      <button data-v="tablero"><span class="ms">space_dashboard</span><span>Dashboard</span></button>
+      <button data-v="sillones"><span class="ms">calendar_month</span><span>Agenda y Sillones</span></button>
+      <button data-v="legajo"><span class="ms">clinical_notes</span><span id="nav-leg-lbl">Pacientes y Odontograma</span></button>
       <button data-v="manoslibres"><span class="ms">mic</span><span>Manos Libres IA</span></button>
     </div>
-    <div class="ngrp"><span class="grp">Gestión y Auditoría</span>
-      <button data-v="obras"><span class="ms">receipt_long</span><span>Obras Sociales</span></button>
-      <button data-v="equipo"><span class="ms">groups</span><span>Especialistas</span></button>
+    <div class="ngrp"><span class="grp">Documentación y OS</span>
+      <button data-v="ordenes"><span class="ms">fact_check</span><span>Órdenes y Planillas OS</span></button>
+      <button data-v="coberturas"><span class="ms">health_and_safety</span><span>Coberturas (% o $)</span></button>
+      <button data-v="recordatorios"><span class="ms">notifications_active</span><span>Recordatorios y Chat</span></button>
     </div>
-    <div class="ngrp"><span class="grp">Vista Celular</span>
-      <button data-v="firmas"><span class="ms">draw</span><span>Firmas Digitales</span></button>
+    <div class="ngrp"><span class="grp">Gestión y Recepción</span>
+      <button data-v="secretaria"><span class="ms">support_agent</span><span>Consola Secretaría</span></button>
+      <button data-v="equipo"><span class="ms">groups</span><span>Liquidación y Equipo</span></button>
+    </div>
+    <div class="ngrp"><span class="grp">App del Paciente</span>
       <button data-v="portal"><span class="ms">smartphone</span><span>Portal Paciente</span></button>
+      <button data-v="firmas"><span class="ms">draw</span><span>Firmas Digitales</span></button>
     </div>
   </nav>
   <div class="side-foot">
-    <span class="proto">Prototipo Sobrinos</span>
-    <small class="muted">Mar del Plata · Datos de muestra</small>
+    <span class="proto">Sobrinos · v4 Producción</span>
+    <button class="btn sm ghost" data-act="reset-demo" style="padding:0;height:auto;font-size:11.5px;color:#94A3B8;justify-content:flex-start"><span class="ms" style="font-size:15px">restart_alt</span>Reiniciar datos demo</button>
   </div>
 </aside>
 
@@ -210,21 +309,28 @@ button{cursor:pointer}
   <div class="wrap">
     <div class="top-row">
       <div class="row">
-        <span class="chip neu"><span class="ms">location_on</span>Mar del Plata · Conexión Dental Scan</span>
+        <span class="eyebrow" style="margin-right:2px">Perfil:</span>
+        <div class="prof-sw" role="group" aria-label="Perfiles del sistema">
+          <button data-act="set-profile" data-role="pro" id="sw-pro"><span class="ms">stethoscope</span>Profesional</button>
+          <button data-act="set-profile" data-role="sec" id="sw-sec"><span class="ms">support_agent</span>Secretaría</button>
+          <button data-act="set-profile" data-role="pac" id="sw-pac"><span class="ms">person</span>Paciente</button>
+          <button data-act="set-profile" data-role="dir" id="sw-dir"><span class="ms">admin_panel_settings</span>Dirección</button>
+        </div>
       </div>
-      <div class="row">
-        <label class="eyebrow" for="role-sel">Vista de Rol:</label>
-        <select id="role-sel" class="inp" style="width:auto;height:34px;font-weight:700">
-          <option value="dir">Dirección Médica (Ve todo)</option>
-          <option value="pro">Odontólogo en Sillón (Clínica + IA)</option>
-          <option value="sec">Secretaría / Recepción (Turnos y Cobros)</option>
-        </select>
+      <div class="row" id="top-actions">
+        <button class="btn acc sm" data-act="open-guide"><span class="ms">explore</span>Guía Rápida (6 Objetivos)</button>
+        <button class="btn pri sm" data-act="new-pat"><span class="ms">person_add</span>+ Nuevo Paciente</button>
+        <button class="btn sm" data-act="new-user"><span class="ms">badge</span>+ Profesional</button>
       </div>
     </div>
   </div>
 </header>
 
-<main class="wrap" id="app" style="padding-bottom:60px"></main>
+<div class="wrap" id="sim-banner"></div>
+<main class="wrap" id="app" style="padding-bottom:80px"></main>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Formulario"></aside>
+<div id="guide-host" hidden></div>
 <div class="pings" id="pings"></div>
 <div class="toast" id="toast"></div>
 
@@ -233,6 +339,8 @@ const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];
 const money = n => '$' + Math.round(n).toLocaleString('es-AR');
 const ico = n => `<span class="ms" aria-hidden="true">${n}</span>`;
+const esc = s => String(s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const initials = n => String(n||'U').split(/\s+/).filter(Boolean).map(w=>w[0]).join('').slice(0,2).toUpperCase();
 
 let toastT;
 function toast(msg, ic='check_circle'){
@@ -240,31 +348,91 @@ function toast(msg, ic='check_circle'){
   t.innerHTML = `${ico(ic)}<span>${msg}</span>`;
   t.classList.add('on');
   clearTimeout(toastT);
-  toastT = setTimeout(()=>t.classList.remove('on'), 3200);
+  toastT = setTimeout(()=>t.classList.remove('on'), 3500);
 }
+
+function openDrawer(title, bodyHTML, footHTML=''){
+  $('#drawer').innerHTML = `
+    <div class="dh"><h2>${title}</h2><button class="btn sm ghost" data-act="close-drawer">${ico('close')}</button></div>
+    <div class="db">${bodyHTML}</div>
+    ${footHTML ? `<div class="df">${footHTML}</div>` : ''}`;
+  $('#drawer').classList.add('on');
+  $('#scrim').classList.add('on');
+}
+function closeDrawer(){
+  $('#drawer').classList.remove('on');
+  $('#scrim').classList.remove('on');
+}
+$('#scrim').addEventListener('click', closeDrawer);
+
+/* ===== PERMISOS POR PERFIL ===== */
+const ROLE_VIEWS = {
+  dir: ['tablero','sillones','legajo','manoslibres','ordenes','coberturas','recordatorios','secretaria','equipo','portal','firmas'],
+  pro: ['sillones','legajo','manoslibres','ordenes','equipo'],
+  sec: ['secretaria','sillones','legajo','ordenes','coberturas','recordatorios'],
+  pac: ['portal','firmas']
+};
 
 /* ===== 20 ÍTEMS OFICIALES DE LA PLANILLA DE TRATAMIENTO Y PRESUPUESTO ===== */
 const ITEMS_20 = [
-  {id:1,  cod:'01.01', n:'Consulta diagnóstica y fichado', p:25000, os:1},
-  {id:2,  cod:'05.01', n:'Destartraje + Profilaxis (Limpieza)', p:42000, os:1},
-  {id:3,  cod:'05.02', n:'Flúor en barniz (Preventivo)', p:28000, os:1},
-  {id:4,  cod:'09.01', n:'Rx periapical digital', p:18000, os:1},
-  {id:5,  cod:'10.01', n:'Extracción simple', p:55000, os:1},
-  {id:6,  cod:'02.01', n:'Resina simple (1 cara)', p:48000, os:1},
-  {id:7,  cod:'02.02', n:'Resina compuesta (2 caras)', p:64000, os:1},
-  {id:8,  cod:'02.04', n:'Resina compleja (3 o más caras)', p:82000, os:1},
-  {id:9,  cod:'03.01', n:'End. Ant. (Conducto unirradicular)', p:135000, os:1},
-  {id:10, cod:'03.02', n:'End. Post. (Conducto multirradicular)', p:195000, os:1},
-  {id:11, cod:'08.01', n:'Pulpotomía (Odontopediatría)', p:68000, os:1},
-  {id:12, cod:'08.02', n:'Pulpectomía (Odontopediatría)', p:85000, os:1},
-  {id:13, cod:'04.01', n:'Perno fibra de vidrio / muñón', p:120000, os:.5},
-  {id:14, cod:'04.02', n:'Corona libre de metal (Zirconio/Porc.)', p:420000, os:.3},
-  {id:15, cod:'04.05', n:'Prótesis total acrílica', p:490000, os:.4},
-  {id:16, cod:'04.06', n:'Prótesis Removible (Cromo-Cobalto)', p:540000, os:.4},
-  {id:17, cod:'06.01', n:'Modelo sup. e inf. / Escaneo digital', p:38000, os:1},
-  {id:18, cod:'05.04', n:'Sellantes de puntos y fisuras', p:32000, os:1},
-  {id:19, cod:'06.02', n:'Ortodoncia / Alineadores (Anticipo)', p:680000, os:.2},
-  {id:20, cod:'11.01', n:'Otros (Implante / Cirugía compleja)', p:750000, os:.2}
+  {id:1,  cod:'01.01', n:'Consulta diagnóstica y fichado', p:25000, os:1, labCost:0},
+  {id:2,  cod:'05.01', n:'Destartraje + Profilaxis (Limpieza)', p:42000, os:1, labCost:0},
+  {id:3,  cod:'05.02', n:'Flúor en barniz (Preventivo)', p:28000, os:1, labCost:0},
+  {id:4,  cod:'09.01', n:'Rx periapical digital', p:18000, os:1, labCost:0},
+  {id:5,  cod:'10.01', n:'Extracción simple', p:55000, os:1, labCost:0},
+  {id:6,  cod:'02.01', n:'Resina simple (1 cara)', p:48000, os:1, labCost:0},
+  {id:7,  cod:'02.02', n:'Resina compuesta (2 caras)', p:64000, os:1, labCost:0},
+  {id:8,  cod:'02.04', n:'Resina compleja (3 o más caras)', p:82000, os:1, labCost:0},
+  {id:9,  cod:'03.01', n:'End. Ant. (Conducto unirradicular)', p:135000, os:1, labCost:0},
+  {id:10, cod:'03.02', n:'End. Post. (Conducto multirradicular)', p:195000, os:1, labCost:0},
+  {id:11, cod:'08.01', n:'Pulpotomía (Odontopediatría)', p:68000, os:1, labCost:0},
+  {id:12, cod:'08.02', n:'Pulpectomía (Odontopediatría)', p:85000, os:1, labCost:0},
+  {id:13, cod:'04.01', n:'Perno fibra de vidrio / muñón', p:120000, os:.5, labCost:32000},
+  {id:14, cod:'04.02', n:'Corona libre de metal (Zirconio/Porc.)', p:420000, os:.3, labCost:115000},
+  {id:15, cod:'04.05', n:'Prótesis total acrílica', p:490000, os:.4, labCost:140000},
+  {id:16, cod:'04.06', n:'Prótesis Removible (Cromo-Cobalto)', p:540000, os:.4, labCost:165000},
+  {id:17, cod:'06.01', n:'Modelo sup. e inf. / Escaneo digital', p:38000, os:1, labCost:8000},
+  {id:18, cod:'05.04', n:'Sellantes de puntos y fisuras', p:32000, os:1, labCost:0},
+  {id:19, cod:'06.02', n:'Ortodoncia / Alineadores (Anticipo)', p:680000, os:.2, labCost:180000},
+  {id:20, cod:'11.01', n:'Otros (Implante Titanio + Cirugía)', p:750000, os:.2, labCost:210000}
+];
+
+const OBRAS_LIST = {
+  'OSDE 310': 0.75,
+  'Círculo Odontológico (IOMA)': 0.80,
+  'Swiss Medical SMG40': 0.70,
+  'Sancor Salud 3000': 0.65,
+  'Medifé Plata': 0.60,
+  'Particular (Sin cobertura)': 0
+};
+
+/* Coberturas por Plan (% del precio vs Importe Fijo en $) como en DentalSoft */
+const DEFAULT_COBERTURAS = [
+  {os:'OSDE', plan:'Plan 210', modo:'pct', val:60},
+  {os:'OSDE', plan:'Plan 310', modo:'pct', val:75},
+  {os:'OSDE', plan:'Plan 410', modo:'pct', val:100},
+  {os:'Círculo Odontológico MDP', plan:'Convenio IOMA', modo:'fijo', val:52000},
+  {os:'Círculo Odontológico MDP', plan:'Convenio OSECAC', modo:'fijo', val:46000},
+  {os:'Sancor Salud', plan:'Plan 1000', modo:'pct', val:40},
+  {os:'Sancor Salud', plan:'Plan 3000', modo:'pct', val:75},
+  {os:'Medifé', plan:'Plan Bronce', modo:'fijo', val:38000},
+  {os:'Medifé', plan:'Plan Plata', modo:'pct', val:65}
+];
+
+const ESPECIALIDADES = [
+  'Odontología General y Restauradora',
+  'Endodoncia y Rehabilitación',
+  'Cirugía e Implantología',
+  'Ortodoncia y Ortopedia Maxilar',
+  'Odontopediatría',
+  'Prótesis y Estética Dental'
+];
+
+const RECETAS_COMBOS = [
+  {id:'rx1', droga:'Clindamicina 300 mg', comp:'Clindamicina Clorhidrato · Envase × 16 cápsulas', dosis:'1 cápsula cada 8 hs durante 7 días', ind:'Antibioticoterapia de elección para alérgicos a Penicilina'},
+  {id:'rx2', droga:'Amoxicilina 875 mg + Ác. Clavulánico 125 mg', comp:'Amoxicilina / Clavulanato · Envase × 14 comp.', dosis:'1 comprimido cada 12 hs durante 7 días', ind:'Tratamiento de infección odontogénica aguda'},
+  {id:'rx3', droga:'Ketorolac Trometamina 10 mg Sublingual', comp:'Ketorolac SL · Envase × 10 comp.', dosis:'1 comprimido sublingual cada 8 hs si hay dolor (máx. 3 días)', ind:'Analgesia post-endodoncia o exodoncia'},
+  {id:'rx4', droga:'Digluconato de Clorhexidina 0,12% Colutorio', comp:'Solución bucal antiséptica × 250 ml', dosis:'15 ml en buches suaves durante 30 seg cada 12 hs', ind:'Antisepsia gingival post-quirúrgica'}
 ];
 
 const EST_STRUCTS = [
@@ -279,23 +447,36 @@ const EST_STRUCTS = [
 ];
 
 const IHOS_TEETH = ['16 (55)','11 (51)','26 (65)','46 (85)','31 (71)','36 (75)'];
+const HOURS = ['09:00','10:00','11:00','12:00','15:00','16:00'];
 
-const PATIENTS = [
+const DEFAULT_SILLONES = [
+  {id:1, n:'Sillón 1 · Cirugía y Prótesis', esp:'Cirugía e Implantología', pro:'Dr. Mariano Lagos', mat:'M.P. 44910', email:'lagos@odonto.prueba', role:'pro', pct:0.60, factBruto:3420000, labDesc:690000},
+  {id:2, n:'Sillón 2 · Endodoncia', esp:'Endodoncia y Rehabilitación', pro:'Dra. Lucía Peñalva', mat:'M.P. 51204', email:'penalva@odonto.prueba', role:'pro', pct:0.65, factBruto:2850000, labDesc:120000},
+  {id:3, n:'Sillón 3 · Ortodoncia', esp:'Ortodoncia y Ortopedia Maxilar', pro:'Dra. Camila Méndez', mat:'M.P. 48902', email:'mendez@odonto.prueba', role:'pro', pct:0.60, factBruto:3100000, labDesc:540000},
+  {id:4, n:'Sillón 4 · Odontopediatría', esp:'Odontopediatría', pro:'Dra. Sofía Aramburu', mat:'M.P. 53811', email:'aramburu@odonto.prueba', role:'pro', pct:0.65, factBruto:1980000, labDesc:185000},
+  {id:5, n:'Sillón 5 · Odontología Gral.', esp:'Odontología General y Restauradora', pro:'Dr. Tomás Ibarra', mat:'M.P. 55109', email:'ibarra@odonto.prueba', role:'pro', pct:0.55, factBruto:2140000, labDesc:95000}
+];
+
+const DEFAULT_USERS = [
+  {id:'u-dir', n:'Dirección Médica', email:'direccion@odonto.prueba', role:'dir', sillon:null, esp:'Dirección Clínica Integral', mat:'M.P. 40112'},
+  {id:'u-sec', n:'Laura (Secretaría)', email:'recepcion@odonto.prueba', role:'sec', sillon:null, esp:'Recepción, Turnos y Avisos', mat:'Secretaría'},
+  ...DEFAULT_SILLONES.map(s=>({id:'u-s'+s.id, n:s.pro, email:s.email, role:'pro', sillon:s.id, esp:s.esp, mat:s.mat}))
+];
+
+const DEFAULT_PATIENTS = [
   {
-    id:'p1', short:'01', n:'Martín Echeverría', age:38, dni:'33.412.890', tel:'223 15-542-8819',
+    id:'p1', short:'01', n:'Martín Echeverría', age:38, dni:'33.412.890', nac:'14/05/1988', dom:'Av. Colón 2410 · Mar del Plata', afil:'04-991824-01', tel:'223 15-542-8819',
     os:'OSDE 310', cobPct:0.75, dent:'adult',
     alerts:[['bad','Alergia a Penicilina'],['warn','Bruxismo severo']],
-    med:'Clindamicina 600mg (solo si requiere profilaxis)',
-    antecedentes:'Alergia documentada a betalactámicos. Refiere sensibilidad al frío en cuadrante superior derecho.',
-    habitos:'Bruxismo nocturno céntrico y excéntrico. Café 3 tazas/día.',
+    med:'Clindamicina 300mg cada 8 hs · Ketorolac 10mg SL',
     lab:{st:'ok', item:'Corona Zirconio Pza. 24 · Recibida de Laboratorio Dental MDP'},
-    pano:{fecha:'18 oct 2026', centro:'Dental Scan · La Rioja 3501', hallazgo:'Lesión radiolúcida periapical en pieza 26 compatible con proceso endodóntico. Pieza 18 retenida asintomática.'},
+    pano:{fecha:'18 oct 2026', centro:'Dental Scan · La Rioja 3501', hallazgo:'Lesión radiolúcida periapical en pieza 26 compatible con proceso endodóntico. Implante osteointegrado en pieza 36.'},
     teeth:{
-      '16':{faces:{M:'caries',O:'caries'}, whole:null},
-      '24':{faces:{}, whole:'corona'},
-      '26':{faces:{O:'caries'}, whole:'endo'},
-      '36':{faces:{O:'resina',V:'resina'}, whole:null},
-      '46':{faces:{O:'caries'}, whole:null}
+      '16':{faces:{M:'caries',O:'caries'}, whole:null, by:'Dr. Tomás Ibarra · Od. Gral.'},
+      '24':{faces:{}, whole:'corona', by:'Dr. Mariano Lagos · Prótesis'},
+      '26':{faces:{O:'caries'}, whole:'endo', by:'Dra. Lucía Peñalva · Endodoncia'},
+      '36':{faces:{O:'resina',V:'resina'}, whole:null, by:'Dr. Mariano Lagos · Implantología'},
+      '46':{faces:{O:'caries'}, whole:null, by:'Dr. Tomás Ibarra · Od. Gral.'}
     },
     extraQty:{1:1, 4:1},
     est:{
@@ -305,22 +486,39 @@ const PATIENTS = [
       mucosa:{ok:false,obs:'Línea alba bilateral marcada por bruxismo'}, piso:{ok:true,obs:''}
     },
     pdb:[1,0,2,1,1,2], pdd:[0,0,1,1,2,1],
-    signed:false, presuApproved:false
+    recetas:[
+      {id:'REC-000018', fecha:'21/10/2026', pro:'Dra. Lucía Peñalva', esp:'Endodoncia y Rehabilitación', mat:'M.P. 51204', trat:'Endodoncia multirradicular en pieza 26', droga:'Clindamicina 300 mg', comp:'Clindamicina Clorhidrato · Cantidad: 16 cápsulas', dosis:'1 cápsula cada 8 hs por 7 días (08:00, 16:00 y 00:00 hs)', ind:'Importante: Recetado por alergia documentada a Penicilina.'},
+      {id:'REC-000019', fecha:'21/10/2026', pro:'Dra. Lucía Peñalva', esp:'Endodoncia y Rehabilitación', mat:'M.P. 51204', trat:'Analgesia post-endodoncia pieza 26', droga:'Ketorolac 10 mg Sublingual', comp:'Ketorolac Trometamina · Cantidad: 10 comprimidos', dosis:'1 comprimido sublingual cada 8 hs solo si presenta dolor', ind:'No masticar; dejar disolver debajo de la lengua.'}
+    ],
+    implantes:[
+      {pieza:'36', marca:'Straumann BLT (Suiza)', medida:'Ø 4.1 mm × 10 mm', lote:'LOT-CH-88412', torque:'35 Ncm', fecha:'14 ago 2026', pro:'Dr. Mariano Lagos (M.P. 44910)'}
+    ],
+    ordenOS:{
+      nro:'ORD-000041', estado:'autorizada', mod:'Validación Online + Adjunto Rx Dental Scan',
+      checks:{aut:true, pres:true, rx:true, firma:false}
+    },
+    chatMsgs:[
+      {from:'pac', txt:'Hola buenas! Quería confirmar si hoy a las 09:00 me atiende la Dra. Peñalva por el conducto.', h:'08:15'},
+      {from:'cli', txt:'¡Hola Martín! Sí, te esperamos hoy a las 09:00 hs en La Rioja 2173 (Sillón 2). Recordá que ya recibimos tu placa panorámica de Dental Scan.', h:'08:18'}
+    ],
+    consentSigned:true,
+    derivaciones:[
+      {fecha:'21 oct', de:'Dra. Lucía Peñalva (Endodoncia)', para:'Dr. Mariano Lagos (Sillón 1 · Prótesis)', motivo:'Endodoncia pieza 26 finalizada. Derivo para perno fibra y corona.', estado:'Pendiente de turno'}
+    ],
+    signed:false, presuApproved:false, atendido:true, waReminded:false
   },
   {
-    id:'p2', short:'02', n:'Valentina Quiroga', age:8, dni:'56.109.442', tel:'223 15-611-3092',
+    id:'p2', short:'02', n:'Valentina Quiroga', age:8, dni:'56.109.442', nac:'09/11/2017', dom:'Güemes 3102 · Mar del Plata', afil:'61-440192-03', tel:'223 15-611-3092',
     os:'Círculo Odontológico (IOMA)', cobPct:0.80, dent:'child',
     alerts:[['acc','Odontopediatría'],['warn','Respiración bucal']],
-    med:'No toma medicación habitual.',
-    antecedentes:'Primera experiencia odontológica restauradora. Viene derivada por pediatra.',
-    habitos:'Respiración bucal nocturna. Interposición lingual al deglutir.',
+    med:'Ibuprofeno pediátrico 2% si presenta molestia.',
     lab:{st:'warn', item:'Placa Expansora Infantil · En el protésico (entrega Jueves 14h)'},
     pano:{fecha:'15 oct 2026', centro:'Dental Scan · La Rioja 3501', hallazgo:'Dentición mixta primera fase. Gérmenes de permanentes completos en evolución intraósea normal.'},
     teeth:{
-      '55':{faces:{O:'caries',D:'caries'}, whole:'pulpo'},
-      '65':{faces:{O:'sellante'}, whole:null},
-      '75':{faces:{O:'sellante'}, whole:null},
-      '85':{faces:{O:'caries'}, whole:null}
+      '55':{faces:{O:'caries',D:'caries'}, whole:'pulpo', by:'Dra. Sofía Aramburu · Odontopediatría'},
+      '65':{faces:{O:'sellante'}, whole:null, by:'Dra. Sofía Aramburu · Odontopediatría'},
+      '75':{faces:{O:'sellante'}, whole:null, by:'Dra. Sofía Aramburu · Odontopediatría'},
+      '85':{faces:{O:'caries'}, whole:null, by:'Dra. Sofía Aramburu · Odontopediatría'}
     },
     extraQty:{1:1, 3:1},
     est:{
@@ -329,60 +527,256 @@ const PATIENTS = [
       paladar:{ok:false,obs:'Paladar levemente comprimido'}, mucosa:{ok:true,obs:''}, piso:{ok:true,obs:''}
     },
     pdb:[1,1,1,2,1,1], pdd:[0,0,0,0,0,0],
-    signed:false, presuApproved:true
+    recetas:[
+      {id:'REC-000014', fecha:'19/10/2026', pro:'Dra. Sofía Aramburu', esp:'Odontopediatría', mat:'M.P. 53811', trat:'Pulpotomía en pieza temporaria 55', droga:'Ibuprofeno Suspensión Oral 2%', comp:'Jarabe pediátrico × 90 ml', dosis:'5 ml cada 8 hs durante 48 hs en caso de molestia', ind:'Administrar junto con las comidas.'}
+    ],
+    implantes:[],
+    ordenOS:{
+      nro:'ORD-000042', estado:'pendiente', mod:'El paciente trae bono de IOMA',
+      checks:{aut:false, pres:true, rx:true, firma:false}
+    },
+    chatMsgs:[
+      {from:'pac', txt:'Hola! Soy la mamá de Valentina. ¿Ya llegó la plaquita del laboratorio?', h:'Ayer'}
+    ],
+    consentSigned:true,
+    derivaciones:[
+      {fecha:'19 oct', de:'Dra. Sofía Aramburu (Odontopediatría)', para:'Dra. Camila Méndez (Sillón 3 · Ortodoncia)', motivo:'Interconsulta por paladar comprimido y respiración bucal.', estado:'Agendado'}
+    ],
+    signed:false, presuApproved:true, atendido:true, waReminded:true
   },
   {
-    id:'p3', short:'03', n:'Roberto Garmendia', age:64, dni:'16.890.114', tel:'223 15-429-7710',
+    id:'p3', short:'03', n:'Roberto Garmendia', age:64, dni:'16.890.114', nac:'02/03/1962', dom:'Constitución 4890 · Mar del Plata', afil:'800-19283-00', tel:'223 15-429-7710',
     os:'Swiss Medical SMG40', cobPct:0.70, dent:'adult',
-    alerts:[['bad','Anticoagulado (Rivaroxabán)'],['bad','Alergia al Látex · Usar Nitrilo'],['warn','Hipertenso controlado']],
-    med:'Rivaroxabán 20mg/día · Losartán 50mg.',
-    antecedentes:'Rehabilitación protésica e implantológica. Requiere suspensión coordinada con hematólogo antes de exodoncias.',
-    habitos:'Ex fumador hace 10 años.',
+    alerts:[['bad','Anticoagulado (Rivaroxabán)'],['bad','Alergia al Látex · Usar Nitrilo']],
+    med:'Rivaroxabán 20mg/día · Profilaxis: Amoxicilina 2g 1h antes.',
     lab:{st:'ok', item:'Prótesis Removible Cromo-Cobalto · Lista para prueba en sillón'},
     pano:{fecha:'10 oct 2026', centro:'Dental Scan · La Rioja 3501', hallazgo:'Reabsorción ósea alveolar moderada generalizada. Pieza 47 con indicación de exodoncia.'},
     teeth:{
-      '14':{faces:{}, whole:'extraccion'},
-      '35':{faces:{}, whole:'perno'},
-      '47':{faces:{}, whole:'extraccion'}
+      '14':{faces:{}, whole:'extraccion', by:'Dr. Mariano Lagos · Cirugía'},
+      '35':{faces:{}, whole:'perno', by:'Dr. Mariano Lagos · Prótesis'},
+      '47':{faces:{}, whole:'extraccion', by:'Dr. Mariano Lagos · Cirugía'}
     },
-    extraQty:{1:1, 2:1, 16:1},
+    extraQty:{1:1, 2:1, 16:1, 20:1},
     est:{
       labios:{ok:true,obs:''}, surcos:{ok:true,obs:''}, lengua:{ok:true,obs:''},
       encia:{ok:false,obs:'Recesión gingival generalizada'}, frenillos:{ok:true,obs:''},
       paladar:{ok:true,obs:''}, mucosa:{ok:true,obs:''}, piso:{ok:true,obs:''}
     },
     pdb:[2,1,2,2,2,2], pdd:[1,1,2,2,2,1],
-    signed:true, presuApproved:true
+    recetas:[
+      {id:'REC-000011', fecha:'15/10/2026', pro:'Dr. Mariano Lagos', esp:'Cirugía e Implantología', mat:'M.P. 44910', trat:'Exodoncia pieza 47 y colocación de implante', droga:'Digluconato de Clorhexidina 0,12% Colutorio', comp:'Frasco × 250 ml', dosis:'Buches suaves cada 12 hs post-exodoncia', ind:'No cepillar directamente la herida durante 48 hs.'}
+    ],
+    implantes:[
+      {pieza:'14', marca:'Neodent Grand Morse', medida:'Ø 3.75 mm × 11.5 mm', lote:'LOT-BR-55910', torque:'45 Ncm', fecha:'15 oct 2026', pro:'Dr. Mariano Lagos (M.P. 44910)'}
+    ],
+    ordenOS:{
+      nro:'ORD-000039', estado:'presentada', mod:'Validación digital Swiss Medical',
+      checks:{aut:true, pres:true, rx:true, firma:true}
+    },
+    chatMsgs:[
+      {from:'pac', txt:'Buen día, ya tomé los 2g de Amoxicilina de la profilaxis una hora antes.', h:'10:02'},
+      {from:'cli', txt:'Excelente Roberto, el Dr. Lagos ya preparó el Sillón 1 con guantes de nitrilo.', h:'10:05'}
+    ],
+    consentSigned:true,
+    derivaciones:[],
+    signed:true, presuApproved:true, atendido:true, waReminded:true
   }
 ];
 
-const SILLONES = [
-  {id:1, n:'Sillón 1 · Cirugía e Implantes', pro:'Dr. Mariano Lagos', mat:'M.P. 44910'},
-  {id:2, n:'Sillón 2 · Rehabilitación y Endodoncia', pro:'Dra. Lucía Peñalva', mat:'M.P. 51204'},
-  {id:3, n:'Sillón 3 · Ortodoncia y Ortopedia', pro:'Dra. Camila Méndez', mat:'M.P. 48902'},
-  {id:4, n:'Sillón 4 · Odontopediatría', pro:'Dra. Sofía Aramburu', mat:'M.P. 53811'},
-  {id:5, n:'Sillón 5 · Odontología General', pro:'Dr. Tomás Ibarra', mat:'M.P. 55109'}
+const DEFAULT_TURNOS = [
+  {id:'t1', dia:'Miércoles 21 oct', h:'09:00', sillon:2, pid:'p1', prac:'Endodoncia Pza. 26 + Receta Antibiótico', lab:'ok', st:'pend', sala:false, reply:null, confirmed:true, dir:'La Rioja 2173 · Consultorio 2'},
+  {id:'t2', dia:'Miércoles 21 oct', h:'10:00', sillon:4, pid:'p2', prac:'Pulpotomía Pza. 55 + Prueba Placa', lab:'warn', st:'pend', sala:false, reply:null, confirmed:false, dir:'La Rioja 2173 · Consultorio 4'},
+  {id:'t3', dia:'Miércoles 21 oct', h:'11:00', sillon:1, pid:'p3', prac:'Prueba Cromo-Cobalto y Control Implante', lab:'ok', st:'pres', sala:false, reply:'voy', confirmed:true, dir:'La Rioja 2173 · Consultorio 1'},
+  {id:'t4', dia:'Jueves 22 oct', h:'15:00', sillon:3, pid:'p1', prac:'Escaneo p/ Placa Miorrelajante Bruxismo', lab:'ok', st:'pend', sala:false, reply:null, confirmed:false, dir:'La Rioja 2173 · Consultorio 3'}
 ];
 
-const TURNOS = [
-  {id:'t1', h:'09:00', sillon:2, pid:'p1', prac:'Endodoncia Pza. 26 + Cementado Corona 24', lab:'ok', st:'pend', sala:false},
-  {id:'t2', h:'10:00', sillon:4, pid:'p2', prac:'Pulpotomía Pza. 55 + Prueba Placa', lab:'warn', st:'pend', sala:false},
-  {id:'t3', h:'11:00', sillon:1, pid:'p3', prac:'Prueba Cromo-Cobalto y Control', lab:'ok', st:'pres', sala:false},
-  {id:'t4', h:'15:00', sillon:3, pid:'p1', prac:'Escaneo p/ Placa Miorrelajante Bruxismo', lab:'ok', st:'pend', sala:false}
+const NOTAS_SEC = [
+  {id:'ns1', pid:'p1', de:'Dra. Lucía Peñalva (Endodoncia)', txt:'Terminé el conducto de la pieza 26. Darle turno la semana que viene con el Dr. Lagos (Sillón 1) para perno y corona.', done:false},
+  {id:'ns2', pid:'p2', de:'Dra. Sofía Aramburu (Odontopediatría)', txt:'Llamar al laboratorio dental antes de las 13h para confirmar si entregan la placa expansora mañana.', done:false}
 ];
+
+const BOLSA_URG = [
+  {id:'bu1', n:'Carolina Páez', tel:'223 15-601-4429', prac:'Limpieza + Control (Vive a 3 cuadras)', disp:'Puede venir en 20 min si se libera un hueco', notified:false},
+  {id:'bu2', n:'Federico Ledesma', tel:'223 15-489-1102', prac:'Cementado provisorio (Urgencia rápida)', disp:'Disponible toda la tarde', notified:false}
+];
+
+const DEFAULT_TPL_WA = `Hola {paciente}! 👋
+
+Tu turno en {clinica} quedó confirmado ✅
+
+📅 Fecha: {fecha}
+🕒 Hora: {hora} hs
+👩‍⚕️ Profesional: {odontologo}
+📍 Ubicación: {ubicacion}
+
+Confirmar asistencia: {link_confirmar}
+Cambiar o cancelar: {link_cancelar}
+
+⭐ Después de tu visita, dejá tu reseña en Google: {link_reseña}`;
+
+const DB_KEY = 'odonto_prod_v4';
+function loadDB(){
+  try{
+    const raw = localStorage.getItem(DB_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return {
+    sillones: JSON.parse(JSON.stringify(DEFAULT_SILLONES)),
+    users: JSON.parse(JSON.stringify(DEFAULT_USERS)),
+    patients: JSON.parse(JSON.stringify(DEFAULT_PATIENTS)),
+    turnos: JSON.parse(JSON.stringify(DEFAULT_TURNOS)),
+    notasSec: JSON.parse(JSON.stringify(NOTAS_SEC)),
+    bolsaUrg: JSON.parse(JSON.stringify(BOLSA_URG)),
+    coberturas: JSON.parse(JSON.stringify(DEFAULT_COBERTURAS)),
+    waTpl: DEFAULT_TPL_WA,
+    activeUserId: 'u-s2',
+    profileRole: 'pro',
+    simPid: 'p1'
+  };
+}
+let DB = loadDB();
+function saveDB(){
+  try{ localStorage.setItem(DB_KEY, JSON.stringify(DB)); }catch(e){}
+}
+
+let SILLONES = DB.sillones;
+let USERS = DB.users;
+let PATIENTS = DB.patients;
+let TURNOS = DB.turnos;
+let SEC_NOTES = DB.notasSec;
+let BOLSA = DB.bolsaUrg;
+let COBERTURAS = DB.coberturas;
 
 const S = {
   view:'legajo',
-  role:'dir',
-  pid:'p1',
+  pid: DB.simPid || 'p1',
   tab:'odonto',
   tool:'caries',
-  voiceDone:false
+  voiceDone:false,
+  showReprog:false,
+  rxSelIdx:0,
+  covPracId:7,
+  recSubTab:'tpl'
 };
 
 const patById = id => PATIENTS.find(p=>p.id===id) || PATIENTS[0];
+const currentUser = () => USERS.find(u=>u.id===DB.activeUserId) || USERS[0];
+const currentRole = () => DB.profileRole || 'pro';
 
-/* ===== CÁLCULO AUTOMÁTICO DEL PRESUPUESTO DE 20 ÍTEMS DESDE EL ODONTOGRAMA ===== */
+function applyProfileUI(){
+  const r = currentRole();
+  const p = patById(S.pid);
+  const allowed = ROLE_VIEWS[r] || ROLE_VIEWS.dir;
+
+  ['pro','sec','pac','dir'].forEach(k => {
+    const btn = $('#sw-'+k);
+    if(btn) btn.setAttribute('aria-pressed', r===k ? 'true' : 'false');
+  });
+
+  $$('#nav [data-v]').forEach(b => {
+    b.hidden = !allowed.includes(b.dataset.v);
+  });
+  $$('#nav .ngrp').forEach(g => {
+    g.hidden = !$$('[data-v]', g).some(b => !b.hidden);
+  });
+
+  const lbl = $('#nav-leg-lbl');
+  if(lbl) lbl.textContent = r==='sec' ? 'Pacientes (Admisión)' : 'Pacientes y Odontograma';
+
+  $('#top-actions').hidden = (r === 'pac');
+
+  const rb = $('#side-role-box');
+  if(r === 'pro'){
+    const proU = USERS.find(x=>x.role==='pro' && x.id===DB.activeUserId) || USERS.find(x=>x.role==='pro');
+    rb.innerHTML = `<small>Perfil Profesional</small><b>${esc(proU.n)}</b><span>Sillón ${proU.sillon} · ${esc(proU.esp)}</span><button class="btn sm ghost" data-act="change-pro" style="margin-top:4px;height:22px;padding:0;color:#38BDF8;justify-content:flex-start">${ico('swap_horiz')}Cambiar Especialista</button>`;
+  } else if(r === 'sec'){
+    rb.innerHTML = `<small>Perfil Secretaría</small><b>Laura (Recepción)</b><span>Turnos, Órdenes OS, Recordatorios WhatsApp y Sala</span>`;
+  } else if(r === 'pac'){
+    rb.innerHTML = `<small>App del Paciente</small><b>${esc(p.n)}</b><span>${p.os} · Turnos, Recetas y Pasaporte Implante</span>`;
+  } else {
+    rb.innerHTML = `<small>Dirección Médica</small><b>Acceso Integral</b><span>Supervisión de clínica, obras sociales y honorarios</span>`;
+  }
+}
+
+/* ===== MODAL DE GUÍA RÁPIDA DE 6 OBJETIVOS (Inspirado en DentalSoft + diferenciales IA) ===== */
+function openGuideModal(){
+  const host = $('#guide-host');
+  const cards = [
+    {num:'01 · Reducir Ausencias', ic:'notifications_active', c:'#0284C7', t:'Recordatorios Automáticos y Chat WhatsApp', sub:'RECORDATORIOS CON VARIABLES Y RESEÑAS GOOGLE', d:'Configurá plantillas con {paciente}, {hora}, {link_confirmar} y {link_reseña}, o respondé desde el Chat unificado.', go:'recordatorios', role:'sec', btn:'Probar Recordatorios y Chat →'},
+    {num:'02 · Cero Débitos OS', ic:'fact_check', c:'#16A34A', t:'Órdenes y Planilla Oficial de Obra Social', sub:'REGISTRO DE PRESTACIONES + PLACA DENTAL SCAN', d:'Imprimí el formulario oficial con las piezas del odontograma ya volcadas y verificá si falta autorización, radiografía o firma.', go:'ordenes', role:'sec', btn:'Probar Órdenes y Planilla →'},
+    {num:'03 · Cerrar Tratamientos', ic:'calculate', c:'#EA580C', t:'Odontograma Cotizador en Vivo (20 Ítems)', sub:'ODONTOGRAMA SIN SCROLL + COBERTURAS % O $', d:'Pintá cualquier cara del diente y mirá cómo calcula al instante lo que cubre la obra social y el copago del paciente.', go:'legajo', role:'pro', btn:'Probar Odontograma Cotizador →'},
+    {num:'04 · Bioseguridad en Sillón', ic:'mic', c:'#7C3AED', t:'Evolución Manos Libres con IA y Receta Rp/', sub:'VOZ O FOTO DE PLANILLA SIN USAR GUANTES', d:'Dictá al terminar la sesión para impactar caries, coronas y emitir la receta membretada Rp/ con firma digital.', go:'manoslibres', role:'pro', btn:'Probar Manos Libres IA →'},
+    {num:'05 · Experiencia Paciente', ic:'smartphone', c:'#0E7490', t:'Portal del Paciente: Turnos, Recetas e Implante', sub:'AUTOGESTIÓN SIN DESCARGAR APPS', d:'El paciente ve cuándo y dónde tiene turno, reprograma solo, consulta horarios de tomas de medicamentos y su Pasaporte ANMAT.', go:'portal', role:'pac', btn:'Probar App del Paciente →'},
+    {num:'06 · Finanzas Claras', ic:'Handshake', c:'#D97706', t:'Liquidación Neta descontando Laboratorio', sub:'HONORARIOS LIMPIOS Y COBERTURAS POR PLAN', d:'Calculá el porcentaje de cada especialista descontando automáticamente el gasto del mecánico dental (coronas/pernos).', go:'equipo', role:'dir', btn:'Probar Liquidación Neta →'}
+  ];
+  host.innerHTML = `
+    <div class="guide-ov" id="guide-ov">
+      <div class="guide-modal">
+        <div class="row" style="justify-content:space-between;align-items:flex-start">
+          <div>
+            <span class="proto">Recorrido Interactivo por Objetivos</span>
+            <h2 style="font-size:26px;margin-top:6px">¡Bienvenido a <span style="color:var(--primary)">Proyecto Odontología</span>! 👋</h2>
+            <p class="muted" style="font-size:14px;margin-top:4px">¿Qué te gustaría mejorar hoy en la clínica? Elegí cualquier tarjeta para ir directo a probar la función en vivo.</p>
+          </div>
+          <button class="btn sm" data-act="close-guide">${ico('close')}Cerrar</button>
+        </div>
+        <div class="guide-grid">
+          ${cards.map(c=>`
+            <button class="guide-card" data-act="guide-pick" data-go="${c.go}" data-role="${c.role}">
+              <div>
+                <div class="row" style="justify-content:space-between;margin-bottom:10px">
+                  <span style="width:38px;height:38px;border-radius:10px;background:${c.c}18;color:${c.c};display:grid;place-items:center">${ico(c.ic)}</span>
+                  <span class="guide-num">${c.num}</span>
+                </div>
+                <h3 style="font-size:16px">${c.t}</h3>
+                <small style="display:block;font-size:10.5px;font-weight:800;color:var(--primary);margin:4px 0 6px;letter-spacing:.04em">${c.sub}</small>
+                <p class="muted" style="font-size:12.5px;line-height:1.45">${c.d}</p>
+              </div>
+              <span style="font-size:12.5px;font-weight:700;color:var(--primary-deep);margin-top:6px">${c.btn}</span>
+            </button>`).join('')}
+        </div>
+      </div>
+    </div>`;
+  host.hidden = false;
+}
+
+/* ===== BARRA DE SIMULACIÓN MANUAL EN VIVO ===== */
+function renderSimBanner(){
+  const box = $('#sim-banner');
+  const p = patById(S.pid);
+  const r = currentRole();
+  const t = TURNOS.find(x=>x.pid===p.id);
+  const hasOdonto = Object.keys(p.teeth||{}).length > 0 || p.atendido;
+  const steps = [
+    {n:1, l:'1. Secretaría: Sala y Avisos', done:!!(t && t.sala) || p.atendido, role:'sec', go:'secretaria'},
+    {n:2, l:'2. Profesional: Odontograma', done:hasOdonto, role:'pro', go:'legajo'},
+    {n:3, l:'3. Profesional: Receta Rp/', done:(p.recetas||[]).length>0, role:'pro', go:'legajo', tab:'recetas'},
+    {n:4, l:'4. Paciente: Turno y Recetas', done:!!p.presuApproved, role:'pac', go:'portal'},
+    {n:5, l:'5. Paciente: Firmar Planilla', done:!!p.signed, role:'pac', go:'firmas'},
+    {n:6, l:'6. Planilla Oficial Obra Social', done:!!(p.ordenOS && p.ordenOS.checks.firma), role:'sec', go:'ordenes'}
+  ];
+  const firstPending = steps.findIndex(s=>!s.done);
+  box.innerHTML = `
+    <div class="simbar">
+      <div class="row" style="justify-content:space-between">
+        <div class="row">
+          <span class="chip acc">${ico('sync_alt')}Circuito en Vivo</span>
+          <b style="font-size:13px">Paciente seleccionado: ${esc(p.n)} (${p.os})</b>
+          <small class="muted">· Tocá cualquier etapa para saltar de perfil o abrí la Guía Rápida arriba</small>
+        </div>
+        <span class="chip neu">Modo: ${r==='pro'?'Profesional':r==='sec'?'Secretaría':r==='pac'?'Paciente':'Dirección'}</span>
+      </div>
+      <div class="sim-steps">
+        ${steps.map((st,idx)=>`
+          <button class="sim-st ${st.done?'done':idx===firstPending?'curr':''}" data-act="sim-jump" data-role="${st.role}" data-go="${st.go}" data-tab="${st.tab||''}">
+            <span class="num">${st.done?'✓':st.n}</span>
+            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${st.l}</span>
+          </button>`).join('')}
+      </div>
+    </div>`;
+}
+
+/* ===== CÁLCULO AUTOMÁTICO DEL PRESUPUESTO DE 20 ÍTEMS ===== */
 function calcPresupuesto(p){
   const counts = {};
   ITEMS_20.forEach(it => counts[it.id] = p.extraQty[it.id] || 0);
@@ -405,104 +799,596 @@ function calcPresupuesto(p){
     }
     if(data.whole === 'pulpo') counts[11] = (counts[11]||0) + 1;
   });
-  let bruto = 0, cubierto = 0;
+  let bruto = 0, cubierto = 0, costoLab = 0;
   const rows = ITEMS_20.map(it => {
     const q = counts[it.id] || 0;
     const sub = q * it.p;
     const cob = sub * (p.cobPct * it.os);
-    bruto += sub; cubierto += cob;
+    bruto += sub; cubierto += cob; costoLab += q * (it.labCost||0);
     return {...it, q, sub, bolsillo: Math.max(0, sub - cob)};
   });
-  return {rows, bruto, cubierto, bolsillo: Math.max(0, bruto - cubierto)};
+  return {rows, bruto, cubierto, costoLab, bolsillo: Math.max(0, bruto - cubierto)};
 }
 
-/* ===== RENDER DE LAS VISTAS ===== */
+/* ===== VISTAS DEL SISTEMA ===== */
 const R = {};
+
+/* --- NUEVA VISTA: ÓRDENES Y PLANILLA OFICIAL DE OBRA SOCIAL (Inspirada y mejorada de DentalSoft Capturas 7 y 8) --- */
+R.ordenes = function(){
+  const p = patById(S.pid);
+  p.ordenOS = p.ordenOS || {nro:'ORD-000045', estado:'pendiente', mod:'Presentación digital / Papel', checks:{aut:true, pres:true, rx:true, firma:p.signed}};
+  const ord = p.ordenOS;
+  const allOrds = PATIENTS.map(x=>x.ordenOS||{estado:'pendiente'});
+  const nPend = allOrds.filter(o=>o.estado==='pendiente').length;
+  const nAut  = allOrds.filter(o=>o.estado==='autorizada').length;
+  const nPres = allOrds.filter(o=>o.estado==='presentada').length;
+
+  // Extraer las filas reales del odontograma del paciente para volcarlas en la planilla oficial
+  const pracLines = [];
+  Object.entries(p.teeth).forEach(([num, d]) => {
+    const faces = Object.keys(d.faces||{}).filter(k=>d.faces[k]).join('');
+    let cod = '02.01', desc = 'Obturación / Práctica';
+    if(d.whole==='endo') { cod = '03.02'; desc = 'Endodoncia'; }
+    else if(d.whole==='corona') { cod = '04.02'; desc = 'Corona'; }
+    else if(d.whole==='perno') { cod = '04.01'; desc = 'Perno muñón'; }
+    else if(d.whole==='extraccion') { cod = '10.01'; desc = 'Exodoncia'; }
+    else if(d.whole==='pulpo') { cod = '08.01'; desc = 'Pulpotomía'; }
+    else if(faces.length===2) { cod = '02.02'; desc = 'Resina compuesta'; }
+    else if(faces.length>=3) { cod = '02.04'; desc = 'Resina compleja'; }
+    pracLines.push({diente:num, cara:faces||'Completa', cod, desc, fecha:'21/10/2026', pro:d.by||'Dra. Lucía Peñalva'});
+  });
+  while(pracLines.length < 6) pracLines.push({diente:'', cara:'', cod:'', desc:'', fecha:'/  /', pro:''});
+
+  $('#app').innerHTML = `
+    <div class="vhead">
+      <div>
+        <div class="eyebrow">${ico('fact_check')} Seguimiento de Órdenes y Planilla Oficial</div>
+        <h1>Órdenes de Obras Sociales y Registro de Prestaciones</h1>
+        <p>Igual que en DentalSoft, pero conectado en vivo a nuestro Odontograma y a las placas de Dental Scan: todo lo que el profesional marca en el diente se vuelca solo en la planilla oficial lista para imprimir o firmar.</p>
+      </div>
+      <div class="row">
+        <button class="btn wa sm" data-act="wa-paciente" data-pid="${p.id}">${ico('sms')}Recordar Orden al Paciente por WhatsApp</button>
+        <button class="btn pri sm" onclick="window.print()">${ico('print')}Imprimir / Guardar PDF Oficial</button>
+      </div>
+    </div>
+
+    <div class="os-kpi-cards">
+      <div class="os-kpi" style="--c:#0F172A"><b>${PATIENTS.length}</b><small class="muted">Todas las órdenes</small></div>
+      <div class="os-kpi" style="--c:#DC2626"><b style="color:var(--bad)">${nPend}</b><small class="muted">Pendientes de requisitos</small></div>
+      <div class="os-kpi" style="--c:#D97706"><b style="color:var(--warn)">${nAut}</b><small class="muted">Autorizadas para presentar</small></div>
+      <div class="os-kpi" style="--c:#16A34A"><b style="color:var(--ok)">${nPres}</b><small class="muted">Presentadas al cobro</small></div>
+    </div>
+
+    <div class="card" style="padding:12px;margin-bottom:16px">
+      <div class="row" style="justify-content:space-between">
+        <div class="row">
+          <span class="eyebrow">Seleccionar Orden de Paciente:</span>
+          ${PATIENTS.map(x=>{
+            const st = (x.ordenOS||{}).estado || 'pendiente';
+            const chipC = st==='presentada'?'ok':st==='autorizada'?'warn':'bad';
+            return `<button class="btn sm ${x.id===p.id?'pri':''}" data-act="pick-pat-ord" data-pid="${x.id}">
+              ${esc(x.n)} · <span class="chip ${chipC}" style="height:18px;font-size:10px">${st.toUpperCase()}</span>
+            </button>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g-2">
+      <!-- COLUMNA IZQUIERDA: SEGUIMIENTO Y QUÉ FALTA -->
+      <div class="grid" style="align-content:start">
+        <div class="card">
+          <div class="row" style="justify-content:space-between;margin-bottom:10px">
+            <div><span class="eyebrow">${ord.nro}</span><h2 style="margin-top:2px">${esc(p.n)} · ${p.os}</h2></div>
+            <span class="chip ${ord.estado==='presentada'?'ok':ord.estado==='autorizada'?'warn':'bad'}">${ord.estado.toUpperCase()}</span>
+          </div>
+          <div class="frow" style="font-size:13px;margin-bottom:14px">
+            <div><span class="muted">DNI / Afiliado:</span><br><b>${p.dni} · N.º ${p.afil||'04-881920'}</b></div>
+            <div><span class="muted">Modalidad:</span><br><b>${esc(ord.mod)}</b></div>
+          </div>
+
+          <hr style="border:0;border-top:1px solid var(--line);margin:12px 0">
+          <div class="eyebrow" style="margin-bottom:8px">Estado de la Orden</div>
+          <div class="row" style="margin-bottom:16px">
+            ${[['pendiente','● Pendiente','bad'],['autorizada','● Autorizada','warn'],['presentada','● Presentada','ok']].map(([k,l,c])=>`
+              <button class="btn sm ${ord.estado===k?'pri':''}" data-act="ord-set-st" data-st="${k}">${l}</button>
+            `).join('')}
+          </div>
+
+          <div class="eyebrow" style="margin-bottom:8px">¿Qué está listo y qué falta para presentar esta orden?</div>
+          <div class="row">
+            ${[
+              ['aut','Autorización Obra Social'],
+              ['pres','Presentación del paciente'],
+              ['rx','Radiografía Dental Scan adjunta'],
+              ['firma','Firma de conformidad del paciente']
+            ].map(([ck,label])=>`
+              <button class="os-chk-pill ${ord.checks[ck]?'on':''}" data-act="ord-toggle-chk" data-ck="${ck}">
+                ${ico(ord.checks[ck]?'check_box':'check_box_outline_blank')} ${label}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="chead">
+            <div><h3>Archivos y Estudios Adjuntos a la Orden</h3><p>A diferencia de otros sistemas donde hay que subir el archivo a mano, acá la placa de Dental Scan se abrocha sola</p></div>
+          </div>
+          <div class="li">
+            <span class="chip ok">${ico('radiology')}Adjunto Automático</span>
+            <div class="grow">
+              <b>Ortopantomografía Digital · ${p.pano.centro}</b>
+              <small>${p.pano.fecha} · ${esc(p.pano.hallazgo)}</small>
+            </div>
+            <button class="btn sm ghost" data-act="open-pat" data-pid="${p.id}">Ver Placa</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA: VISTA PREVIA EN VIVO DEL FORMULARIO OFICIAL DE OBRA SOCIAL -->
+      <div class="paper-preview">
+        <div class="row" style="justify-content:space-between;margin-bottom:10px">
+          <span class="eyebrow">VISTA PREVIA DE LA ORDEN OFICIAL (AUTOCOMPLETADA)</span>
+          <div class="row">
+            <button class="btn sm" onclick="window.print()">${ico('print')}Imprimir</button>
+            <button class="btn sm wa" data-act="wa-paciente" data-pid="${p.id}">${ico('sms')}WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="os-form-sheet">
+          <div class="os-form-hdr">
+            <div class="row" style="gap:10px">
+              <div style="width:42px;height:42px;border:2px solid #0F172A;border-radius:50%;display:grid;place-items:center;font-weight:900">CO</div>
+              <div>
+                <b style="font-size:14px;display:block">REGISTRO DE PRESTACIONES ODONTOLÓGICAS</b>
+                <small>Círculo Odontológico / Convenio Prepagas · Mar del Plata</small>
+              </div>
+            </div>
+            <div style="border:1.5px solid #0F172A;padding:6px 10px">
+              <div>OBRA SOCIAL: <b>${esc(p.os)}</b></div>
+              <div>MES: <b>10</b> &nbsp;&nbsp; AÑO: <b>2026</b> &nbsp;&nbsp; N.º: <b>${ord.nro}</b></div>
+            </div>
+          </div>
+
+          <div style="line-height:1.9;margin-bottom:10px">
+            PACIENTE: <span class="os-form-line" style="min-width:210px">${esc(p.n)}</span>
+            AFILIADO N.º: <span class="os-form-line">${esc(p.afil||'04-991824-01')}</span>
+            EDAD: <span class="os-form-line" style="min-width:40px">${p.age}</span><br>
+            DOMICILIO: <span class="os-form-line" style="min-width:220px">${esc(p.dom||'Mar del Plata')}</span>
+            DOC. IDENTIDAD: <span class="os-form-line">${p.dni}</span>
+          </div>
+
+          <table class="os-form-table">
+            <thead>
+              <tr>
+                <th style="width:48px">DIENTE N.º</th>
+                <th style="width:58px">CARA</th>
+                <th style="width:62px">CÓDIGO</th>
+                <th>PRESTACIÓN / ESPECIALISTA</th>
+                <th style="width:74px">FECHA</th>
+                <th style="width:110px">CONFORMIDAD PACIENTE</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${pracLines.map(ln=>`
+                <tr>
+                  <td style="text-align:center;font-weight:800">${esc(ln.diente)}</td>
+                  <td style="text-align:center">${esc(ln.cara)}</td>
+                  <td style="text-align:center;font-weight:700">${esc(ln.cod)}</td>
+                  <td>${esc(ln.desc)} ${ln.pro?`<small class="muted">(${esc(ln.pro.split('·')[0])})</small>`:''}</td>
+                  <td style="text-align:center">${ln.fecha}</td>
+                  <td style="text-align:center;font-family:'Caveat',cursive;font-size:16px;color:#1E3A8A">
+                    ${ln.diente && (p.signed || ord.checks.firma) ? esc(p.n.split(' ')[0])+' ✓' : ''}
+                  </td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+
+          <div style="margin-top:12px;border:1px solid #0F172A;padding:8px">
+            <div style="font-weight:800;font-size:10px;text-align:center;margin-bottom:6px">ODONTOGRAMA DE AUDITORÍA DE LA ORDEN</div>
+            <div style="display:grid;grid-template-columns:repeat(16,1fr);gap:2px;text-align:center;font-size:9px">
+              ${[18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28].map(n=>{
+                const has = p.teeth[n];
+                return `<div style="border:1px solid #475569;padding:2px;background:${has?'#DBEAFE':'#fff'};font-weight:${has?'800':'400'}">${n}<br>${has?'●':'□'}</div>`;
+              }).join('')}
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(16,1fr);gap:2px;text-align:center;font-size:9px;margin-top:3px">
+              ${[48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38].map(n=>{
+                const has = p.teeth[n];
+                return `<div style="border:1px solid #475569;padding:2px;background:${has?'#DBEAFE':'#fff'};font-weight:${has?'800':'400'}">${n}<br>${has?'●':'□'}</div>`;
+              }).join('')}
+            </div>
+          </div>
+
+          <div class="row" style="justify-content:space-between;margin-top:18px;font-size:11px">
+            <div>FIRMA DEL AFILIADO: <span class="os-form-line" style="font-family:'Caveat',cursive;font-size:18px">${p.signed||ord.checks.firma ? esc(p.n) : 'Pendiente'}</span></div>
+            <div>SELLO Y FIRMA DEL ODONTÓLOGO: <span class="os-form-line" style="font-family:'Caveat',cursive;font-size:18px">${esc(currentUser().n)}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+};
+
+/* --- NUEVA VISTA: COBERTURAS POR OBRA SOCIAL Y PLAN (% DEL PRECIO O IMPORTE FIJO EN $) --- */
+R.coberturas = function(){
+  const item = ITEMS_20.find(x=>x.id===+S.covPracId) || ITEMS_20[6];
+  $('#app').innerHTML = `
+    <div class="vhead">
+      <div>
+        <div class="eyebrow">${ico('health_and_safety')} Configurador de Aranceles y Convenios</div>
+        <h1>Cobertura por Obra Social y Plan (% o Importe Fijo $)</h1>
+        <p>Para cada plan elegí cómo reconoce la práctica la obra social: <b>como porcentaje del precio de lista</b> o <b>como importe fijo en pesos</b>. El sistema calcula en tiempo real cuánto abona la Obra Social y cuánto paga el paciente.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;background:var(--surface-2)">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <label class="eyebrow" for="cov-prac-sel">Simular Cobertura sobre la Práctica del Nomenclador:</label>
+          <select id="cov-prac-sel" class="inp" style="width:auto;min-width:340px;font-weight:700;margin-top:4px">
+            ${ITEMS_20.map(it=>`<option value="${it.id}" ${it.id===item.id?'selected':''}>Cód. ${it.cod} · ${it.n} — Precio de lista: ${money(it.p)}</option>`).join('')}
+          </select>
+        </div>
+        <div style="text-align:right">
+          <span class="eyebrow">Precio de Lista Particular</span>
+          <h2 class="num" style="font-size:26px;color:var(--primary-deep)">${money(item.p)}</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:0;overflow:hidden">
+      <table>
+        <thead>
+          <tr>
+            <th>Obra Social / Prepaga</th>
+            <th>Plan</th>
+            <th>Modalidad de Cobertura</th>
+            <th>Valor Reconocido</th>
+            <th style="text-align:right">Cubre Obra Social</th>
+            <th style="text-align:right">Paciente Paga (Copago)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${COBERTURAS.map((c,idx)=>{
+            const cubreOS = c.modo==='pct' ? Math.round(item.p * (c.val/100)) : Math.min(item.p, c.val);
+            const pacPaga = Math.max(0, item.p - cubreOS);
+            const pctPac = Math.round((pacPaga / item.p)*100);
+            return `<tr>
+              <td><b>${esc(c.os)}</b></td>
+              <td><span class="chip neu">${esc(c.plan)}</span></td>
+              <td>
+                <select class="inp" style="height:32px;width:165px" data-cov-modo="${idx}">
+                  <option value="pct" ${c.modo==='pct'?'selected':''}>% del precio de lista</option>
+                  <option value="fijo" ${c.modo==='fijo'?'selected':''}>Importe fijo ($)</option>
+                </select>
+              </td>
+              <td>
+                <input type="number" class="inp num" style="height:32px;width:120px;font-weight:700" data-cov-val="${idx}" value="${c.val}">
+              </td>
+              <td class="num" style="text-align:right;color:var(--ok);font-weight:700">${money(cubreOS)}</td>
+              <td class="num" style="text-align:right;font-weight:800;font-size:14px">
+                ${money(pacPaga)} <small class="muted" style="font-weight:500">(${pctPac}%)</small>
+              </td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>`;
+};
+
+/* --- NUEVA VISTA: RECORDATORIOS CON VARIABLES + BANDEJA DE CHAT WHATSAPP --- */
+R.recordatorios = function(){
+  const p = patById(S.pid);
+  const t = TURNOS.find(x=>x.pid===p.id) || TURNOS[0];
+  const sil = SILLONES.find(s=>s.id===t.sillon) || SILLONES[0];
+
+  const previewMsg = (DB.waTpl || DEFAULT_TPL_WA)
+    .replace(/\{paciente\}/g, p.n)
+    .replace(/\{clinica\}/g, 'Clínica Proyecto Odontología')
+    .replace(/\{fecha\}/g, '21/10/2026')
+    .replace(/\{hora\}/g, t.h)
+    .replace(/\{odontologo\}/g, sil.pro)
+    .replace(/\{ubicacion\}/g, 'La Rioja 2173, Mar del Plata')
+    .replace(/\{link_confirmar\}/g, 'https://proyecto-odon.vercel.app/#confirmar')
+    .replace(/\{link_cancelar\}/g, 'https://proyecto-odon.vercel.app/#reprogramar')
+    .replace(/\{link_reseña\}/g, 'https://g.page/r/clinica-mdp/review');
+
+  const vars = ['{paciente}','{clinica}','{fecha}','{hora}','{odontologo}','{ubicacion}','{link_confirmar}','{link_cancelar}','{link_reseña}'];
+
+  $('#app').innerHTML = `
+    <div class="vhead">
+      <div>
+        <div class="eyebrow">${ico('notifications_active')} Automatización por WhatsApp y Reseñas</div>
+        <h1>Recordatorios Automáticos y Chat con Pacientes</h1>
+        <p>Personalizá el mensaje con variables dinámicas (incluyendo el link de reseña en Google Maps) o chateá en vivo con cada paciente desde la central unificada.</p>
+      </div>
+      <div class="row">
+        <button class="btn sm ${S.recSubTab==='tpl'?'pri':''}" data-act="rec-sub" data-k="tpl">${ico('edit_notifications')}1. Plantillas con {Variables}</button>
+        <button class="btn sm ${S.recSubTab==='chat'?'pri':''}" data-act="rec-sub" data-k="chat">${ico('forum')}2. Bandeja de Chat WhatsApp</button>
+      </div>
+    </div>
+
+    ${S.recSubTab === 'tpl' ? `
+      <div class="grid g-2">
+        <div class="card">
+          <div class="chead">
+            <div><h2>Configuración del Recordatorio de Turno</h2><p>Se envía automáticamente por Webhook al agendar un turno y 24 hs antes de la consulta</p></div>
+            <span class="chip ok">WhatsApp + Email Activos</span>
+          </div>
+          <div class="eyebrow" style="margin-bottom:6px">Variables disponibles (Hacé clic en una para insertarla en el mensaje):</div>
+          <div class="row" style="margin-bottom:12px">
+            ${vars.map(v=>`<button class="var-pill" data-act="ins-var" data-v="${v}">${v}</button>`).join('')}
+          </div>
+          <label class="eyebrow" for="wa-tpl-ta">Plantilla del Mensaje</label>
+          <textarea class="inp" id="wa-tpl-ta" style="min-height:210px;font-family:inherit;line-height:1.5">${esc(DB.waTpl)}</textarea>
+          <div class="row" style="justify-content:space-between;margin-top:12px">
+            <small class="muted">Reintento automático hasta 3 veces si el teléfono está sin señal.</small>
+            <button class="btn wa sm" data-act="wa-paciente" data-pid="${p.id}">${ico('send')}Probar envío a ${esc(p.n)}</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="eyebrow" style="margin-bottom:8px">VISTA PREVIA EN TIEMPO REAL (WHATSAPP DE ${esc(p.n.toUpperCase())})</div>
+          <div class="wa-preview-box">
+            <div class="wa-bubble">${esc(previewMsg)}</div>
+          </div>
+        </div>
+      </div>
+    ` : `
+      <div class="chat-layout">
+        <div class="chat-side">
+          <div style="padding:12px;border-bottom:1px solid var(--line);font-weight:700">Conversaciones Activas</div>
+          ${PATIENTS.map(x=>`
+            <button class="prow" style="border-radius:0;padding:12px;border-bottom:1px solid var(--line)" data-act="chat-pick-pat" data-pid="${x.id}" aria-current="${x.id===p.id}">
+              <span class="av">${x.short}</span>
+              <div style="min-width:0;flex:1">
+                <b style="display:block;font-size:13.5px">${esc(x.n)}</b>
+                <small class="muted" style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(((x.chatMsgs||[])[x.chatMsgs.length-1]||{}).txt || 'Iniciar conversación')}</small>
+              </div>
+            </button>`).join('')}
+        </div>
+        <div class="chat-main">
+          <div style="background:var(--surface);padding:12px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
+            <div class="row">
+              <span class="av">${p.short}</span>
+              <div><b>${esc(p.n)}</b><small class="muted" style="display:block">+54 9 ${p.tel} · ${p.os}</small></div>
+            </div>
+            <button class="btn sm" data-act="open-pat" data-pid="${p.id}">Abrir Ficha Clínica</button>
+          </div>
+          <div class="chat-24h">
+            <span>${ico('schedule')} Ventana oficial Meta WhatsApp API activa · Podés responder libremente o insertar plantilla aprobada.</span>
+            <button class="btn sm wa" data-act="chat-send-tpl">Insertar Plantilla de Turno</button>
+          </div>
+          <div class="chat-msgs" id="chat-msgs">
+            ${(p.chatMsgs||[]).map(m=>`
+              <div class="wa-bubble ${m.from==='cli'?'out':''}">
+                ${esc(m.txt)}
+                <div style="text-align:right;font-size:10.5px;color:#64748B;margin-top:4px">${m.h} ${m.from==='cli'?'✓✓':''}</div>
+              </div>`).join('')}
+          </div>
+          <div style="background:var(--surface);padding:10px 14px;display:flex;gap:8px">
+            <input class="inp" id="chat-inp" placeholder="Escribí un mensaje de WhatsApp para ${esc(p.n)}...">
+            <button class="btn wa" data-act="chat-send">${ico('send')}Enviar</button>
+          </div>
+        </div>
+      </div>
+    `}`;
+};
+
+/* --- CONSOLA DE SECRETARÍA --- */
+R.secretaria = function(){
+  const pendNotes = SEC_NOTES.filter(n=>!n.done);
+  $('#app').innerHTML = `
+    <div class="vhead">
+      <div>
+        <div class="eyebrow">${ico('support_agent')} Perfil Secretaría · Gestión Integral Operativa</div>
+        <h1>Consola de Recepción, Turnos y Avisos</h1>
+        <p>Secretaría gestiona turnos, anuncia pacientes al sillón, envía avisos por WhatsApp, controla órdenes de obras sociales y cubre huecos por cancelación sin ver el odontograma clínico.</p>
+      </div>
+      <div class="row">
+        <button class="btn pri" data-act="new-pat">${ico('person_add')}+ Dar de Alta Paciente y Turno</button>
+        <button class="btn" data-go="ordenes">${ico('fact_check')}Ver Planillas Obras Sociales</button>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="card"><div class="eyebrow">Turnos del Día</div><h2 class="num" style="font-size:26px;margin-top:4px">${TURNOS.length} turnos</h2><small class="muted">${TURNOS.filter(t=>t.confirmed).length} confirmados por WhatsApp</small></div>
+      <div class="card"><div class="eyebrow">En Sala de Espera</div><h2 class="num" style="font-size:26px;margin-top:4px;color:var(--mustard)">${TURNOS.filter(t=>t.sala).length}</h2><small class="muted">Con aviso en vivo al sillón</small></div>
+      <div class="card"><div class="eyebrow">Pases de Profesionales</div><h2 class="num" style="font-size:26px;margin-top:4px;color:var(--accent)">${pendNotes.length}</h2><small class="muted">Derivaciones entre especialistas</small></div>
+      <div class="card"><div class="eyebrow">Bolsa Cubre-Huecos</div><h2 class="num" style="font-size:26px;margin-top:4px;color:var(--ok)">${BOLSA.length} listos</h2><small class="muted">Para cubrir cancelaciones sobre la hora</small></div>
+    </div>
+
+    <div class="grid g-2e" style="margin-top:16px">
+      <div class="card">
+        <div class="chead">
+          <div><h2>1. Sala de Espera y Avisos al Profesional</h2><p>Tocá «Avisar que Llegó» para notificar al sillón y mirá la respuesta del odontólogo en vivo</p></div>
+        </div>
+        ${TURNOS.map(t=>{
+          const p = patById(t.pid), s = SILLONES.find(x=>x.id===t.sillon) || SILLONES[0];
+          return `<div class="li" style="align-items:flex-start">
+            <span class="chip neu num">${t.h}</span>
+            <div class="grow">
+              <b>${esc(p.n)} <span class="muted" style="font-weight:500">(${p.os})</span></b>
+              <small>${esc(s.n)} · <b>${esc(s.pro)}</b></small>
+              <small style="color:var(--ink);margin-top:2px">Motivo: ${esc(t.prac)}</small>
+              ${t.lab==='warn'?`<span class="chip warn" style="margin-top:4px">${ico('precision_manufacturing')}Atención: Trabajo aún en el protésico</span>`:''}
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end">
+              ${!t.sala
+                ? `<button class="btn sm pri" data-act="llego" data-tid="${t.id}">${ico('notifications_active')}Avisar al Profesional («Llegó»)</button>`
+                : t.reply==='voy'
+                  ? `<span class="chip ok">${ico('directions_walk')}${s.pro.split(' ')[1]} respondió: «Ya lo hago pasar»</span>`
+                  : t.reply==='5m'
+                    ? `<span class="chip warn">${ico('schedule')}${s.pro.split(' ')[1]} respondió: «Termino sutura en 5 min»</span>`
+                    : `<span class="chip acc">${ico('volume_up')}Sonando en Sillón ${s.id}...</span>`}
+              <button class="btn sm ghost" data-act="reprog-sec" data-tid="${t.id}">${ico('edit_calendar')}Cambiar horario</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <div class="card">
+        <div class="chead">
+          <div><h2>2. Avisos Automáticos y WhatsApp al Paciente</h2><p>Recordatorios de turno, alerta de profilaxis antibiótica pre-consulta y links de firma</p></div>
+        </div>
+        ${PATIENTS.map(p=>{
+          const t = TURNOS.find(x=>x.pid===p.id);
+          const hasRedAlert = p.alerts.some(a=>a[0]==='bad');
+          return `<div class="li" style="align-items:flex-start">
+            <span class="av">${p.short}</span>
+            <div class="grow">
+              <b>${esc(p.n)} · <span class="num">${p.tel}</span></b>
+              <small>${t ? `Próximo turno: ${t.dia} a las ${t.h} hs (${t.confirmed?'Confirmado':'Sin confirmar'})` : 'Sin turno agendado'}</small>
+              ${hasRedAlert ? `<span class="chip bad" style="margin-top:4px">${ico('medication')}Recordar profilaxis / medicación previa</span>` : ''}
+            </div>
+            <div class="row" style="justify-content:flex-end">
+              <button class="btn sm ${p.waReminded?'done':'wa'}" data-act="wa-paciente" data-pid="${p.id}">
+                ${p.waReminded ? ico('check')+'Recordatorio enviado' : ico('sms')+'WhatsApp Turno'}
+              </button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <div class="grid g-2e" style="margin-top:16px">
+      <div class="card">
+        <div class="chead">
+          <div><h2>3. Derivaciones Internas pedidas por los Odontólogos</h2><p>Pases de un especialista a otro para coordinar en recepción</p></div>
+          <span class="chip acc">${pendNotes.length} pendientes</span>
+        </div>
+        ${SEC_NOTES.map(n=>{ const p = patById(n.pid); return `
+          <div class="li">
+            <span class="chip ${n.done?'ok':'warn'}">${n.done?'Resuelto':'Pendiente'}</span>
+            <div class="grow">
+              <b>${esc(p.n)} · Pedido por ${esc(n.de)}</b>
+              <small style="color:var(--ink)">“${esc(n.txt)}”</small>
+            </div>
+            ${!n.done ? `<button class="btn sm pri" data-act="sec-note-done" data-id="${n.id}">${ico('event_available')}Dar Turno</button>` : ''}
+          </div>`;
+        }).join('')}
+      </div>
+
+      <div class="card">
+        <div class="chead">
+          <div><h2>4. Bolsa «Cubre-Huecos» (Cancelaciones de último momento)</h2><p>Pacientes cercanos que pidieron adelantar turno si se libera un sillón</p></div>
+        </div>
+        ${BOLSA.map(b=>`
+          <div class="li">
+            <span class="chip ok">Rápido</span>
+            <div class="grow">
+              <b>${esc(b.n)} · <span class="num">${b.tel}</span></b>
+              <small>${esc(b.prac)} · ${esc(b.disp)}</small>
+            </div>
+            <button class="btn sm ${b.notified?'done':'pri'}" data-act="bolsa-call" data-id="${b.id}">
+              ${b.notified ? ico('check')+'Convocado' : ico('bolt')+'Ofrecer hueco libre'}
+            </button>
+          </div>`).join('')}
+      </div>
+    </div>`;
+};
 
 R.tablero = function(){
   const pPend = PATIENTS.filter(p=>!p.presuApproved);
   $('#app').innerHTML = `
     <div class="vhead">
-      <div><div class="eyebrow">${ico('monitoring')} Dirección Clínica</div><h1>Tablero Odontológico</h1><p>Resumen en vivo de sillones, presupuestos entregados, laboratorio protésico y órdenes de Dental Scan.</p></div>
-      <div class="row"><button class="btn pri" data-go="legajo">${ico('clinical_notes')}Abrir Odontograma Cotizador</button></div>
+      <div><div class="eyebrow">${ico('monitoring')} Dirección Clínica</div><h1>Dashboard Integral de la Clínica</h1><p>Visión ejecutiva de sillones, presupuestos vigentes, órdenes de obras sociales y trazabilidad de laboratorio.</p></div>
+      <div class="row">
+        <button class="btn acc" data-act="open-guide">${ico('explore')}Abrir Guía Rápida (6 Objetivos)</button>
+        <button class="btn pri" data-act="new-pat">${ico('person_add')}+ Nuevo Paciente</button>
+      </div>
     </div>
     <div class="kpis">
-      <div class="card"><div class="eyebrow">Sillones Activos</div><h2 class="num" style="font-size:28px;margin-top:6px">5 / 5</h2><small class="muted">86% ocupación semanal</small></div>
-      <div class="card"><div class="eyebrow">Presupuestos por Cerrar</div><h2 class="num" style="font-size:28px;margin-top:6px;color:var(--accent)">${pPend.length}</h2><small class="muted">Seguimiento comercial por WhatsApp</small></div>
-      <div class="card"><div class="eyebrow">Trabajos de Laboratorio</div><h2 class="num" style="font-size:28px;margin-top:6px">1 alerta</h2><small class="muted">1 placa infantil en el protésico</small></div>
-      <div class="card"><div class="eyebrow">Auditoría Obras Sociales</div><h2 class="num" style="font-size:28px;margin-top:6px;color:var(--ok)">94%</h2><small class="muted">Con placa Dental Scan y firma</small></div>
+      <div class="card"><div class="eyebrow">Sillones y Especialistas</div><h2 class="num" style="font-size:28px;margin-top:6px">${SILLONES.length} sillones</h2><small class="muted">${USERS.filter(u=>u.role==='pro').length} odontólogos activos</small></div>
+      <div class="card"><div class="eyebrow">Órdenes Obras Sociales</div><h2 class="num" style="font-size:28px;margin-top:6px;color:var(--ok)">${PATIENTS.length} órdenes</h2><small class="muted">Con planilla oficial autocompletada</small></div>
+      <div class="card"><div class="eyebrow">Presupuestos Vigentes</div><h2 class="num" style="font-size:28px;margin-top:6px;color:var(--accent)">${pPend.length}</h2><small class="muted">Con cláusula de validez 15 días</small></div>
+      <div class="card"><div class="eyebrow">Insumos Críticos</div><h2 class="num" style="font-size:28px;margin-top:6px;color:var(--warn)">1 alerta</h2><small class="muted">Reponer Anestesia Totalcaína y Resina A2</small></div>
     </div>
     <div class="grid g-2e" style="margin-top:16px">
       <div class="card">
-        <div class="chead"><div><h2>Presupuestos pendientes de confirmación</h2><p>Evita que el paciente se enfríe después del diagnóstico</p></div></div>
+        <div class="chead"><div><h2>Presupuestos y Planes de Tratamiento</h2><p>Estado de aprobación y costo de laboratorio asociado</p></div></div>
         ${PATIENTS.map(p=>{ const pr = calcPresupuesto(p); return `
           <div class="li">
             <span class="av">${p.short}</span>
-            <div class="grow"><b>${p.n}</b><small>${p.os} · A pagar de bolsillo: <b class="num" style="display:inline">${money(pr.bolsillo)}</b></small></div>
-            <span class="chip ${p.presuApproved?'ok':'warn'}">${p.presuApproved?'Aprobado':'Pendiente'}</span>
+            <div class="grow"><b>${esc(p.n)}</b><small>${p.os} · Copago: <b class="num" style="display:inline">${money(pr.bolsillo)}</b> · Costo Lab: <b class="num" style="display:inline">${money(pr.costoLab)}</b></small></div>
+            <span class="chip ${p.presuApproved?'ok':'warn'}">${p.presuApproved?'Aprobado':'Vence en 12 días'}</span>
             <button class="btn sm" data-act="open-pat" data-pid="${p.id}">Ver Ficha</button>
           </div>`;
         }).join('')}
       </div>
       <div class="card">
-        <div class="chead"><div><h2>Trazabilidad de Laboratorio Protésico</h2><p>Semáforo antes de sentar al paciente en el sillón</p></div></div>
+        <div class="chead"><div><h2>Trazabilidad de Laboratorio Protésico</h2><p>Control de entregas antes del turno en sillón</p></div></div>
         ${PATIENTS.map(p=>`
           <div class="li">
             <span class="chip ${p.lab.st==='ok'?'ok':'warn'}">${p.lab.st==='ok'?'En Clínica':'En Protésico'}</span>
-            <div class="grow"><b>${p.n}</b><small>${p.lab.item}</small></div>
+            <div class="grow"><b>${esc(p.n)}</b><small>${esc(p.lab.item)}</small></div>
           </div>`).join('')}
       </div>
     </div>`;
 };
 
 R.sillones = function(){
-  const hours = ['09:00','10:00','11:00','15:00'];
+  const u = currentUser();
+  const r = currentRole();
   $('#app').innerHTML = `
     <div class="vhead">
-      <div><div class="eyebrow">${ico('chair')} Agenda de Sillones y Sala de Espera</div><h1>Sillones Odontológicos</h1><p>Tocá «Llegó» cuando el paciente se anuncia en recepción para avisarle al odontólogo en pantalla sin golpear la puerta del box.</p></div>
+      <div>
+        <div class="eyebrow">${ico('chair')} Grilla de Sillones y Box Odontológico</div>
+        <h1>Agenda por Sillón y Especialidad</h1>
+        <p>${r==='pro' ? `Estás viendo la agenda como <b>${esc(u.n)} (${esc(u.esp)})</b>. Tocá un paciente para abrir su Odontograma, cargar un implante o emitirle una receta Rp/.` : 'Tocá cualquier hueco libre para asignar un turno o anunciá la llegada del paciente a la sala.'}</p>
+      </div>
+      <div class="row">
+        ${r==='pro' ? `<button class="btn sm" data-act="change-pro">${ico('swap_horiz')}Cambiar de Odontólogo Especialista</button>` : ''}
+        <button class="btn pri sm" data-act="new-pat">${ico('person_add')}+ Nuevo Paciente en Sillón</button>
+      </div>
     </div>
     <div class="grid g-2">
       <div style="overflow-x:auto">
-        <div class="cal">
+        <div class="cal" style="grid-template-columns:60px repeat(${SILLONES.length},minmax(135px,1fr))">
           <div class="hd">Hora</div>
-          ${SILLONES.map(s=>`<div class="hd">${s.n}<br><small class="muted">${s.pro}</small></div>`).join('')}
-          ${hours.map(h=>`<div class="hr num">${h}</div>` + SILLONES.map(s=>{
+          ${SILLONES.map(s=>`<div class="hd" style="${u.sillon===s.id?'background:var(--primary-soft);color:var(--primary-deep)':''}">${esc(s.n)}<br><small class="muted">${esc(s.pro)}</small></div>`).join('')}
+          ${HOURS.map(h=>`<div class="hr num">${h}</div>` + SILLONES.map(s=>{
             const t = TURNOS.find(x=>x.h===h && x.sillon===s.id);
-            if(!t) return `<div class="sl"><span class="muted" style="font-size:11px">+ Sobreturno urgencia</span></div>`;
+            if(!t) return `<div class="sl"><button class="free-btn" data-act="free-slot" data-sil="${s.id}" data-h="${h}">${ico('add')}Dar turno</button></div>`;
             const p = patById(t.pid);
-            return `<div class="sl"><button class="tn" data-act="open-pat" data-pid="${p.id}">
-              <b>${p.n}</b>
-              <span>${t.prac}</span>
-              <span class="chip ${t.lab==='ok'?'ok':'warn'}" style="height:18px;font-size:10px;margin-top:3px">${t.lab==='ok'?'Lab OK':'Lab Pendiente'}</span>
+            return `<div class="sl"><button class="tn ${t.isNew?'new':''}" data-act="open-pat" data-pid="${p.id}">
+              <b>${esc(p.n)}</b>
+              <span>${esc(t.prac)}</span>
+              <span class="chip ${t.sala?'warn':t.lab==='ok'?'ok':'warn'}" style="height:18px;font-size:10px;margin-top:3px">${t.sala?'En Sala · Pasá al Sillón':t.lab==='ok'?'Lab OK':'Lab Pendiente'}</span>
             </button></div>`;
           }).join('')).join('')}
         </div>
       </div>
       <div class="card">
-        <div class="chead"><div><h2>Sala de Espera en Vivo</h2><p>Avisá al sillón con 1 toque</p></div></div>
-        ${TURNOS.map(t=>{ const p = patById(t.pid), s = SILLONES.find(x=>x.id===t.sillon); return `
+        <div class="chead"><div><h2>Pacientes del Día y Comunicación con Recepción</h2><p>Conexión en vivo entre Secretaría y el Sillón</p></div></div>
+        ${TURNOS.map(t=>{ const p = patById(t.pid), s = SILLONES.find(x=>x.id===t.sillon) || SILLONES[0]; return `
           <div class="li">
             <span class="chip neu num">${t.h}</span>
-            <div class="grow"><b>${p.n}</b><small>${s.n} · ${t.prac}</small></div>
-            ${t.sala ? `<span class="chip warn">${ico('notifications_active')}En Sala · Avisado</span>` : `<button class="btn sm pri" data-act="llego" data-tid="${t.id}">${ico('chair')}Llegó</button>`}
+            <div class="grow">
+              <b>${esc(p.n)}</b>
+              <small>${esc(s.pro)} · ${esc(t.prac)}</small>
+            </div>
+            ${t.sala
+              ? `<button class="btn sm acc" data-act="open-pat" data-pid="${p.id}">${ico('clinical_notes')}Atender en Sillón</button>`
+              : `<button class="btn sm pri" data-act="llego" data-tid="${t.id}">${ico('chair')}Avisar «Llegó»</button>`}
           </div>`;
         }).join('')}
       </div>
     </div>`;
 };
 
-/* ===== VISTA PRINCIPAL: LEGAJO + PLANILLA 1 (ODONTOGRAMA ELÁSTICO) + PLANILLA 2 (ESTOMATOLÓGICO/IHOS) ===== */
+/* ===== FICHA DEL PACIENTE ===== */
 function toothSVG(num, data){
-  const f = (data && data.faces) || {}, w = data && data.whole;
+  const f = (data && data.faces) || {}, w = data && data.whole, by = data && data.by;
   const fc = side => f[side] ? `f-${f[side]}` : '';
-  return `<div class="od-tooth" data-tooth="${num}">
+  return `<div class="od-tooth" data-tooth="${num}" title="${by ? 'Registrado por: '+by : 'Pieza '+num}">
     <b class="num">${num}</b>
     <svg class="od-svg" viewBox="0 0 40 40">
-      <polygon points="2,2 38,2 28,12 12,12" class="${fc('V')}" data-face="V"><title>Pieza ${num} · Cara Vestibular/Superior</title></polygon>
-      <polygon points="2,38 38,38 28,28 12,28" class="${fc('P')}" data-face="P"><title>Pieza ${num} · Cara Palatina/Lingual</title></polygon>
-      <polygon points="2,2 12,12 12,28 2,38" class="${fc('M')}" data-face="M"><title>Pieza ${num} · Cara Mesial/Izquierda</title></polygon>
-      <polygon points="38,2 28,12 28,28 38,38" class="${fc('D')}" data-face="D"><title>Pieza ${num} · Cara Distal/Derecha</title></polygon>
-      <rect x="12" y="12" width="16" height="16" class="${fc('O')}" data-face="O"><title>Pieza ${num} · Cara Oclusal/Central</title></rect>
+      <polygon points="2,2 38,2 28,12 12,12" class="${fc('V')}" data-face="V"></polygon>
+      <polygon points="2,38 38,38 28,28 12,28" class="${fc('P')}" data-face="P"></polygon>
+      <polygon points="2,2 12,12 12,28 2,38" class="${fc('M')}" data-face="M"></polygon>
+      <polygon points="38,2 28,12 28,28 38,38" class="${fc('D')}" data-face="D"></polygon>
+      <rect x="12" y="12" width="16" height="16" class="${fc('O')}" data-face="O"></rect>
       ${w==='extraccion'?`<line x1="3" y1="3" x2="37" y2="37" stroke="#DC2626" stroke-width="4"/><line x1="37" y1="3" x2="3" y2="37" stroke="#DC2626" stroke-width="4"/>`:''}
       ${w==='corona'?`<circle cx="20" cy="20" r="16" fill="none" stroke="#D97706" stroke-width="3.2"/>`:''}
       ${w==='endo'||w==='pulpo'?`<line x1="20" y1="3" x2="20" y2="37" stroke="#7C3AED" stroke-width="3.5"/>`:''}
@@ -513,6 +1399,7 @@ function toothSVG(num, data){
 }
 
 function renderTabOdonto(p){
+  const u = currentUser();
   const pr = calcPresupuesto(p);
   const tools = [
     ['caries','Caries / Resina (Ítems 6-8)','#EF4444'],
@@ -530,11 +1417,16 @@ function renderTabOdonto(p){
   const q4 = p.dent==='adult' ? [48,47,46,45,44,43,42,41] : [85,84,83,82,81];
   const q3 = p.dent==='adult' ? [31,32,33,34,35,36,37,38] : [71,72,73,74,75];
 
+  const toothLog = Object.entries(p.teeth).filter(([,d])=>d.by);
+
   return `
     <div class="od-split">
       <div>
         <div class="row" style="justify-content:space-between;margin-bottom:8px">
-          <div><h3>Odontograma Completo sin Scroll (FDI)</h3><small class="muted">Las 32 piezas a la vista. Tocá cualquier cara y mirá cómo cotiza a la derecha.</small></div>
+          <div>
+            <h3>Odontograma Multi-Especialista sin Scroll (FDI)</h3>
+            <small class="muted">Operando como: <b>${esc(u.n)} (${esc(u.esp)})</b> · Impacta directo en el Presupuesto y en la Planilla de Obra Social.</small>
+          </div>
           <div class="row">
             <button class="btn sm ${p.dent==='adult'?'pri':''}" data-act="dent" data-d="adult">Adulto (11-48)</button>
             <button class="btn sm ${p.dent==='child'?'pri':''}" data-act="dent" data-d="child">Niños (51-85)</button>
@@ -558,11 +1450,24 @@ function renderTabOdonto(p){
           </div>
           <div class="eyebrow" style="text-align:center;margin-top:6px">Maxilar Inferior (Derecha · Izquierda)</div>
         </div>
+
+        <div class="card" style="margin-top:12px;padding:12px;background:var(--surface-2)">
+          <div class="row" style="justify-content:space-between">
+            <b>Trazabilidad de Especialistas sobre este Paciente</b>
+            <div class="row">
+              <button class="btn sm" data-go="ordenes">${ico('fact_check')}Ver en Planilla Oficial OS</button>
+              <button class="btn sm" data-act="open-derivar">${ico('alt_route')}Derivar a otro Sillón</button>
+            </div>
+          </div>
+          <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+            ${toothLog.map(([num,d])=>`<span class="chip neu">Pza. <b>${num}</b>: ${esc(d.by)}</span>`).join('') || '<small class="muted">Tocá un diente arriba para registrar tu intervención con tu especialidad.</small>'}
+          </div>
+        </div>
       </div>
 
       <div class="presu-box">
         <div style="padding:11px 13px;background:var(--surface-2);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
-          <div><b>Plan de Tratamiento y Presupuesto (20 Ítems)</b><small class="muted" style="display:block">Sincronizado con el Odontograma · ${p.os}</small></div>
+          <div><b>Plan de Tratamiento y Presupuesto (20 Ítems)</b><small class="muted" style="display:block">Validez automática: 15 días · ${p.os}</small></div>
           <span class="chip ok">Cubre ${Math.round(p.cobPct*100)}%</span>
         </div>
         <div class="presu-list">
@@ -581,10 +1486,143 @@ function renderTabOdonto(p){
         <div style="padding:12px 14px;background:var(--surface-2);border-top:1px solid var(--line)">
           <div class="row" style="justify-content:space-between;font-size:13px"><span>Subtotal Tratamiento:</span><b class="num">${money(pr.bruto)}</b></div>
           <div class="row" style="justify-content:space-between;font-size:13px;color:var(--ok)"><span>Cubre ${p.os}:</span><b class="num">− ${money(pr.cubierto)}</b></div>
+          <div class="row" style="justify-content:space-between;font-size:12.5px;color:var(--muted)"><span>Costo estimado de Laboratorio Protésico:</span><b class="num">${money(pr.costoLab)}</b></div>
           <div class="row" style="justify-content:space-between;font-size:16px;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line-2)"><b>TOTAL PACIENTE (Copago):</b><b class="num" style="color:var(--primary-deep)">${money(pr.bolsillo)}</b></div>
           <div class="row" style="margin-top:10px">
-            <button class="btn pri" style="flex:1" data-act="send-presu">${ico('send')}Enviar Presupuesto al Celular</button>
+            <button class="btn pri" style="flex:1" data-act="send-presu">${ico('smartphone')}Enviar al Portal del Paciente</button>
           </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* --- PESTAÑA RECETAS CON VISTA PREVIA DE HOJA MEMBRETADA Rp/ (Como DentalSoft Capturas 6 y 7) --- */
+function renderTabRecetas(p){
+  const u = currentUser();
+  const list = p.recetas || [];
+  const rx = list[S.rxSelIdx] || list[0];
+  const isAntibioticAlert = p.alerts.some(a=>/Penicilina/i.test(a[1]));
+
+  return `
+    <div class="grid g-2">
+      <div>
+        <div class="chead">
+          <div><h3>Recetario Digital y Vademécum Rápido</h3><p>Emití en 1 toque o creá una receta personalizada. A la derecha tenés la vista previa oficial Rp/ lista para PDF o WhatsApp.</p></div>
+          <button class="btn sm pri" data-act="open-receta">${ico('add')}+ Nueva Receta</button>
+        </div>
+        ${isAntibioticAlert ? `<div style="padding:10px 12px;border-radius:var(--r2);background:var(--bad-soft);color:var(--bad);font-weight:700;font-size:12.5px;margin-bottom:12px">${ico('warning')} ALERTA DE SEGURIDAD FARMACOLÓGICA: Paciente alérgico a Penicilina. Se bloquea Amoxicilina y se sugiere Clindamicina.</div>` : ''}
+
+        <div class="eyebrow" style="margin-bottom:6px">Recetas Emitidas (${list.length}) — Tocá una para ver su hoja Rp/:</div>
+        <div class="grid" style="gap:8px;margin-bottom:16px">
+          ${list.map((r,idx)=>`
+            <div class="card" style="padding:11px 14px;cursor:pointer;border-color:${idx===S.rxSelIdx?'var(--primary)':'var(--line)'};background:${idx===S.rxSelIdx?'var(--primary-soft)':'var(--surface)'}" data-act="pick-rx" data-idx="${idx}">
+              <div class="row" style="justify-content:space-between">
+                <b>${esc(r.droga)}</b>
+                <span class="chip ok" style="height:20px;font-size:10.5px">✓ Emitida · ${esc(r.id)}</span>
+              </div>
+              <small class="muted" style="display:block;margin-top:2px">${esc(r.dosis)} · ${esc(r.pro)}</small>
+            </div>`).join('') || '<div class="card muted">Todavía no hay recetas emitidas.</div>'}
+        </div>
+
+        <div class="eyebrow" style="margin-bottom:6px">Emitir en 1 toque desde combos frecuentes (${esc(u.n)}):</div>
+        <div class="grid" style="gap:8px">
+          ${RECETAS_COMBOS.map(c=>`
+            <div class="card" style="padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:10px">
+              <div><b>${esc(c.droga)}</b><small class="muted" style="display:block">${esc(c.dosis)}</small></div>
+              <button class="btn sm pri" data-act="quick-rx" data-rxid="${c.id}">${ico('prescriptions')}Emitir Rp/</button>
+            </div>`).join('')}
+        </div>
+      </div>
+
+      <!-- VISTA PREVIA DE LA HOJA MEMBRETADA Rp/ -->
+      <div class="paper-preview">
+        <div class="row" style="justify-content:space-between;margin-bottom:12px">
+          <span class="eyebrow">VISTA PREVIA DE LA RECETA OFICIAL</span>
+          <div class="row">
+            <button class="btn sm" onclick="window.print()">${ico('print')}Imprimir / PDF</button>
+            <button class="btn sm wa" data-act="wa-paciente" data-pid="${p.id}">${ico('sms')}Enviar por WhatsApp</button>
+          </div>
+        </div>
+
+        ${rx ? `
+          <div class="rx-sheet">
+            <div class="rx-sheet-head">
+              <div class="row" style="gap:12px;align-items:flex-start">
+                <div style="width:44px;height:44px;border-radius:50%;background:var(--primary-soft);color:var(--primary-deep);display:grid;place-items:center;font-weight:800">🦷</div>
+                <div>
+                  <b style="font-size:16px;display:block">Clínica Proyecto Odontología</b>
+                  <b style="font-size:13.5px;color:var(--primary-deep)">${esc(rx.pro)}</b>
+                  <div class="muted" style="font-size:11.5px;font-style:italic">${esc(rx.esp || u.esp)}</div>
+                  <div class="muted" style="font-size:11.5px">Matrícula: ${esc(rx.mat || u.mat)}</div>
+                  <div class="muted" style="font-size:11px;margin-top:2px">La Rioja 2173 · Mar del Plata · Tel: (0223) 491-0022</div>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <b class="num" style="font-size:13.5px">${esc(rx.fecha)}</b>
+                <div class="muted num" style="font-size:11.5px">${esc(rx.id)}</div>
+              </div>
+            </div>
+
+            <div style="font-size:12.5px;padding-bottom:12px;border-bottom:1px solid #E2E8F0">
+              <b>Paciente:</b> ${esc(p.n)} &nbsp;&nbsp;&nbsp; <b>DNI:</b> ${p.dni} &nbsp;&nbsp;&nbsp; <b>Obra Social:</b> ${esc(p.os)}<br>
+              <div style="margin-top:4px"><b>Tratamiento asociado:</b> ${esc(rx.trat || 'Atención clínica odontológica')}</div>
+            </div>
+
+            <div class="rx-rp">Rp/</div>
+
+            <div style="padding:8px 0 24px">
+              <b style="font-size:16px;display:block">${esc(rx.droga)}</b>
+              <div class="muted" style="font-size:12.5px;margin-top:2px">${esc(rx.comp || 'Presentación estándar farmacia')}</div>
+              <div style="margin-top:12px;padding:10px 12px;background:#F8FAFC;border-left:3px solid var(--primary);font-weight:600">
+                Posología e indicaciones: ${esc(rx.dosis)}.<br>
+                <span class="muted" style="font-weight:500">${esc(rx.ind)}</span>
+              </div>
+            </div>
+
+            <div class="rx-sig-line">
+              <div class="rx-sig-box">
+                <div class="rx-sig-hand">${esc((rx.pro||u.n).replace(/^Dr\.?a?\.?\s*/i,''))}</div>
+                <small class="muted" style="font-size:10.5px">${esc(rx.pro)} · ${esc(rx.mat||u.mat)}</small>
+              </div>
+            </div>
+          </div>
+        ` : '<div class="card muted">Seleccioná o emití una receta para visualizar el documento.</div>'}
+      </div>
+    </div>`;
+}
+
+function renderTabImplantes(p){
+  return `
+    <div class="grid g-2">
+      <div>
+        <div class="chead">
+          <div><h3>Pasaporte de Implantes y Biomateriales (Trazabilidad ANMAT)</h3><p>Guardá marca, diámetro, largo y lote del sticker del implante. El paciente recibe su Pasaporte de Implante en el celular por si en años futuros requiere un componente protésico.</p></div>
+          <button class="btn sm pri" data-act="open-implante">${ico('qr_code_scanner')}+ Cargar Sticker / Lote de Implante</button>
+        </div>
+        <div class="grid" style="gap:10px">
+          ${(p.implantes||[]).map(im=>`
+            <div class="imp-pass">
+              <div class="row" style="justify-content:space-between">
+                <span class="chip ok">Trazabilidad Oficial ANMAT</span>
+                <span class="num" style="font-size:12px;color:#94A3B8">Fecha: ${im.fecha}</span>
+              </div>
+              <h3 style="margin-top:8px;color:#38BDF8">Pieza ${esc(im.pieza)} · ${esc(im.marca)}</h3>
+              <p style="font-size:13.5px;margin-top:4px">Medida: <b>${esc(im.medida)}</b> · Torque primario: <b>${esc(im.torque)}</b></p>
+              <p style="font-size:12.5px;color:#CBD5E1;margin-top:2px">N.º de Lote / Serie: <b class="num">${esc(im.lote)}</b> · Cirujano: ${esc(im.pro)}</p>
+            </div>`).join('') || '<div class="card muted">No hay implantes registrados en este paciente. Tocá «+ Cargar Sticker / Lote» para agregar uno.</div>'}
+        </div>
+      </div>
+
+      <div class="card" style="background:var(--surface-2)">
+        <h3>Consentimiento Informado Específico</h3>
+        <p class="muted" style="font-size:13px;margin:6px 0 12px">Protección médico-legal antes de cirugías, exodoncias de retenidos, endodoncias o implantes:</p>
+        <div class="card">
+          <div class="row" style="justify-content:space-between">
+            <b>Estado del Consentimiento Quirúrgico</b>
+            <span class="chip ${p.consentSigned?'ok':'warn'}">${p.consentSigned?'✓ Firmado Digitalmente':'Pendiente de Firma'}</span>
+          </div>
+          <p class="muted" style="font-size:12.5px;margin-top:6px">Incluye cláusulas sobre osteointegración biológica, anatomía radicular y cuidados post-quirúrgicos obligatorios.</p>
+          ${!p.consentSigned ? `<button class="btn sm pri" style="margin-top:10px" data-act="sign-consent-now">${ico('draw')}Firmar Consentimiento Quirúrgico Ahora</button>` : ''}
         </div>
       </div>
     </div>`;
@@ -610,7 +1648,7 @@ function renderTabEstoma(p){
                 <b>${s.n}</b>
                 <button class="btn sm ${st.ok?'done':'acc'}" data-act="est-toggle" data-k="${s.k}">${st.ok?'Normal · SÍ':'Con Hallazgo · NO'}</button>
               </div>
-              ${st.ok ? '' : `<input class="inp" style="margin-top:8px;height:32px;font-size:12.5px" data-est-inp="${s.k}" value="${st.obs}" placeholder="${s.sug}">`}
+              ${st.ok ? '' : `<input class="inp" style="margin-top:8px;height:32px;font-size:12.5px" data-est-inp="${s.k}" value="${esc(st.obs)}" placeholder="${s.sug}">`}
             </div>`;
           }).join('')}
         </div>
@@ -642,7 +1680,7 @@ function renderTabImagenes(p){
     <div class="pano-card">
       <div class="row" style="justify-content:space-between;margin-bottom:12px">
         <div>
-          <span class="chip ok">Estudio Vinculado a Auditoría OS</span>
+          <span class="chip ok">Estudio Vinculado a Orden ${p.ordenOS?p.ordenOS.nro:'OS'}</span>
           <h3 style="margin-top:6px;color:#fff">Ortopantomografía Digital (Panorámica) · ${p.pano.centro}</h3>
           <small style="color:#94A3B8">Fecha: ${p.pano.fecha} · Comprobante obligatorio para facturar códigos de Endodoncia (03.xx) y Cirugía (10.xx)</small>
         </div>
@@ -662,25 +1700,61 @@ function renderTabImagenes(p){
           </g>`;
         }).join('')}
       </svg>
-      <p style="margin-top:12px;font-size:13.5px;color:#CBD5E1"><b>Informe Radiológico recibido:</b> ${p.pano.hallazgo}</p>
+      <p style="margin-top:12px;font-size:13.5px;color:#CBD5E1"><b>Informe Radiológico recibido:</b> ${esc(p.pano.hallazgo)}</p>
+    </div>`;
+}
+
+function renderSecPatientView(p){
+  const pr = calcPresupuesto(p);
+  const t = TURNOS.find(x=>x.pid===p.id);
+  return `
+    <div style="padding:12px 14px;border-radius:var(--r2);background:var(--surface-2);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+      <span>${ico('lock')} <b>Modo Secretaría:</b> Ves los datos de contacto, turnos, orden de obra social, laboratorio y cobros. El Odontograma clínico está reservado para los profesionales.</span>
+    </div>
+    <div class="grid g-2e">
+      <div class="card">
+        <h3>Turno y Comunicación por WhatsApp</h3>
+        <p class="muted" style="margin:6px 0 12px">${t ? `${t.dia} · ${t.h} hs · Sillón ${t.sillon} (${t.prac})` : 'Sin turno activo'}</p>
+        <div class="row">
+          <button class="btn sm pri" data-act="new-turno">${ico('event_available')}Asignar / Cambiar Turno</button>
+          <button class="btn sm wa" data-go="recordatorios">${ico('sms')}Abrir Chat / Recordatorio</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Presupuesto, Copago y Planilla de Obra Social</h3>
+        <p style="margin:6px 0">Copago paciente: <b class="num">${money(pr.bolsillo)}</b> (Cubre ${p.os}: ${money(pr.cubierto)})</p>
+        <div class="row" style="margin-top:10px">
+          <button class="btn sm pri" data-go="ordenes">${ico('fact_check')}Ver Planilla Oficial Obra Social</button>
+          <span class="chip ${p.signed?'ok':'warn'}">${p.signed?'Conformidad Firmada':'Falta Firma Paciente'}</span>
+        </div>
+      </div>
     </div>`;
 }
 
 R.legajo = function(){
   const p = patById(S.pid);
+  const r = currentRole();
+  const u = currentUser();
   $('#app').innerHTML = `
     <div class="vhead">
-      <div><div class="eyebrow">${ico('clinical_notes')} Ficha Clínica Odontológica</div><h1>Pacientes, Odontograma y Hallazgos</h1></div>
+      <div>
+        <div class="eyebrow">${ico('clinical_notes')} ${r==='sec'?'Ficha Administrativa de Recepción':'Ficha Clínica Odontológica · ' + esc(u.n)}</div>
+        <h1>${r==='sec'?'Datos, Turnos y Orden del Paciente':'Odontograma, Receta Rp/, Implantes y Hallazgos'}</h1>
+      </div>
+      <div class="row">
+        ${r!=='sec' ? `<button class="btn sm" data-act="open-receta">${ico('prescriptions')}+ Receta Rp/</button><button class="btn sm" data-act="open-implante">${ico('qr_code_scanner')}+ Lote Implante</button><button class="btn sm" data-go="ordenes">${ico('fact_check')}Planilla OS</button>` : ''}
+        <button class="btn pri sm" data-act="new-pat">${ico('person_add')}+ Nuevo Paciente</button>
+      </div>
     </div>
     <div class="leg">
       <div class="card" style="padding:12px">
-        <div class="eyebrow" style="margin-bottom:8px">Pacientes de la Clínica</div>
+        <div class="eyebrow" style="margin-bottom:8px">Pacientes (${PATIENTS.length})</div>
         <div class="plist">
           ${PATIENTS.map(x=>`
             <button class="prow" data-act="pick-pat" data-pid="${x.id}" aria-current="${x.id===p.id}">
               <span class="av">${x.short}</span>
               <div style="min-width:0">
-                <b style="display:block;font-size:13.5px">${x.n}</b>
+                <b style="display:block;font-size:13.5px">${esc(x.n)}</b>
                 <small class="muted">${x.os}</small>
               </div>
             </button>`).join('')}
@@ -690,48 +1764,51 @@ R.legajo = function(){
       <div class="card">
         <div class="row" style="justify-content:space-between;align-items:flex-start">
           <div>
-            <h2 style="font-size:23px">${p.n} <small class="muted" style="font-weight:500;font-size:15px">(${p.age} años · DNI ${p.dni})</small></h2>
-            <p class="muted" style="font-size:13px;margin-top:2px">${p.os} · Tel: ${p.tel} · Medicación/Profilaxis: <b>${p.med}</b></p>
+            <h2 style="font-size:22px">${esc(p.n)} <small class="muted" style="font-weight:500;font-size:14.5px">(${p.age} años · DNI ${p.dni})</small></h2>
+            <p class="muted" style="font-size:13px;margin-top:2px">${p.os} · WhatsApp: <b>${p.tel}</b> · Medicación actual: <b>${esc(p.med)}</b></p>
             <div class="row" style="margin-top:8px">
-              ${p.alerts.map(([k,l])=>`<span class="chip ${k}">${ico('warning')}${l}</span>`).join('')}
-              <span class="chip ${p.lab.st==='ok'?'ok':'warn'}">${ico('precision_manufacturing')}${p.lab.item}</span>
+              ${p.alerts.map(([k,l])=>`<span class="chip ${k}">${ico('warning')}${esc(l)}</span>`).join('')}
+              <span class="chip ${p.consentSigned?'ok':'warn'}">${ico('verified_user')}${p.consentSigned?'Consentimiento OK':'Falta Consentimiento'}</span>
+              <span class="chip ${p.lab.st==='ok'?'ok':'warn'}">${ico('precision_manufacturing')}${esc(p.lab.item)}</span>
             </div>
           </div>
           <div class="row">
-            <button class="btn sm" data-go="manoslibres">${ico('mic')}Dictar Evolución Manos Libres</button>
-            <button class="btn sm pri" data-go="portal">${ico('smartphone')}Ver Portal del Paciente</button>
+            <button class="btn sm pri" data-act="set-profile" data-role="pac">${ico('smartphone')}Ver en Celular del Paciente</button>
           </div>
         </div>
 
-        <div class="tabs">
-          <button data-act="tab" data-t="odonto" aria-selected="${S.tab==='odonto'}">${ico('grid_on')}1. Odontograma + Presupuesto (20 Ítems)</button>
-          <button data-act="tab" data-t="estoma" aria-selected="${S.tab==='estoma'}">${ico('fact_check')}2. Examen Estomatológico + IHOS</button>
-          <button data-act="tab" data-t="img" aria-selected="${S.tab==='img'}">${ico('radiology')}3. Placas Dental Scan (${p.pano.fecha})</button>
-        </div>
-
-        <div>
-          ${S.tab==='odonto' ? renderTabOdonto(p) : S.tab==='estoma' ? renderTabEstoma(p) : renderTabImagenes(p)}
-        </div>
+        ${r === 'sec' ? `<div style="margin-top:16px">${renderSecPatientView(p)}</div>` : `
+          <div class="tabs">
+            <button data-act="tab" data-t="odonto" aria-selected="${S.tab==='odonto'}">${ico('grid_on')}1. Odontograma + Presupuesto</button>
+            <button data-act="tab" data-t="recetas" aria-selected="${S.tab==='recetas'}">${ico('prescriptions')}2. Recetas Rp/ (${(p.recetas||[]).length})</button>
+            <button data-act="tab" data-t="implantes" aria-selected="${S.tab==='implantes'}">${ico('qr_code_scanner')}3. Pasaporte Implantes (${(p.implantes||[]).length})</button>
+            <button data-act="tab" data-t="estoma" aria-selected="${S.tab==='estoma'}">${ico('fact_check')}4. Estomatológico + IHOS</button>
+            <button data-act="tab" data-t="img" aria-selected="${S.tab==='img'}">${ico('radiology')}5. Placas Dental Scan</button>
+          </div>
+          <div>
+            ${S.tab==='odonto' ? renderTabOdonto(p) : S.tab==='recetas' ? renderTabRecetas(p) : S.tab==='implantes' ? renderTabImplantes(p) : S.tab==='estoma' ? renderTabEstoma(p) : renderTabImagenes(p)}
+          </div>
+        `}
       </div>
     </div>`;
 };
 
 R.manoslibres = function(){
-  const p = patById(S.pid);
+  const p = patById(S.pid), u = currentUser();
   $('#app').innerHTML = `
     <div class="vhead">
-      <div><div class="eyebrow">${ico('mic')} Bioseguridad en el Sillón</div><h1>Evolución Manos Libres con IA (Voz o Foto de Planilla)</h1><p>El odontólogo no toca el teclado con los guantes puestos: dicta al terminar o saca una foto de la ficha de papel y la IA impacta las piezas en el odontograma y el presupuesto.</p></div>
+      <div><div class="eyebrow">${ico('mic')} Bioseguridad en el Sillón · ${esc(u.n)}</div><h1>Evolución Manos Libres con IA (Voz o Foto de Planilla)</h1><p>El odontólogo no toca el teclado con los guantes puestos: dicta al terminar o saca una foto de la ficha de papel y la IA impacta las piezas en el Odontograma, en la Planilla de Obra Social y emite la Receta Rp/.</p></div>
     </div>
     <div class="grid g-2">
       <div class="card">
-        <h3>Dictado por Voz post-atención (${p.n})</h3>
-        <p class="muted" style="margin:6px 0 14px">Probá la simulación de dictado clínico para ver cómo interpreta piezas FDI, caras y códigos del nomenclador:</p>
+        <h3>Dictado por Voz post-atención (${esc(p.n)})</h3>
+        <p class="muted" style="margin:6px 0 14px">Probá la simulación de dictado clínico para ver cómo interpreta piezas FDI, caras, códigos y medicación:</p>
         <button class="btn pri" style="width:100%;height:46px" data-act="voice-demo">${ico('mic')}Probar Dictado de Ejemplo con IA</button>
         ${S.voiceDone ? `
           <div style="margin-top:14px;padding:12px;border-radius:var(--r2);background:var(--primary-soft)">
             <b>Transcripción detectada:</b>
-            <p style="margin-top:4px;font-size:13.5px">“Paciente ${p.n}: en pieza 17 se detecta caries mesio-oclusal, indicar resina compuesta código 02.02. Higiene gingival regular, sumar destartraje código 05.01.”</p>
-            <button class="btn sm pri" style="margin-top:10px" data-act="voice-apply">${ico('bolt')}Confirmar e Impactar en el Odontograma de ${p.n}</button>
+            <p style="margin-top:4px;font-size:13.5px">“Paciente ${esc(p.n)}: en pieza 17 caries mesio-oclusal, indicar resina compuesta código 02.02. Emitir receta oficial Rp/ de Ketorolac 10mg sublingual cada 8 hs y cargar en planilla de obra social.”</p>
+            <button class="btn sm pri" style="margin-top:10px" data-act="voice-apply">${ico('bolt')}Confirmar: Impactar Odontograma + Crear Receta Rp/ para ${esc(p.n)}</button>
           </div>` : ''}
       </div>
       <div class="card">
@@ -742,119 +1819,356 @@ R.manoslibres = function(){
     </div>`;
 };
 
-R.obras = function(){
+/* ===== LIQUIDACIÓN DE HONORARIOS DESCONTANDO COSTO DE LABORATORIO PROTÉSICO ===== */
+R.equipo = function(){
   $('#app').innerHTML = `
     <div class="vhead">
-      <div><div class="eyebrow">${ico('receipt_long')} Auditoría y Facturación</div><h1>Presentación a Obras Sociales y Círculo Odontológico</h1><p>Filtro anti-débitos: verifica que cada código tenga firma digital de conformidad y radiografía pre/post operatoria adjunta.</p></div>
+      <div><div class="eyebrow">${ico('groups')} Especialistas, Perfiles y Liquidación sin Laboratorio</div><h1>Equipo Odontológico y Liquidación Mensual</h1><p>Calcula el honorario limpio de cada especialista descontando primero el gasto de laboratorio protésico (coronas, pernos, placas).</p></div>
+      <div class="row">
+        <button class="btn pri" data-act="new-user">${ico('person_add')}+ Crear Nuevo Profesional</button>
+      </div>
     </div>
-    <div class="card">
-      ${PATIENTS.map(p=>{ const pr = calcPresupuesto(p); return `
-        <div class="li">
-          <span class="av">${p.short}</span>
-          <div class="grow">
-            <b>${p.n} · ${p.os}</b>
-            <small>Facturación a OS: <b class="num" style="display:inline">${money(pr.cubierto)}</b> · Copago Paciente: <b class="num" style="display:inline">${money(pr.bolsillo)}</b></small>
-          </div>
-          <span class="chip ok">${ico('radiology')}Placa Dental Scan OK</span>
-          <span class="chip ${p.signed?'ok':'warn'}">${p.signed?'Firma Paciente OK':'Falta Firma Conformidad'}</span>
-        </div>`;
-      }).join('')}
+
+    <div class="card" style="padding:0;overflow:hidden;margin-bottom:16px">
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Especialista / Sillón</th>
+              <th style="text-align:right">Facturado Bruto</th>
+              <th style="text-align:right">− Costo Laboratorio</th>
+              <th style="text-align:right">= Neto Clínica</th>
+              <th style="text-align:right">% Profesional</th>
+              <th style="text-align:right">A Liquidar al Odontólogo</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${SILLONES.map(s=>{
+              const bruto = s.factBruto || 1800000;
+              const lab = s.labDesc || 220000;
+              const neto = bruto - lab;
+              const pct = s.pct || 0.60;
+              const liq = Math.round(neto * pct);
+              const u = USERS.find(x=>x.sillon===s.id) || USERS[0];
+              return `<tr>
+                <td><b>${esc(s.pro)}</b><br><small class="muted">${esc(s.n)} · ${esc(s.mat)}</small></td>
+                <td class="num" style="text-align:right">${money(bruto)}</td>
+                <td class="num" style="text-align:right;color:var(--bad)">− ${money(lab)}</td>
+                <td class="num" style="text-align:right;font-weight:700">${money(neto)}</td>
+                <td class="num" style="text-align:right">${Math.round(pct*100)}%</td>
+                <td class="num" style="text-align:right;font-weight:800;color:var(--ok);font-size:15px">${money(liq)}</td>
+                <td style="text-align:right">
+                  ${u.id===DB.activeUserId
+                    ? `<span class="chip ok">Operando</span>`
+                    : `<button class="btn sm pri" data-act="switch-user" data-uid="${u.id}">Usar Profesional</button>`}
+                </td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
     </div>`;
 };
 
-R.equipo = function(){
+/* ===== VISTA CELULAR DEL PACIENTE ===== */
+R.portal = function(){
+  const p = patById(S.pid), pr = calcPresupuesto(p);
+  const myTurnos = TURNOS.filter(t=>t.pid===p.id);
+  const t = myTurnos[0];
+  const s = t ? (SILLONES.find(x=>x.id===t.sillon) || SILLONES[0]) : SILLONES[0];
+
   $('#app').innerHTML = `
-    <div class="vhead"><div><div class="eyebrow">${ico('groups')} Especialistas por Sillón</div><h1>Equipo Odontológico</h1></div></div>
-    <div class="card">
-      ${SILLONES.map(s=>`
-        <div class="li">
-          <span class="av">${s.pro.split(' ').slice(-1)[0][0]}</span>
-          <div class="grow"><b>${s.pro}</b><small>${s.n} · ${s.mat}</small></div>
-          <span class="chip ok">Matrícula Vigente</span>
-        </div>`).join('')}
+    <div class="stage">
+      <div class="phone"><div class="screen">
+        <div class="row" style="justify-content:space-between">
+          <div><div class="eyebrow">App del Paciente</div><h2>Hola, ${esc(p.n.split(' ')[0])}</h2></div>
+          <select class="inp" style="width:auto;height:30px;font-size:11.5px;font-weight:700" data-act="pac-switch-sel">
+            ${PATIENTS.map(x=>`<option value="${x.id}" ${x.id===p.id?'selected':''}>${esc(x.n)}</option>`).join('')}
+          </select>
+        </div>
+
+        <div class="card" style="padding:14px;border:1.5px solid var(--primary)">
+          <div class="row" style="justify-content:space-between">
+            <span class="eyebrow">${ico('event')}Mi Próximo Turno</span>
+            ${t ? `<span class="chip ${t.confirmed?'ok':'warn'}">${t.confirmed?'Confirmado':'Por confirmar'}</span>` : ''}
+          </div>
+          ${t ? `
+            <h3 style="font-size:17px;margin-top:6px">${esc(t.dia)} · ${t.h} hs</h3>
+            <p style="font-size:13px;font-weight:700;color:var(--primary-deep);margin-top:2px">${esc(s.pro)} (${esc(s.esp)})</p>
+            <p class="muted" style="font-size:12px;margin-top:2px">${ico('location_on')}<b>Dónde:</b> ${esc(t.dir || 'La Rioja 2173 · Mar del Plata')} (${esc(s.n)})</p>
+            <p class="muted" style="font-size:12px">Práctica: ${esc(t.prac)}</p>
+            <div class="row" style="margin-top:10px">
+              ${!t.confirmed ? `<button class="btn sm pri" data-act="pac-confirm-turno" data-tid="${t.id}">${ico('check')}Confirmar Asistencia</button>` : ''}
+              <button class="btn sm" data-act="pac-toggle-reprog">${ico('edit_calendar')}Cambiar día / horario</button>
+            </div>
+            ${S.showReprog ? `
+              <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--line-2)">
+                <small class="muted" style="display:block;margin-bottom:6px">Elegí un nuevo horario libre con ${esc(s.pro)}:</small>
+                <div class="row">
+                  ${['Jueves 22 oct · 11:00','Jueves 22 oct · 16:00','Viernes 23 oct · 10:00','Lunes 26 oct · 15:00'].map(slot=>`
+                    <button class="btn sm" data-act="pac-pick-slot" data-tid="${t.id}" data-slot="${slot}">${slot}</button>
+                  `).join('')}
+                </div>
+              </div>` : ''}
+          ` : `<p class="muted" style="margin:8px 0">No tenés turnos pendientes.</p><button class="btn sm pri" data-act="new-turno">Solicitar nuevo turno</button>`}
+        </div>
+
+        <div class="card" style="padding:14px">
+          <div class="row" style="justify-content:space-between;margin-bottom:6px">
+            <span class="eyebrow">${ico('prescriptions')}Mis Recetas Rp/ y Medicamentos (${(p.recetas||[]).length})</span>
+          </div>
+          ${(p.recetas||[]).map(rx=>`
+            <div style="padding:10px;border-radius:var(--r2);background:var(--surface-2);margin-top:8px;border-left:3.5px solid var(--primary)">
+              <b style="font-size:13px;color:var(--ink)">${esc(rx.droga)}</b>
+              <p style="font-size:12px;font-weight:700;color:var(--primary-deep);margin-top:3px">⏰ Cómo tomarlo: ${esc(rx.dosis)}</p>
+              <small class="muted" style="display:block;margin-top:2px">${esc(rx.ind)}</small>
+              <div class="row" style="justify-content:space-between;margin-top:6px">
+                <small class="muted" style="font-size:10.5px">${esc(rx.pro)} · ${esc(rx.id)}</small>
+                <button class="btn sm ghost" style="height:22px;padding:0 6px;font-size:11px" data-act="pac-dl-rx">${ico('qr_code_2')}Abrir PDF Rp/</button>
+              </div>
+            </div>`).join('') || '<p class="muted" style="font-size:12.5px">No tenés medicamentos activos en este momento.</p>'}
+        </div>
+
+        ${(p.implantes||[]).length ? `
+          <div class="imp-pass">
+            <div class="row" style="justify-content:space-between">
+              <span style="font-size:10.5px;font-weight:800;text-transform:uppercase;color:#38BDF8">Pasaporte Oficial de Implante</span>
+              <span class="chip ok" style="height:18px;font-size:10px">ANMAT</span>
+            </div>
+            ${p.implantes.map(im=>`
+              <div style="margin-top:6px">
+                <b style="font-size:13px">Pieza ${esc(im.pieza)} · ${esc(im.marca)} (${esc(im.medida)})</b>
+                <small style="display:block;color:#94A3B8;font-size:11px">Lote: ${esc(im.lote)} · Fecha: ${im.fecha} · ${esc(im.pro)}</small>
+              </div>`).join('')}
+          </div>` : ''}
+
+        <div class="card" style="background:var(--primary);color:#fff;padding:14px">
+          <div class="row" style="justify-content:space-between">
+            <small style="opacity:.85">Plan de Tratamiento y Copago</small>
+            <span class="chip warn" style="height:19px;font-size:10px">Validez arancel: 15 días</span>
+          </div>
+          <h3 style="font-size:21px;margin:3px 0" class="num">${money(pr.bolsillo)}</h3>
+          <small style="opacity:.9">Cubre ${p.os}: ${money(pr.cubierto)}</small>
+          <button class="btn sm" style="margin-top:10px;width:100%;color:var(--ink);font-weight:800" data-act="approve-presu">
+            ${p.presuApproved ? '✓ Plan Aprobado · Ir a Firmar Planilla OS' : 'Aprobar Plan de Tratamiento'}
+          </button>
+        </div>
+
+        <button class="btn acc" style="width:100%;height:40px" data-act="urgencia">${ico('emergency')}Pedir Sobreturno de Urgencia (Dolor / Bracket)</button>
+      </div></div>
+
+      <div>
+        <span class="proto">Perfil Paciente · Autogestión Conectada</span>
+        <h2 style="font-size:24px;margin:10px 0">El paciente resuelve todo desde su teléfono</h2>
+        <ul class="muted" style="line-height:1.65;padding-left:18px;margin-top:10px">
+          <li><b>Cuándo, dónde y con qué especialista:</b> Ve dirección, sillón y nombre del profesional, pudiendo reprogramar sin llamar por teléfono.</li>
+          <li><b>Recetas oficiales Rp/ y esquema horario:</b> Descarga el PDF membretado para la farmacia y ve cada cuántas horas tomar cada comprimido.</li>
+          <li><b>Pasaporte Digital de Implantes ANMAT:</b> Lleva en su teléfono la marca, el diámetro y el lote exacto del implante colocado.</li>
+        </ul>
+      </div>
     </div>`;
 };
 
 R.firmas = function(){
-  const p = patById(S.pid);
+  const p = patById(S.pid), pr = calcPresupuesto(p), activeRows = pr.rows.filter(r=>r.q>0);
   $('#app').innerHTML = `
     <div class="stage">
       <div class="phone"><div class="screen">
-        <div class="eyebrow">Conformidad Odontológica</div>
+        <div class="eyebrow">Conformidad de Obra Social + Consentimiento</div>
         <h2>Firma del Paciente</h2>
-        <p class="muted" style="font-size:13px">${p.n} · ${p.os}</p>
+        <p class="muted" style="font-size:13px">${esc(p.n)} · ${p.os}</p>
         <div class="card" style="padding:10px">
-          <small class="muted">Prácticas realizadas en el mes:</small>
-          <p style="font-size:13px;font-weight:700;margin-top:4px">• Cód. 01.01 Consulta diagnóstica<br>• Cód. 03.02 Endodoncia Pieza 26<br>• Cód. 02.02 Resina compuesta Pieza 16</p>
+          <small class="muted">Se estampará tu firma en la Planilla Oficial (${p.ordenOS?p.ordenOS.nro:'ORD-000041'}):</small>
+          <div style="font-size:12.5px;font-weight:700;margin-top:4px">
+            ${activeRows.map(r=>`• Cód. ${r.cod} ${r.n} (×${r.q})`).join('<br>') || '• Cód. 01.01 Consulta diagnóstica'}
+            <br>• Consentimiento Informado Odontológico
+          </div>
         </div>
         <b style="font-size:13px">Firmá con el dedo o mouse en el recuadro:</b>
         <canvas class="sig" id="sig"></canvas>
-        <button class="btn pri" style="width:100%;height:42px" data-act="firmar-ok">${ico('verified')}Confirmar Firma Digital</button>
+        <button class="btn pri" style="width:100%;height:42px" data-act="firmar-ok">${ico('verified')}Confirmar Firma y Volcar en Planilla OS</button>
       </div></div>
       <div>
-        <span class="proto">Vista Celular / Tablet en Recepción</span>
-        <h2 style="font-size:24px;margin:10px 0">Firma de conformidad por pieza y código</h2>
-        <p class="muted">Para que el Círculo Odontológico o la prepaga no debiten la orden a fin de mes, el paciente firma desde su teléfono o en la tablet de recepción cada práctica realizada.</p>
+        <span class="proto">Conformidad Digital Anti-Débitos</span>
+        <h2 style="font-size:24px;margin:10px 0">Impacta directo en el formulario «Registro de Prestaciones»</h2>
+        <p class="muted">Al confirmar la firma acá, el sistema marca automáticamente el tilde «☑ Firma» en la Orden de Obra Social y estampa la conformidad en cada renglón de la planilla oficial.</p>
       </div>
     </div>`;
   initCanvasSig();
 };
 
-R.portal = function(){
-  const p = patById(S.pid), pr = calcPresupuesto(p);
-  $('#app').innerHTML = `
-    <div class="stage">
-      <div class="phone"><div class="screen">
-        <div class="eyebrow">Portal del Paciente</div>
-        <h2>Hola, ${p.n.split(' ')[0]}</h2>
-        <div class="card" style="background:var(--primary);color:#fff">
-          <small style="opacity:.85">Presupuesto actualizado en vivo</small>
-          <h3 style="font-size:22px;margin:4px 0" class="num">${money(pr.bolsillo)}</h3>
-          <small style="opacity:.9">Cubre ${p.os}: ${money(pr.cubierto)}</small>
-          <button class="btn sm" style="margin-top:10px;width:100%;color:var(--ink)" data-act="approve-presu">${p.presuApproved?'✓ Presupuesto Aprobado':'Aprobar Plan de Tratamiento'}</button>
-        </div>
-        <div class="card">
-          <b>Cuidados Post-Operatorios</b>
-          <p class="muted" style="font-size:12.5px;margin-top:4px">• Dieta fría o tibia y blanda por 24 hs.<br>• No realizar buches fuertes ni escupir.<br>• Analgésico indicado cada 8 hs.</p>
-        </div>
-        <button class="btn acc" style="width:100%;height:42px" data-act="urgencia">${ico('emergency')}Pedir Sobreturno de Urgencia</button>
-      </div></div>
-      <div>
-        <span class="proto">Experiencia Mobile del Paciente</span>
-        <h2 style="font-size:24px;margin:10px 0">El presupuesto se aprueba desde WhatsApp</h2>
-        <p class="muted">Cualquier cambio que hagas en el Odontograma o en los 20 ítems impacta al instante en esta pantalla que ve el paciente en su celular.</p>
-      </div>
-    </div>`;
-};
-
 function initCanvasSig(){
   const c = $('#sig'); if(!c) return;
   const r = c.getBoundingClientRect(); c.width = r.width; c.height = r.height;
-  const x = c.getContext('2d'); x.lineWidth = 2.5; x.lineCap = 'round'; x.strokeStyle = '#0E7490';
+  const x = c.getContext('2d'); x.lineWidth = 2.5; x.lineCap = 'round'; x.strokeStyle = '#0284C7';
   let down = false;
   c.onpointerdown = e => { down = true; x.beginPath(); x.moveTo(e.offsetX, e.offsetY) };
   c.onpointermove = e => { if(down){ x.lineTo(e.offsetX, e.offsetY); x.stroke() } };
   c.onpointerup = () => { down = false };
 }
 
+/* ===== MODALES ===== */
+function openImplanteModal(){
+  const p = patById(S.pid);
+  openDrawer('Registrar Lote de Implante (Pasaporte ANMAT)', `
+    <p class="muted" style="font-size:13px">Cargá los datos de la etiqueta del implante colocado a <b>${esc(p.n)}</b>. Queda en la ficha y en el celular del paciente.</p>
+    <div class="frow">
+      <div><label class="eyebrow" for="im-pza">Pieza Dental (FDI)</label><input class="inp" id="im-pza" value="36"></div>
+      <div><label class="eyebrow" for="im-tor">Torque Primario</label><input class="inp" id="im-tor" value="40 Ncm"></div>
+    </div>
+    <div><label class="eyebrow" for="im-mar">Marca y Sistema de Implante</label>
+      <select class="inp" id="im-mar">
+        <option>Straumann Bone Level Tapered (Suiza)</option>
+        <option>Neodent Grand Morse (Brasil)</option>
+        <option>BioHorizons Tapered Internal (EE.UU.)</option>
+        <option>Tree-Oss / Rosterdent (Argentina)</option>
+      </select>
+    </div>
+    <div class="frow">
+      <div><label class="eyebrow" for="im-med">Diámetro × Largo</label><input class="inp" id="im-med" value="Ø 4.1 mm × 10 mm"></div>
+      <div><label class="eyebrow" for="im-lot">N.º de Lote / Serie</label><input class="inp" id="im-lot" value="LOT-CH-90418"></div>
+    </div>
+  `, `
+    <button class="btn" data-act="close-drawer">Cancelar</button>
+    <button class="btn pri" style="flex:1" data-act="save-implante">${ico('verified')}Guardar y Crear Pasaporte de Implante</button>
+  `);
+}
+
+function openRecetaModal(){
+  const p = patById(S.pid), u = currentUser();
+  openDrawer('Emitir Nueva Receta Oficial Rp/', `
+    <p class="muted" style="font-size:13px">Paciente: <b>${esc(p.n)} (${p.os})</b> · Profesional: <b>${esc(u.n)} (${esc(u.mat)})</b></p>
+    ${p.alerts.some(a=>a[0]==='bad') ? `<div style="padding:8px 10px;border-radius:var(--r2);background:var(--bad-soft);color:var(--bad);font-size:12.5px;font-weight:700">${ico('warning')} Alerta del paciente: ${p.alerts.map(a=>a[1]).join(' · ')}</div>` : ''}
+    <div><label class="eyebrow" for="rx-trat">Tratamiento Asociado</label>
+      <input class="inp" id="rx-trat" value="Rehabilitación y tratamiento odontológico">
+    </div>
+    <div><label class="eyebrow" for="rx-droga">Medicamento / Droga (Rp/)</label>
+      <input class="inp" id="rx-droga" value="Clindamicina 300 mg">
+    </div>
+    <div><label class="eyebrow" for="rx-comp">Presentación y Cantidad</label>
+      <input class="inp" id="rx-comp" value="Clindamicina Clorhidrato · Cantidad: 16 cápsulas">
+    </div>
+    <div><label class="eyebrow" for="rx-dosis">Posología y Horario de Toma</label>
+      <input class="inp" id="rx-dosis" value="1 cápsula cada 8 hs durante 7 días (08:00, 16:00 y 00:00 hs)">
+    </div>
+    <div><label class="eyebrow" for="rx-ind">Indicaciones adicionales</label>
+      <input class="inp" id="rx-ind" value="Tomar con abundante agua. No suspender antes de los 7 días.">
+    </div>
+  `, `
+    <button class="btn" data-act="close-drawer">Cancelar</button>
+    <button class="btn pri" style="flex:1" data-act="save-receta">${ico('prescriptions')}Generar Receta Membretada Rp/</button>
+  `);
+}
+
+function openDerivarModal(){
+  const p = patById(S.pid), u = currentUser();
+  openDrawer('Derivar Paciente a otro Especialista de la Clínica', `
+    <p class="muted" style="font-size:13px">Dejá asentado el pase interno de <b>${esc(p.n)}</b>. Secretaría recibe el aviso en su consola para asignarle el turno.</p>
+    <div><label class="eyebrow">Profesional que deriva</label><input class="inp" value="${esc(u.n)} (${esc(u.esp)})" disabled></div>
+    <div><label class="eyebrow" for="dv-para">Derivar a Sillón / Especialista</label>
+      <select class="inp" id="dv-para">
+        ${SILLONES.map(s=>`<option value="${esc(s.pro)} (${esc(s.n)})">${esc(s.pro)} · ${esc(s.n)}</option>`).join('')}
+      </select>
+    </div>
+    <div><label class="eyebrow" for="dv-mot">Motivo clínico e indicación para Secretaría</label>
+      <input class="inp" id="dv-mot" value="Práctica de mi especialidad finalizada. Dar turno de 45 min para continuar rehabilitación.">
+    </div>
+  `, `
+    <button class="btn" data-act="close-drawer">Cancelar</button>
+    <button class="btn pri" style="flex:1" data-act="save-derivar">${ico('send')}Registrar Pase y Avisar a Secretaría</button>
+  `);
+}
+
+function openNewUserModal(){
+  const nextSillon = SILLONES.length + 1;
+  openDrawer('Crear Nuevo Profesional / Especialista', `
+    <p class="muted" style="font-size:13px">Creá un odontólogo con su especialidad y sillón propio para trabajar sobre los pacientes con su firma diferenciada.</p>
+    <div><label class="eyebrow" for="nu-n">Nombre y Apellido del Profesional</label><input class="inp" id="nu-n" placeholder="Ej: Dr. Nicolás Funes"></div>
+    <div class="frow">
+      <div><label class="eyebrow" for="nu-esp">Especialidad</label><select class="inp" id="nu-esp">${ESPECIALIDADES.map(e=>`<option>${e}</option>`).join('')}</select></div>
+      <div><label class="eyebrow" for="nu-mat">Matrícula</label><input class="inp" id="nu-mat" value="M.P. 58410"></div>
+    </div>
+    <div><label class="eyebrow" for="nu-sil">Sillón Asignado</label>
+      <select class="inp" id="nu-sil">
+        <option value="${nextSillon}" selected>Crear Sillón ${nextSillon} nuevo</option>
+        ${SILLONES.map(s=>`<option value="${s.id}">Compartir ${esc(s.n)}</option>`).join('')}
+      </select>
+    </div>
+  `, `
+    <button class="btn" data-act="close-drawer">Cancelar</button>
+    <button class="btn pri" style="flex:1" data-act="save-new-user">${ico('badge')}Crear y Usar este Profesional</button>
+  `);
+}
+
+function openNewPatientModal(prefill={}){
+  const u = currentUser();
+  const sillonSel = prefill.sillon || u.sillon || 5;
+  const horaSel = prefill.h || '12:00';
+  openDrawer('Alta de Paciente + Asignación de Turno y Orden OS', `
+    <div><label class="eyebrow" for="np-n">Nombre y Apellido del Paciente</label><input class="inp" id="np-n" value="${esc(prefill.n||'')}" placeholder="Ej: Sofía Méndez"></div>
+    <div class="frow">
+      <div><label class="eyebrow" for="np-age">Edad</label><input class="inp" id="np-age" type="number" value="32"></div>
+      <div><label class="eyebrow" for="np-tel">WhatsApp</label><input class="inp" id="np-tel" value="223 15-588-4410"></div>
+    </div>
+    <div class="frow">
+      <div><label class="eyebrow" for="np-os">Obra Social</label><select class="inp" id="np-os">${Object.keys(OBRAS_LIST).map(o=>`<option value="${o}">${o}</option>`).join('')}</select></div>
+      <div><label class="eyebrow" for="np-alerta">Alerta Médica</label>
+        <select class="inp" id="np-alerta">
+          <option value="Alergia a Penicilina">🔴 Alergia a Penicilina</option>
+          <option value="Alergia al Látex · Usar Nitrilo">🔴 Alergia al Látex · Nitrilo</option>
+          <option value="Anticoagulado">🔴 Anticoagulado</option>
+          <option value="Ninguna">🟢 Sin alertas médicas</option>
+        </select>
+      </div>
+    </div>
+    <div class="frow">
+      <div><label class="eyebrow" for="np-sil">Sillón / Especialista</label><select class="inp" id="np-sil">${SILLONES.map(s=>`<option value="${s.id}" ${s.id===+sillonSel?'selected':''}>${esc(s.n)} (${esc(s.pro)})</option>`).join('')}</select></div>
+      <div><label class="eyebrow" for="np-h">Horario</label><select class="inp" id="np-h">${HOURS.map(h=>`<option value="${h}" ${h===horaSel?'selected':''}>${h} hs</option>`).join('')}</select></div>
+    </div>
+    <div><label class="eyebrow" for="np-prac">Motivo del Turno</label><input class="inp" id="np-prac" value="1.ª Consulta, Odontograma y Presupuesto"></div>
+  `, `
+    <button class="btn" data-act="close-drawer">Cancelar</button>
+    <button class="btn pri" style="flex:1" data-act="save-new-pat">${ico('event_available')}Crear Paciente, Turno y Orden OS</button>
+  `);
+}
+
+function openNewTurnoModal(){
+  openDrawer('Asignar o Cambiar Turno', `
+    <div><label class="eyebrow" for="nt-pid">Paciente</label><select class="inp" id="nt-pid">${PATIENTS.map(p=>`<option value="${p.id}" ${p.id===S.pid?'selected':''}>${esc(p.n)} · ${p.os}</option>`).join('')}</select></div>
+    <div class="frow">
+      <div><label class="eyebrow" for="nt-sil">Sillón / Especialista</label><select class="inp" id="nt-sil">${SILLONES.map(s=>`<option value="${s.id}">${esc(s.n)} (${esc(s.pro)})</option>`).join('')}</select></div>
+      <div><label class="eyebrow" for="nt-h">Hora</label><select class="inp" id="nt-h">${HOURS.map(h=>`<option value="${h}">${h} hs</option>`).join('')}</select></div>
+    </div>
+    <div><label class="eyebrow" for="nt-prac">Práctica a realizar</label><input class="inp" id="nt-prac" value="Control y Continuación de Tratamiento"></div>
+  `, `
+    <button class="btn" data-act="close-drawer">Cancelar</button>
+    <button class="btn pri" style="flex:1" data-act="save-new-turno">${ico('check')}Guardar Turno</button>
+  `);
+}
+
 function go(v){
+  const allowed = ROLE_VIEWS[currentRole()] || ROLE_VIEWS.dir;
+  if(!allowed.includes(v)) v = allowed[0];
   S.view = v;
+  applyProfileUI();
   $$('#nav [data-v]').forEach(b => b.setAttribute('aria-current', b.dataset.v===v ? 'page' : 'false'));
+  renderSimBanner();
   R[v]();
 }
 
-/* ===== INTERACCIONES EN VIVO ===== */
+/* ===== EVENTOS GLOBALES ===== */
 document.addEventListener('click', e => {
   const nav = e.target.closest('#nav [data-v]');
   if(nav){ go(nav.dataset.v); return }
   const goBtn = e.target.closest('[data-go]');
-  if(goBtn){ go(goBtn.dataset.go); return }
+  if(goBtn && !goBtn.dataset.act){ go(goBtn.dataset.go); return }
 
-  /* Click en una cara o diente del Odontograma */
   const face = e.target.closest('[data-face]');
   if(face){
+    if(currentRole()==='sec'){ toast('Secretaría no edita el Odontograma', 'lock'); return; }
     const toothEl = face.closest('[data-tooth]'), num = toothEl.dataset.tooth, fKey = face.dataset.face;
-    const p = patById(S.pid);
+    const p = patById(S.pid), u = currentUser();
     p.teeth[num] = p.teeth[num] || {faces:{}, whole:null};
     if(['caries','resina','sellante'].includes(S.tool)){
       p.teeth[num].faces[fKey] = p.teeth[num].faces[fKey]===S.tool ? null : S.tool;
@@ -863,8 +2177,12 @@ document.addEventListener('click', e => {
     } else {
       p.teeth[num].whole = p.teeth[num].whole===S.tool ? null : S.tool;
     }
+    p.teeth[num].by = `${u.n} · ${u.esp.split(' ')[0]}`;
+    p.atendido = true;
+    saveDB();
+    renderSimBanner();
     R.legajo();
-    toast(`Pieza ${num} actualizada · Presupuesto recalculado en vivo`, 'calculate');
+    toast(`Pieza ${num} registrada en Odontograma y en Planilla de Obra Social`, 'verified');
     return;
   }
 
@@ -872,64 +2190,392 @@ document.addEventListener('click', e => {
   if(!act) return;
   const k = act.dataset.act, p = patById(S.pid);
 
-  if(k==='pick-pat' || k==='open-pat'){ S.pid = act.dataset.pid; go('legajo'); }
+  if(k==='close-drawer'){ closeDrawer(); return; }
+  if(k==='open-guide'){ openGuideModal(); return; }
+  if(k==='close-guide'){ $('#guide-host').hidden = true; return; }
+  if(k==='guide-pick'){
+    $('#guide-host').hidden = true;
+    DB.profileRole = act.dataset.role || 'dir';
+    saveDB();
+    go(act.dataset.go);
+    return;
+  }
+
+  if(k==='set-profile'){
+    const newRole = act.dataset.role;
+    DB.profileRole = newRole;
+    if(newRole === 'pro' && currentUser().role !== 'pro'){
+      DB.activeUserId = (USERS.find(u=>u.role==='pro') || USERS[0]).id;
+    }
+    saveDB();
+    const defaultView = newRole==='sec' ? 'secretaria' : newRole==='pac' ? 'portal' : newRole==='pro' ? 'legajo' : 'tablero';
+    go(defaultView);
+    toast(`Perfil activo: ${newRole==='pro'?'Profesional Odontólogo':newRole==='sec'?'Secretaría y Recepción':newRole==='pac'?'Portal del Paciente':'Dirección Médica'}`, 'switch_account');
+    return;
+  }
+
+  if(k==='sim-jump'){
+    DB.profileRole = act.dataset.role;
+    if(act.dataset.tab) S.tab = act.dataset.tab;
+    saveDB();
+    go(act.dataset.go);
+    return;
+  }
+
+  /* Órdenes de Obra Social */
+  if(k==='pick-pat-ord'){ S.pid = act.dataset.pid; DB.simPid = S.pid; saveDB(); R.ordenes(); return; }
+  if(k==='ord-set-st'){ p.ordenOS.estado = act.dataset.st; saveDB(); R.ordenes(); toast('Estado de la orden actualizado', 'fact_check'); return; }
+  if(k==='ord-toggle-chk'){
+    const ck = act.dataset.ck;
+    p.ordenOS.checks[ck] = !p.ordenOS.checks[ck];
+    if(ck==='firma') p.signed = p.ordenOS.checks.firma;
+    if(Object.values(p.ordenOS.checks).every(Boolean)) p.ordenOS.estado = 'presentada';
+    saveDB(); renderSimBanner(); R.ordenes();
+    return;
+  }
+
+  /* Recordatorios y Chat */
+  if(k==='rec-sub'){ S.recSubTab = act.dataset.k; R.recordatorios(); return; }
+  if(k==='ins-var'){
+    const ta = $('#wa-tpl-ta');
+    if(ta){
+      ta.value += ' ' + act.dataset.v;
+      DB.waTpl = ta.value;
+      saveDB();
+      R.recordatorios();
+    }
+    return;
+  }
+  if(k==='chat-pick-pat'){ S.pid = act.dataset.pid; DB.simPid = S.pid; saveDB(); R.recordatorios(); return; }
+  if(k==='chat-send'){
+    const inp = $('#chat-inp');
+    if(!inp || !inp.value.trim()) return;
+    p.chatMsgs = p.chatMsgs || [];
+    p.chatMsgs.push({from:'cli', txt:inp.value.trim(), h:'Ahora'});
+    saveDB(); R.recordatorios();
+    return;
+  }
+  if(k==='chat-send-tpl'){
+    p.chatMsgs = p.chatMsgs || [];
+    p.chatMsgs.push({from:'cli', txt:`Hola ${p.n}! Te recordamos tu turno en Clínica Proyecto Odontología (La Rioja 2173). Confirmá acá: https://proyecto-odon.vercel.app/#confirmar`, h:'Ahora'});
+    saveDB(); R.recordatorios();
+    toast('Plantilla oficial insertada y enviada al WhatsApp del paciente', 'sms');
+    return;
+  }
+
+  if(k==='change-pro'){ go('equipo'); return; }
+  if(k==='switch-user'){
+    DB.activeUserId = act.dataset.uid;
+    const u = currentUser();
+    DB.profileRole = u.role === 'sec' ? 'sec' : u.role === 'dir' ? 'dir' : 'pro';
+    saveDB();
+    go('legajo');
+    toast(`Ahora operás como ${u.n} (${u.esp})`, 'badge');
+    return;
+  }
+
+  if(k==='new-user'){ openNewUserModal(); return; }
+  if(k==='save-new-user'){
+    const n = ($('#nu-n').value||'').trim();
+    if(!n){ toast('Escribí el nombre del profesional', 'error'); return; }
+    const esp = $('#nu-esp').value, mat = $('#nu-mat').value, silId = +$('#nu-sil').value;
+    if(!SILLONES.some(s=>s.id===silId)){
+      SILLONES.push({id:silId, n:`Sillón ${silId} · ${esp.split(' ')[0]}`, esp, pro:n, mat, role:'pro', pct:0.60, factBruto:1650000, labDesc:190000});
+    }
+    const nu = {id:'u-'+Date.now(), n, email:n.toLowerCase().replace(/\s+/g,'')+'@odonto.prueba', role:'pro', sillon:silId, esp, mat, custom:true};
+    USERS.unshift(nu);
+    DB.activeUserId = nu.id;
+    DB.profileRole = 'pro';
+    saveDB();
+    closeDrawer();
+    go('legajo');
+    toast(`${n} creado y activo en Sillón ${silId}`, 'badge');
+    return;
+  }
+
+  if(k==='new-pat'){ openNewPatientModal(); return; }
+  if(k==='free-slot'){ openNewPatientModal({sillon:+act.dataset.sil, h:act.dataset.h}); return; }
+  if(k==='save-new-pat'){
+    const n = ($('#np-n').value||'').trim();
+    if(!n){ toast('Ingresá el nombre del paciente', 'error'); return; }
+    const age = +$('#np-age').value || 30, tel = $('#np-tel').value, os = $('#np-os').value, alerta = $('#np-alerta').value;
+    const est = {}; EST_STRUCTS.forEach(s => est[s.k] = {ok:true, obs:''});
+    const np = {
+      id:'p'+Date.now(), short:String(PATIENTS.length+1).padStart(2,'0'), n, age, dni:'39.104.'+String(100+PATIENTS.length),
+      nac:'10/04/1994', dom:'Mar del Plata', afil:'08-449102-01', tel, os,
+      cobPct:OBRAS_LIST[os]??0.7, dent:age<=11?'child':'adult',
+      alerts: alerta!=='Ninguna' ? [['bad',alerta]] : [['acc','1.ª Consulta']],
+      med:'Sin medicación previa', lab:{st:'ok', item:'1.ª Consulta en Sillón'},
+      pano:{fecha:'Pendiente', centro:'Dental Scan · La Rioja 3501', hallazgo:'Orden lista para emitir.'},
+      teeth:{}, extraQty:{1:1}, est, pdb:[0,0,0,0,0,0], pdd:[0,0,0,0,0,0],
+      recetas:[], implantes:[],
+      ordenOS:{nro:'ORD-0000'+(45+PATIENTS.length), estado:'pendiente', mod:'Validación Online', checks:{aut:true, pres:true, rx:false, firma:false}},
+      chatMsgs:[{from:'cli', txt:`¡Bienvenido/a ${n} a Clínica Proyecto Odontología! Tu turno ya está agendado.`, h:'Recién'}],
+      consentSigned:false, derivaciones:[], signed:false, presuApproved:false, isNew:true
+    };
+    PATIENTS.unshift(np);
+    const sil = +$('#np-sil').value, h = $('#np-h').value, prac = $('#np-prac').value;
+    TURNOS.unshift({id:'t'+Date.now(), dia:'Miércoles 21 oct', h, sillon:sil, pid:np.id, prac, lab:'ok', st:'pend', sala:false, reply:null, confirmed:true, dir:`La Rioja 2173 · Consultorio ${sil}`, isNew:true});
+    S.pid = np.id; DB.simPid = np.id;
+    saveDB(); closeDrawer();
+    go(currentRole()==='sec'?'secretaria':'sillones');
+    toast(`Paciente ${n} creado con Turno y Orden ${np.ordenOS.nro}`, 'event_available');
+    return;
+  }
+
+  if(k==='new-turno'){ openNewTurnoModal(); return; }
+  if(k==='save-new-turno'){
+    const pid = $('#nt-pid').value, sil = +$('#nt-sil').value, h = $('#nt-h').value, prac = $('#nt-prac').value;
+    TURNOS.unshift({id:'t'+Date.now(), dia:'Jueves 22 oct', h, sillon:sil, pid, prac, lab:'ok', st:'pend', sala:false, reply:null, confirmed:true, dir:`La Rioja 2173 · Consultorio ${sil}`, isNew:true});
+    S.pid = pid; DB.simPid = pid;
+    saveDB(); closeDrawer();
+    go(currentRole()==='sec'?'secretaria':'sillones');
+    toast('Turno agendado y notificado al paciente por WhatsApp', 'event_available');
+    return;
+  }
+
+  if(k==='llego'){
+    const t = TURNOS.find(x=>x.id===act.dataset.tid), pat = patById(t.pid), sil = SILLONES.find(x=>x.id===t.sillon) || SILLONES[0];
+    t.sala = true; S.pid = pat.id; DB.simPid = pat.id;
+    saveDB();
+    R[S.view](); renderSimBanner();
+    $('#pings').innerHTML = `<div class="ping">
+      <div class="eyebrow">Aviso de Secretaría al Sillón ${sil.id}</div>
+      <b style="font-size:15px;display:block;margin-top:2px">${ico('chair')} ${esc(pat.n)} está en Sala de Espera</b>
+      <p class="muted" style="font-size:12.5px;margin:4px 0 10px">Para: <b>${esc(sil.pro)}</b> · ${esc(t.prac)}</p>
+      <div class="row">
+        <button class="btn sm pri" data-act="pro-reply" data-tid="${t.id}" data-r="voy">${ico('directions_walk')}Responder «Ya lo hago pasar» y Abrir Ficha</button>
+        <button class="btn sm" data-act="pro-reply" data-tid="${t.id}" data-r="5m">«En 5 min»</button>
+      </div>
+    </div>`;
+    toast(`Secretaría avisó al Sillón ${sil.id} (${sil.pro})`, 'notifications_active');
+    return;
+  }
+
+  if(k==='pro-reply'){
+    const t = TURNOS.find(x=>x.id===act.dataset.tid);
+    t.reply = act.dataset.r;
+    $('#pings').innerHTML = '';
+    if(act.dataset.r === 'voy'){
+      DB.profileRole = 'pro';
+      S.pid = t.pid;
+      saveDB();
+      go('legajo');
+      toast('Secretaría recibió tu aviso «Ya lo hago pasar» · Ficha abierta', 'check_circle');
+    } else {
+      saveDB();
+      R[S.view]();
+      toast('Secretaría recibió tu aviso «Termino en 5 minutos»', 'schedule');
+    }
+    return;
+  }
+
+  if(k==='wa-paciente'){
+    const pat = patById(act.dataset.pid || S.pid);
+    pat.waReminded = true;
+    saveDB();
+    R[S.view]();
+    toast(`Mensaje de WhatsApp enviado a ${pat.n} (${pat.tel})`, 'sms');
+    return;
+  }
+
+  if(k==='sec-note-done'){
+    const n = SEC_NOTES.find(x=>x.id===act.dataset.id);
+    if(n) n.done = true;
+    saveDB();
+    openNewTurnoModal();
+    R.secretaria();
+    return;
+  }
+
+  if(k==='bolsa-call'){
+    const b = BOLSA.find(x=>x.id===act.dataset.id);
+    if(b) b.notified = true;
+    saveDB();
+    R.secretaria();
+    toast(`WhatsApp enviado a ${b.n}: hueco de turno ofrecido con éxito`, 'bolt');
+    return;
+  }
+
+  if(k==='open-implante'){ openImplanteModal(); return; }
+  if(k==='save-implante'){
+    const u = currentUser(), pza = $('#im-pza').value || '36';
+    p.implantes = p.implantes || [];
+    p.implantes.unshift({
+      pieza:pza, marca:$('#im-mar').value, medida:$('#im-med').value,
+      lote:$('#im-lot').value, torque:$('#im-tor').value, fecha:'21/10/2026', pro:`${u.n} (${u.mat})`
+    });
+    p.extraQty[20] = (p.extraQty[20]||0) + 1;
+    p.atendido = true;
+    saveDB(); closeDrawer();
+    S.tab = 'implantes'; go('legajo');
+    toast(`Pasaporte de Implante (Pieza ${pza}) registrado y enviado a la App del paciente`, 'verified');
+    return;
+  }
+  if(k==='sign-consent-now'){
+    p.consentSigned = true;
+    saveDB(); R.legajo();
+    toast('Consentimiento Informado Quirúrgico firmado digitalmente', 'verified_user');
+    return;
+  }
+
+  /* Recetas Rp/ */
+  if(k==='pick-rx'){ S.rxSelIdx = +act.dataset.idx; R.legajo(); return; }
+  if(k==='open-receta'){ openRecetaModal(); return; }
+  if(k==='save-receta'){
+    const u = currentUser();
+    p.recetas = p.recetas || [];
+    p.recetas.unshift({
+      id:'REC-0000'+(20+p.recetas.length), fecha:'21/10/2026',
+      pro:u.n, esp:u.esp, mat:u.mat,
+      trat:$('#rx-trat').value, droga:$('#rx-droga').value, comp:$('#rx-comp').value,
+      dosis:$('#rx-dosis').value, ind:$('#rx-ind').value
+    });
+    S.rxSelIdx = 0;
+    p.med = $('#rx-droga').value + ' · ' + $('#rx-dosis').value;
+    p.atendido = true;
+    saveDB(); closeDrawer();
+    S.tab = 'recetas'; go('legajo');
+    toast('Receta oficial Rp/ generada y enviada al Portal del Paciente', 'prescriptions');
+    return;
+  }
+  if(k==='quick-rx'){
+    const c = RECETAS_COMBOS.find(x=>x.id===act.dataset.rxid), u = currentUser();
+    p.recetas = p.recetas || [];
+    p.recetas.unshift({
+      id:'REC-0000'+(20+p.recetas.length), fecha:'21/10/2026',
+      pro:u.n, esp:u.esp, mat:u.mat,
+      trat:'Atención clínica en sillón', droga:c.droga, comp:c.comp, dosis:c.dosis, ind:c.ind
+    });
+    S.rxSelIdx = 0;
+    p.med = c.droga;
+    p.atendido = true;
+    saveDB(); R.legajo();
+    toast(`Receta Rp/ de ${c.droga} generada con firma digital`, 'prescriptions');
+    return;
+  }
+
+  if(k==='open-derivar'){ openDerivarModal(); return; }
+  if(k==='save-derivar'){
+    const u = currentUser(), para = $('#dv-para').value, mot = $('#dv-mot').value;
+    p.derivaciones = p.derivaciones || [];
+    p.derivaciones.unshift({fecha:'Hoy', de:`${u.n} (${u.esp.split(' ')[0]})`, para, motivo:mot, estado:'Enviado a Secretaría'});
+    SEC_NOTES.unshift({id:'ns'+Date.now(), pid:p.id, de:`${u.n} (${u.esp.split(' ')[0]})`, txt:`Derivar a ${para}: ${mot}`, done:false});
+    saveDB(); closeDrawer(); R.legajo();
+    toast('Pase clínico registrado · Secretaría ya lo tiene en su consola de turnos', 'alt_route');
+    return;
+  }
+
+  if(k==='pac-confirm-turno'){
+    const t = TURNOS.find(x=>x.id===act.dataset.tid);
+    if(t) t.confirmed = true;
+    saveDB(); R.portal();
+    toast('Turno confirmado. Secretaría ya lo ve confirmado en la agenda.', 'check_circle');
+    return;
+  }
+  if(k==='pac-toggle-reprog' || k==='reprog-sec'){
+    if(k==='reprog-sec'){
+      const t = TURNOS.find(x=>x.id===act.dataset.tid);
+      if(t){ t.dia = 'Jueves 22 oct'; t.h = '16:00'; saveDB(); R.secretaria(); toast('Turno reprogramado para el Jueves 22 a las 16:00 hs y avisado al paciente', 'edit_calendar'); }
+      return;
+    }
+    S.showReprog = !S.showReprog; R.portal(); return;
+  }
+  if(k==='pac-pick-slot'){
+    const t = TURNOS.find(x=>x.id===act.dataset.tid);
+    const [dia, h] = act.dataset.slot.split(' · ');
+    if(t){ t.dia = dia; t.h = h; t.confirmed = true; }
+    S.showReprog = false;
+    saveDB(); R.portal();
+    toast(`Tu turno se cambió al ${dia} a las ${h} hs. Se actualizó la agenda del consultorio.`, 'event_repeat');
+    return;
+  }
+  if(k==='pac-dl-rx'){ DB.profileRole='pro'; S.tab='recetas'; saveDB(); go('legajo'); toast('Abriendo hoja oficial Rp/ lista para imprimir o presentar en farmacia', 'description'); return; }
+
+  if(k==='reset-demo'){
+    localStorage.removeItem(DB_KEY);
+    DB = loadDB();
+    SILLONES = DB.sillones; USERS = DB.users; PATIENTS = DB.patients; TURNOS = DB.turnos; SEC_NOTES = DB.notasSec; BOLSA = DB.bolsaUrg; COBERTURAS = DB.coberturas;
+    S.pid = 'p1';
+    go('legajo');
+    toast('Datos restaurados a la configuración inicial', 'restart_alt');
+    return;
+  }
+
+  if(k==='pick-pat' || k==='open-pat'){ S.pid = act.dataset.pid; DB.simPid = S.pid; saveDB(); go('legajo'); }
   if(k==='tab'){ S.tab = act.dataset.t; R.legajo(); }
   if(k==='tool'){ S.tool = act.dataset.t; R.legajo(); }
-  if(k==='dent'){ p.dent = act.dataset.d; R.legajo(); }
+  if(k==='dent'){ p.dent = act.dataset.d; saveDB(); R.legajo(); }
   if(k==='pqty'){
     const id = +act.dataset.id, d = +act.dataset.d;
     p.extraQty[id] = Math.max(0, (p.extraQty[id]||0) + d);
-    R.legajo();
+    p.atendido = true; saveDB(); renderSimBanner(); R.legajo();
   }
   if(k==='est-toggle'){
     const sk = act.dataset.k, st = p.est[sk];
     st.ok = !st.ok;
     if(!st.ok && !st.obs) st.obs = EST_STRUCTS.find(x=>x.k===sk).sug;
-    R.legajo();
+    p.atendido = true; saveDB(); R.legajo();
   }
-  if(k==='ihos'){
-    p[act.dataset.t][+act.dataset.i] = +act.dataset.v;
-    R.legajo();
-  }
-  if(k==='add-destartraje'){
-    p.extraQty[2] = (p.extraQty[2]||0) + 1;
-    S.tab = 'odonto'; R.legajo();
-    toast('Ítem 2 (Destartraje + Profilaxis) sumado al presupuesto', 'add_task');
-  }
-  if(k==='send-presu'){ toast('Presupuesto enviado por WhatsApp al Portal del Paciente', 'send'); }
-  if(k==='orden-dentalscan'){ toast('Orden digital para Dental Scan (La Rioja 3501) enviada por WhatsApp al paciente', 'radiology'); }
-  if(k==='llego'){
-    const t = TURNOS.find(x=>x.id===act.dataset.tid), pat = patById(t.pid), sil = SILLONES.find(x=>x.id===t.sillon);
-    t.sala = true; R.sillones();
-    $('#pings').innerHTML = `<div class="ping"><b>${ico('chair')} ${pat.n} llegó a Recepción</b><p class="muted" style="font-size:13px;margin:4px 0 8px">${sil.n} · ${t.prac}</p><button class="btn sm pri" onclick="this.closest('.ping').remove()">Ya lo hago pasar</button></div>`;
-    toast(`Aviso en vivo enviado a ${sil.pro}`, 'notifications_active');
+  if(k==='ihos'){ p[act.dataset.t][+act.dataset.i] = +act.dataset.v; p.atendido = true; saveDB(); R.legajo(); }
+  if(k==='add-destartraje'){ p.extraQty[2] = (p.extraQty[2]||0) + 1; saveDB(); S.tab = 'odonto'; go('legajo'); toast('Destartraje sumado al presupuesto', 'add_task'); }
+  if(k==='send-presu'){ DB.profileRole = 'pac'; saveDB(); go('portal'); toast('Cambiando a Vista Paciente para aprobar el presupuesto en el celular', 'smartphone'); }
+  if(k==='orden-dentalscan'){
+    p.pano.fecha = 'Orden enviada hoy (21/10/2026)';
+    if(p.ordenOS) p.ordenOS.checks.rx = true;
+    saveDB(); R.legajo();
+    toast('Orden digital enviada para Dental Scan (La Rioja 3501)', 'radiology');
   }
   if(k==='voice-demo'){ S.voiceDone = true; R.manoslibres(); }
   if(k==='voice-apply'){
-    p.teeth['17'] = {faces:{M:'caries',O:'caries'}, whole:null};
-    p.extraQty[2] = (p.extraQty[2]||0) + 1;
-    S.tab = 'odonto'; go('legajo');
-    toast('IA impactó Pieza 17 (Resina compuesta) + Destartraje en el Odontograma', 'auto_awesome');
+    const u = currentUser();
+    p.teeth['17'] = {faces:{M:'caries',O:'caries'}, whole:null, by:`${u.n} · IA Voz`};
+    p.recetas.unshift({id:'REC-0000'+(20+p.recetas.length), fecha:'21/10/2026', pro:u.n, esp:u.esp, mat:u.mat, trat:'Resina compuesta pieza 17', droga:'Ketorolac 10 mg Sublingual', comp:'Envase × 10 comprimidos', dosis:'1 comprimido sublingual cada 8 hs si hay dolor', ind:'Generado por dictado manos libres con IA.'});
+    p.atendido = true; saveDB(); S.tab = 'odonto'; go('legajo');
+    toast('IA impactó Pieza 17 en el Odontograma, en la Planilla OS y creó la Receta Rp/', 'auto_awesome');
   }
-  if(k==='foto-planilla'){
-    p.extraQty[18] = (p.extraQty[18]||0) + 2;
-    S.tab = 'odonto'; go('legajo');
-    toast('Planilla leída: se sumaron 2 Sellantes (Ítem 18) al presupuesto', 'document_scanner');
+  if(k==='foto-planilla'){ p.extraQty[18] = (p.extraQty[18]||0) + 2; saveDB(); S.tab = 'odonto'; go('legajo'); toast('Planilla leída: se sumaron 2 Sellantes al presupuesto', 'document_scanner'); }
+  if(k==='firmar-ok'){
+    p.signed = true; p.consentSigned = true;
+    if(p.ordenOS){ p.ordenOS.checks.firma = true; p.ordenOS.estado = 'presentada'; }
+    DB.profileRole = 'sec'; saveDB(); go('ordenes');
+    toast('Firma estampada · Mirá cómo quedó en la Planilla Oficial de Obra Social', 'verified');
   }
-  if(k==='firmar-ok'){ p.signed = true; go('obras'); toast('Firma digital registrada en el legajo de ' + p.n, 'verified'); }
-  if(k==='approve-presu'){ p.presuApproved = true; R.portal(); toast('Presupuesto aprobado por el paciente', 'check_circle'); }
-  if(k==='urgencia'){ toast('Solicitud de sobreturno de urgencia enviada a Recepción', 'emergency'); }
+  if(k==='approve-presu'){ p.presuApproved = true; saveDB(); go('firmas'); toast('Plan aprobado · Pasando a Firma de Planilla Oficial', 'check_circle'); }
+  if(k==='urgencia'){ toast('Solicitud de sobreturno de urgencia enviada a la Consola de Secretaría', 'emergency'); }
+});
+
+document.addEventListener('change', e => {
+  if(e.target.dataset.act === 'pac-switch-sel'){
+    S.pid = e.target.value; DB.simPid = S.pid; saveDB(); go('portal');
+  }
+  if(e.target.id === 'cov-prac-sel'){
+    S.covPracId = +e.target.value; R.coberturas();
+  }
+  if(e.target.dataset.covModo !== undefined){
+    const idx = +e.target.dataset.covModo;
+    COBERTURAS[idx].modo = e.target.value;
+    COBERTURAS[idx].val = e.target.value === 'pct' ? 70 : 45000;
+    saveDB(); R.coberturas();
+  }
 });
 
 document.addEventListener('input', e => {
   if(e.target.dataset.estInp){
     patById(S.pid).est[e.target.dataset.estInp].obs = e.target.value;
+    saveDB();
   }
-});
-
-$('#role-sel').addEventListener('change', e => {
-  S.role = e.target.value;
-  toast('Vista cambiada a: ' + e.target.options[e.target.selectedIndex].text);
+  if(e.target.id === 'wa-tpl-ta'){
+    DB.waTpl = e.target.value;
+    saveDB();
+    const box = $('.wa-bubble');
+    if(box){ R.recordatorios(); $('#wa-tpl-ta').focus(); }
+  }
+  if(e.target.dataset.covVal !== undefined){
+    const idx = +e.target.dataset.covVal;
+    COBERTURAS[idx].val = +e.target.value || 0;
+    saveDB(); R.coberturas();
+  }
 });
 
 go('legajo');
