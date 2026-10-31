@@ -1,0 +1,1072 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>OdontoOS · by sobrinos | Gestión Clínica + IA en Mar del Plata</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --navy:#0B1120; --navy-2:#0F172A; --navy-3:#162036; --line:rgba(148,178,220,.14); --line-2:rgba(148,178,220,.24);
+  --ink:#E6EDF7; --ink-2:#A7B4C8; --ink-3:#6E7D95;
+  --cyan:#0284C7; --cyan-l:#38BDF8; --emerald:#10B981; --emerald-l:#34D399; --orange:#EA580C; --orange-l:#FB923C;
+  --red:#EF4444; --violet:#8B5CF6; --paper:#F8FAFC; --paper-ink:#0F172A; --paper-2:#E2E8F0;
+  --sans:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--navy);color:var(--ink);scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cyan-l);outline-offset:3px;border-radius:8px}
+.bg{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+   radial-gradient(60rem 30rem at 85% -10%,rgba(2,132,199,.22),transparent 60%),
+   radial-gradient(40rem 26rem at 0% 30%,rgba(16,185,129,.12),transparent 60%),
+   linear-gradient(var(--navy),var(--navy))}
+.bg::after{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,#000 10%,transparent 70%);opacity:.5}
+.wrap{max-width:1160px;margin:0 auto}
+
+/* ---------- Nav ---------- */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand svg{width:42px;height:42px;flex:none}
+.brand .wm{font-weight:800;font-size:23px;letter-spacing:-.02em;line-height:1}
+.brand .wm b{color:var(--cyan-l);font-weight:800}
+.brand .by{display:block;font-size:11.5px;font-weight:600;color:var(--emerald-l);letter-spacing:.02em;margin-top:3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 15px/1 var(--sans);text-decoration:none;border-radius:12px;padding:14px 20px;border:1px solid transparent;cursor:pointer;transition:transform .35s var(--ease),background .25s,border-color .25s,box-shadow .35s var(--ease);white-space:nowrap}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-wa{background:var(--emerald);color:#04241A;box-shadow:0 10px 30px -10px rgba(16,185,129,.7);font-weight:700}
+.btn-wa:hover{transform:translateY(-2px);background:var(--emerald-l)}
+.btn-ghost{border-color:var(--line-2);color:var(--ink);background:rgba(255,255,255,.03)}
+.btn-ghost:hover{border-color:var(--cyan-l);transform:translateY(-2px)}
+.btn-sm{padding:10px 14px;font-size:14px;border-radius:10px}
+
+/* ---------- Hero ---------- */
+.hero{padding-block:32px 28px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:40px;align-items:end}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);
+  border:1px solid var(--line-2);border-radius:999px;padding:8px 14px;background:rgba(15,23,42,.6)}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 4px rgba(16,185,129,.18)}
+h1{font-size:clamp(38px,6.2vw,70px);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:22px 0 0;text-wrap:balance}
+h1 .grad{background:linear-gradient(100deg,var(--cyan-l),var(--emerald-l));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(16px,1.6vw,19px);color:var(--ink-2);max-width:60ch;margin:20px 0 0}
+.lede strong{color:var(--ink);font-weight:600}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero-side{display:grid;gap:10px;min-width:0}
+.fact{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:14px 16px;border-top:1px solid var(--line)}
+.fact:first-child{border-top:0}
+.fact .k{font:600 12px/1.6 var(--mono);color:var(--orange-l);letter-spacing:.04em}
+.fact p{margin:0;font-size:14.5px;color:var(--ink-2)}
+.fact p b{color:var(--ink);font-weight:600}
+
+/* ---------- Player ---------- */
+.player{margin-block:8px 28px;border:1px solid var(--line-2);border-radius:22px;background:linear-gradient(180deg,rgba(22,32,54,.9),rgba(11,17,32,.95));
+  box-shadow:0 40px 120px -40px rgba(2,132,199,.45),0 0 0 1px rgba(255,255,255,.02) inset;overflow:hidden}
+.tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{appearance:none;background:none;border:0;color:var(--ink-3);font:inherit;text-align:left;padding:14px 16px 13px;cursor:pointer;position:relative;min-width:0;border-left:1px solid var(--line);transition:color .3s}
+.tab:first-child{border-left:0}
+.tab .n{display:block;font:600 11px/1 var(--mono);letter-spacing:.06em;color:var(--ink-3)}
+.tab .l{display:block;font-size:13.5px;font-weight:600;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab .bar{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:linear-gradient(90deg,var(--cyan),var(--emerald))}
+.tab:hover{color:var(--ink-2)}
+.tab[aria-selected="true"]{color:var(--ink)}
+.tab[aria-selected="true"] .n{color:var(--cyan-l)}
+
+.stage{position:relative;overflow:hidden;background:#080D19;cursor:pointer;user-select:none;-webkit-user-select:none}
+.cv{position:absolute;left:0;top:0;width:960px;height:540px;transform-origin:0 0;font-family:var(--sans);color:var(--ink);
+  background:radial-gradient(700px 360px at 80% 0%,rgba(2,132,199,.16),transparent 70%),radial-gradient(500px 300px at 0% 100%,rgba(16,185,129,.10),transparent 70%),#080D19}
+.cv::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(148,178,220,.10) 1px,transparent 1px);background-size:22px 22px}
+.cv.portrait{width:560px;height:880px}
+
+.subs{position:absolute;left:0;right:0;bottom:0;padding:34px 20px 16px;text-align:center;pointer-events:none;
+  background:linear-gradient(transparent,rgba(5,9,18,.92) 60%)}
+.subs p{margin:0 auto;max-width:880px;font-size:clamp(14px,1.9vw,19px);font-weight:600;line-height:1.4;letter-spacing:-.005em;color:rgba(230,237,247,.38);min-height:1.4em;text-wrap:balance;transition:opacity .3s}
+.subs p span{transition:color .25s var(--ease),text-shadow .25s}
+.subs p span.on{color:#fff}
+.subs p span.cur{color:var(--cyan-l);text-shadow:0 0 18px rgba(56,189,248,.45)}
+.subs.idle p{opacity:.55}
+
+.big-play{position:absolute;inset:0;display:grid;place-items:center;background:rgba(5,9,18,.35);transition:opacity .4s var(--ease);z-index:5}
+.big-play button{appearance:none;border:0;cursor:pointer;display:flex;align-items:center;gap:14px;padding:12px 26px 12px 12px;border-radius:999px;
+  background:rgba(11,17,32,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--ink);font:700 16px/1 var(--sans);
+  box-shadow:0 0 0 1px var(--line-2),0 20px 60px -10px rgba(0,0,0,.7);transition:transform .35s var(--ease)}
+.big-play button:hover{transform:scale(1.04)}
+.big-play .ring{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--emerald));position:relative}
+.big-play .ring::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(56,189,248,.5);animation:ring 2s var(--ease) infinite}
+.big-play .ring svg{width:22px;height:22px;margin-left:3px}
+.big-play small{display:block;font:500 12px/1 var(--mono);color:var(--ink-2);margin-top:6px;letter-spacing:.04em}
+@keyframes ring{0%{transform:scale(.9);opacity:1}100%{transform:scale(1.35);opacity:0}}
+.badge-fallback{position:absolute;top:12px;right:12px;z-index:6;font:600 11px/1 var(--mono);color:var(--orange-l);background:rgba(234,88,12,.12);border:1px solid rgba(234,88,12,.35);padding:7px 10px;border-radius:8px;letter-spacing:.03em}
+
+.controls{display:flex;align-items:center;gap:6px;padding:10px 12px;border-top:1px solid var(--line)}
+.ctl{appearance:none;background:none;border:0;color:var(--ink);width:40px;height:40px;border-radius:10px;display:grid;place-items:center;cursor:pointer;flex:none;transition:background .2s}
+.ctl:hover{background:rgba(255,255,255,.06)}
+.ctl svg{width:20px;height:20px}
+.time{font:600 13px/1 var(--mono);color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap;padding:0 6px;flex:none}
+.time b{color:var(--ink);font-weight:600}
+.prog{position:relative;flex:1;height:40px;cursor:pointer;min-width:60px;touch-action:none}
+.prog .track{position:absolute;left:0;right:0;top:50%;height:6px;margin-top:-3px;border-radius:6px;background:rgba(148,178,220,.16);overflow:hidden}
+.prog .fill{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,var(--cyan),var(--emerald));border-radius:6px}
+.prog .mk{position:absolute;top:50%;width:2px;height:10px;margin-top:-5px;background:var(--navy);z-index:2}
+.prog .knob{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(56,189,248,.25);left:0;z-index:3;transition:transform .2s var(--ease)}
+.prog:hover .knob{transform:scale(1.2)}
+.speed{appearance:none;border:1px solid var(--line-2);background:none;color:var(--ink);font:600 12.5px/1 var(--mono);height:32px;padding:0 10px;border-radius:8px;cursor:pointer;flex:none}
+.speed:hover{border-color:var(--cyan-l)}
+
+.strip{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between;padding-block:6px 40px;color:var(--ink-3);font-size:14px}
+.strip span b{color:var(--ink-2);font-weight:600}
+
+/* ---------- Secciones Comerciales de Conversión ---------- */
+.sec-block{padding-block:54px;border-top:1px solid var(--line)}
+.sec-head{max-width:680px;margin-bottom:32px}
+.sec-head h2{font-size:clamp(26px,3.6vw,40px);line-height:1.1;letter-spacing:-.025em;margin:12px 0 10px}
+.sec-head p{color:var(--ink-2);margin:0;font-size:16px}
+.pain-layout{display:grid;grid-template-columns:340px minmax(0,1fr);gap:22px;align-items:stretch}
+.pain-list{display:flex;flex-direction:column;gap:8px}
+.pain-btn{appearance:none;background:rgba(15,23,42,.6);border:1px solid var(--line-2);color:var(--ink-2);border-radius:14px;padding:15px 16px;text-align:left;font:600 14.5px/1.35 var(--sans);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:.2s}
+.pain-btn:hover{border-color:var(--cyan-l);color:var(--ink)}
+.pain-btn[aria-selected="true"]{background:linear-gradient(90deg,rgba(2,132,199,.22),rgba(16,185,129,.12));border-color:var(--cyan-l);color:#fff;box-shadow:0 12px 28px -12px rgba(2,132,199,.4)}
+.pain-detail{background:linear-gradient(180deg,rgba(22,32,54,.92),rgba(11,17,32,.96));border:1px solid var(--line-2);border-radius:20px;padding:30px;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+.pain-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding-top:18px;border-top:1px solid var(--line)}
+.pain-metrics b{display:block;font:800 24px/1.1 var(--mono);color:var(--emerald-l)}
+.pain-metrics span{font-size:12.5px;color:var(--ink-2)}
+
+.alianza-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:stretch}
+.alianza-card{background:linear-gradient(160deg,rgba(2,132,199,.16),rgba(15,23,42,.95));border:1.5px solid var(--cyan);border-radius:22px;padding:32px;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+.step-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.step-c{background:rgba(15,23,42,.75);border:1px solid var(--line-2);border-radius:16px;padding:18px}
+.step-c .sn{font:700 11px/1 var(--mono);color:var(--cyan-l);letter-spacing:.06em;text-transform:uppercase}
+.step-c h4{margin:8px 0 6px;font-size:16px}
+.step-c p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.45}
+@media (max-width:860px){.pain-layout,.alianza-grid,.step-cards,.pain-metrics{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);padding-block:22px 34px;color:var(--ink-3);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media (max-width:900px){.hero{grid-template-columns:1fr;gap:24px}.hero-side{grid-template-columns:repeat(3,minmax(0,1fr))}.fact{grid-template-columns:1fr;border-top:0;border-left:1px solid var(--line);padding:6px 14px}.fact:first-child{border-left:0;padding-left:0}}
+@media (max-width:640px){
+  .hero-side{grid-template-columns:1fr}.fact{border-left:0;border-top:1px solid var(--line);padding:12px 0}.fact:first-child{border-top:0}
+  .tabs{grid-template-columns:repeat(5,minmax(120px,1fr))}
+  .tab{padding:12px 12px 11px}
+  .ctl{width:36px;height:36px}.time{font-size:12px;padding:0 2px}
+  .nav .btn-sm span{display:none}
+  .hero-cta .btn{flex:1 1 220px}
+}
+
+/* =========================================================
+   Escenas (dentro del lienzo, en px de lienzo)
+   ========================================================= */
+.scene{position:absolute;inset:0;padding:26px 30px 96px;display:grid;grid-template-rows:auto minmax(0,1fr);gap:18px;visibility:hidden;opacity:0}
+.scene.on{visibility:visible;opacity:1}
+.portrait .scene{padding:28px 26px 120px}
+.sh{display:flex;align-items:baseline;gap:14px}
+.sh .no{font:600 12px/1 var(--mono);color:var(--cyan-l);letter-spacing:.08em;white-space:nowrap}
+.sh h3{margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.portrait .sh{flex-direction:column;gap:8px}
+.portrait .sh h3{font-size:26px}
+
+.a{opacity:0}
+.scene.on .a{animation-name:var(--k,fadeUp);animation-duration:calc(var(--dur,.8s) / var(--rate,1));animation-delay:calc((var(--d,0s) - var(--off,0s)) / var(--rate,1));animation-fill-mode:both;animation-timing-function:var(--ease);animation-iteration-count:1}
+.scene.on .loop{animation-play-state:running}
+.paused .scene.on .a,.paused .loop{animation-play-state:paused!important}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{opacity:0;transform:scale(.6)}70%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+@keyframes slideL{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes slam{0%{opacity:0;transform:scale(2.4) rotate(-14deg)}55%{opacity:1;transform:scale(.94) rotate(-9deg)}75%{transform:scale(1.03) rotate(-9deg)}100%{opacity:1;transform:scale(1) rotate(-9deg)}}
+@keyframes draw{from{opacity:1;stroke-dashoffset:1}to{opacity:1;stroke-dashoffset:0}}
+@keyframes paint{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(60px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes ctaIn{from{opacity:0;visibility:hidden;transform:translateY(30px)}to{opacity:1;visibility:visible;transform:none}}
+.draw{stroke-dasharray:1;stroke-dashoffset:1}
+
+.card{background:linear-gradient(180deg,rgba(22,32,54,.95),rgba(15,23,42,.95));border:1px solid var(--line-2);border-radius:16px;padding:16px;min-width:0;position:relative}
+.lbl{font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.mono{font-family:var(--mono)}
+
+/* ---- Escena 1 ---- */
+.s1 .grid{display:grid;grid-template-columns:1fr 1fr 1.1fr;gap:16px;min-height:0}
+.portrait .s1 .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+.portrait .s1 .c3{grid-column:1 / -1}
+.s1 .c1{display:grid;grid-template-rows:auto 1fr auto;gap:10px}
+.glovebox{position:relative;display:grid;place-items:center;min-height:170px}
+.glovebox svg.kb{width:200px;position:absolute;bottom:6px}
+.glove{width:96px;position:absolute;top:0;left:50%;margin-left:-48px;animation:reach 2.4s var(--ease) infinite;animation-play-state:paused}
+@keyframes reach{0%,100%{transform:translateY(0) rotate(-6deg)}45%{transform:translateY(34px) rotate(0)}55%{transform:translateY(30px) rotate(2deg)}}
+.lock{position:absolute;top:58px;right:22px;width:46px;height:46px;border-radius:50%;background:rgba(239,68,68,.15);border:2px solid var(--red);display:grid;place-items:center;color:var(--red)}
+.lock svg{width:22px}
+.lock::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--red);animation:ring 1.4s ease-out infinite;animation-play-state:paused}
+.warn{font-size:13px;color:var(--ink-2);line-height:1.4}
+.warn b{color:var(--red)}
+.chip{display:inline-flex;align-items:center;gap:6px;font:600 11px/1 var(--mono);padding:6px 9px;border-radius:7px;letter-spacing:.02em;white-space:nowrap}
+.chip.red{background:rgba(239,68,68,.14);color:#FCA5A5;border:1px solid rgba(239,68,68,.35)}
+.chip.ok{background:rgba(16,185,129,.14);color:var(--emerald-l);border:1px solid rgba(16,185,129,.35)}
+.chip.cy{background:rgba(2,132,199,.16);color:var(--cyan-l);border:1px solid rgba(56,189,248,.35)}
+.chip.or{background:rgba(234,88,12,.14);color:var(--orange-l);border:1px solid rgba(234,88,12,.35)}
+.s1 .c2{display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.door{display:flex;align-items:center;gap:12px}
+.door .d{width:44px;height:58px;border-radius:6px 6px 2px 2px;border:2px solid var(--ink-3);position:relative;flex:none}
+.door .d::after{content:"";position:absolute;right:6px;top:28px;width:5px;height:5px;border-radius:50%;background:var(--ink-3)}
+.knock{position:absolute;left:-14px;top:12px;width:30px;height:30px;border-radius:50%;border:2px solid var(--orange);opacity:0;animation:knock 1.1s ease-out infinite;animation-play-state:paused}
+.knock.k2{animation-delay:.18s}
+@keyframes knock{0%{transform:scale(.4);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.door p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.35}
+.door p b{color:var(--orange-l)}
+.notif{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:12px;background:rgba(248,250,252,.06);border:1px solid var(--line-2);box-shadow:0 12px 30px -12px rgba(0,0,0,.6)}
+.notif .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font:700 13px/1 var(--sans)}
+.notif .ic.r{background:rgba(234,88,12,.2);color:var(--orange-l)}
+.notif .ic.w{background:rgba(16,185,129,.2);color:var(--emerald-l)}
+.notif .t{font-size:11px;color:var(--ink-3);font-weight:600}
+.notif .m{font-size:13px;line-height:1.35;color:var(--ink)}
+.s1 .c3{background:var(--paper);color:var(--paper-ink);border-color:transparent;overflow:hidden}
+.os-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--paper-ink);padding-bottom:8px;gap:8px}
+.os-head b{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.os-head span{font:600 10px/1.3 var(--mono);color:#475569;text-align:right}
+.os-row{display:grid;grid-template-columns:96px 1fr;gap:8px;font-size:12.5px;padding:6px 0;border-bottom:1px dashed #CBD5E1}
+.os-row span{color:#64748B;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.os-row em{font-style:normal;font-weight:600}
+.os-row .miss{color:#DC2626}
+.firma-box{margin-top:10px;height:46px;border:1.5px dashed #94A3B8;border-radius:6px;display:grid;place-items:center;font:600 11px/1 var(--mono);color:#94A3B8}
+.stamp{position:absolute;right:20px;bottom:46px;border:4px solid #DC2626;color:#DC2626;border-radius:8px;padding:8px 14px;text-align:center;transform:rotate(-9deg);mix-blend-mode:multiply;background:rgba(254,226,226,.35)}
+.stamp b{display:block;font:800 30px/1 var(--sans);letter-spacing:.06em}
+.stamp i{display:block;font:700 12px/1.2 var(--mono);font-style:normal;margin-top:5px;letter-spacing:.04em}
+.portrait .stamp{bottom:30px}
+.clock{display:flex;gap:10px;align-items:center;margin-left:auto}
+
+/* ---- Escena 2 ---- */
+.s2 .grid{display:grid;grid-template-columns:1.05fr 1fr 1.05fr;gap:16px;min-height:0}
+.portrait .s2 .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+.portrait .s2 .voice{grid-column:1 / -1}
+.voice{display:flex;flex-direction:column;gap:12px}
+.mic{display:flex;align-items:center;gap:10px}
+.mic .dot{width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(239,68,68,.2);animation:blink 1s steps(2) infinite;animation-play-state:paused}
+@keyframes blink{50%{opacity:.2}}
+.wave{display:flex;align-items:center;gap:3px;height:58px}
+.wave i{flex:1;max-width:6px;border-radius:3px;background:linear-gradient(var(--cyan-l),var(--emerald));height:20%;animation:wv 1s ease-in-out infinite;animation-play-state:paused}
+@keyframes wv{0%,100%{height:14%}50%{height:var(--h,80%)}}
+.trans{font-size:16px;line-height:1.5;font-weight:600;color:var(--ink)}
+.trans .w{display:inline-block;margin-right:.28em}
+.trans .hl{color:var(--cyan-l)}
+.trans .hv{color:#C4B5FD}
+.trans .ho{color:var(--orange-l)}
+.mini{font-size:12px;color:var(--ink-3)}
+.odo{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.arch{display:flex;gap:3px;justify-content:center}
+.arch span{font:600 10px/1 var(--mono);color:var(--ink-3);width:20px;text-align:center;padding:5px 0;border-radius:5px;background:rgba(255,255,255,.03)}
+.arch span.sep{width:8px;background:none}
+.arch span.x{color:#fff}
+.arch span.x16{background:rgba(239,68,68,.35)}
+.arch span.x26{background:rgba(139,92,246,.4)}
+.teeth{display:flex;justify-content:space-around;gap:10px}
+.tooth{display:flex;flex-direction:column;align-items:center;gap:6px}
+.tooth svg{width:104px;height:104px}
+.tooth .f{fill:rgba(255,255,255,.04);stroke:var(--ink-3);stroke-width:1.4}
+.tooth .p{stroke:none}
+.tooth .tag{font:700 13px/1 var(--mono)}
+.tooth small{font-size:11.5px;color:var(--ink-2);text-align:center;line-height:1.3}
+.legend{display:flex;gap:12px;justify-content:center;font-size:11px;color:var(--ink-3)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.bud{display:flex;flex-direction:column;gap:8px;position:relative;overflow:visible}
+.brow{display:grid;grid-template-columns:48px 1fr auto;gap:8px;align-items:center;padding:9px 10px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.brow .c{font:600 12px/1 var(--mono);color:var(--cyan-l)}
+.brow .dsc{font-size:12.5px;line-height:1.3}
+.brow .dsc small{display:block;color:var(--ink-3);font-size:11px}
+.brow .v{font:600 12.5px/1 var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.tot{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:12.5px;padding:8px 10px 0;color:var(--ink-2)}
+.tot .v{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.tot .big{font-size:15px;color:var(--ink);font-weight:700}
+.tot .big.v{color:var(--emerald-l)}
+.rp{position:absolute;left:-26px;right:-8px;bottom:-8px;background:var(--paper);color:var(--paper-ink);border-radius:10px;padding:12px 14px 10px;box-shadow:0 30px 60px -20px rgba(0,0,0,.8);border-top:5px solid var(--cyan)}
+.portrait .rp{left:-10px;right:-8px;bottom:-8px}
+.rp .rh{display:flex;justify-content:space-between;font:600 10px/1.2 var(--mono);color:#475569}
+.rp .rx{font:italic 800 26px/1 Georgia,"Times New Roman",serif;color:var(--cyan);margin:6px 0 2px}
+.rp .med{font-size:13px;font-weight:700}
+.rp .pos{font-size:12px;color:#334155}
+.rp .sig{display:flex;justify-content:space-between;align-items:flex-end;margin-top:2px}
+.rp .sig svg{width:150px;height:42px}
+.rp .sig span{font:600 9.5px/1.2 var(--mono);color:#64748B;text-align:right}
+
+/* ---- Escena 3 ---- */
+.s3 .grid{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;min-height:0}
+.portrait .s3 .grid{grid-template-columns:1fr}
+.rxv{padding:0;overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.rxbar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}
+.rxbar .t{font-size:12px;font-weight:600;color:var(--ink-2)}
+.pano{position:relative;background:#02040A;min-height:0}
+.pano svg{display:block;width:100%;height:100%}
+.scan{position:absolute;top:0;bottom:0;width:80px;background:linear-gradient(90deg,transparent,rgba(56,189,248,.18),transparent);animation:scan 3.2s linear infinite;animation-play-state:paused}
+@keyframes scan{from{left:-80px}to{left:100%}}
+.ds{position:absolute;left:14px;bottom:14px;width:230px;background:var(--paper);color:var(--paper-ink);border-radius:8px;padding:10px 12px;box-shadow:0 20px 40px -10px rgba(0,0,0,.8)}
+.ds .h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid var(--paper-ink);padding-bottom:5px;margin-bottom:6px}
+.ds .h b{font-size:13px;font-weight:800}
+.ds .h span{font:600 9px/1 var(--mono);color:#475569}
+.ck{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;padding:3px 0}
+.ck .bx{width:15px;height:15px;border:1.5px solid #334155;border-radius:3px;position:relative;flex:none}
+.ck .bx svg{position:absolute;inset:-3px;width:20px;height:20px}
+.ck .bx path{stroke:var(--cyan);stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ds .ft{font:600 9px/1.3 var(--mono);color:#64748B;margin-top:5px}
+.circ{background:var(--paper);color:var(--paper-ink);border-color:transparent;display:flex;flex-direction:column;gap:8px}
+.circ .h{border-bottom:2px solid var(--paper-ink);padding-bottom:6px}
+.circ .h b{display:block;font-size:14px;font-weight:800;letter-spacing:-.01em}
+.circ .h span{font:600 10px/1.3 var(--mono);color:#475569}
+.ctab{width:100%;border-collapse:collapse;font-size:12px}
+.ctab th{font:700 9.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#64748B;text-align:left;padding:6px 6px;border-bottom:1px solid #CBD5E1}
+.ctab td{padding:8px 6px;border-bottom:1px dashed #CBD5E1;font-weight:600;height:34px}
+.ctab td.m{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.ctab tr.empty td{color:#CBD5E1}
+.okbar{margin-top:auto;display:flex;align-items:center;gap:10px;background:#ECFDF5;border:1.5px solid var(--emerald);color:#065F46;border-radius:10px;padding:10px 12px;font-weight:700;font-size:13px}
+.okbar .ic{width:24px;height:24px;border-radius:50%;background:var(--emerald);display:grid;place-items:center;flex:none}
+.okbar .ic svg{width:14px}
+.okbar small{display:block;font:600 10px/1.2 var(--mono);color:#047857;font-weight:600}
+
+/* ---- Escena 4 ---- */
+.s4 .grid{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center;min-height:0;padding-left:60px}
+.portrait .s4 .grid{grid-template-columns:1fr;justify-items:center;padding-left:0;gap:18px}
+.phone{width:224px;height:366px;border-radius:38px;background:#05070D;padding:9px;box-shadow:0 0 0 2px #2A3550,0 40px 80px -30px rgba(2,132,199,.5);position:relative}
+.portrait .phone{width:268px;height:470px;border-radius:44px}
+.phone .scr{width:100%;height:100%;border-radius:30px;overflow:hidden;background:#0B141A;position:relative}
+.portrait .phone .scr{border-radius:38px}
+.phone .isl{position:absolute;top:16px;left:50%;width:76px;height:20px;margin-left:-38px;border-radius:12px;background:#000;z-index:3}
+.wa-h{position:absolute;top:0;left:0;right:0;z-index:2;background:#1F2C34;padding:36px 12px 8px;display:flex;gap:8px;align-items:center}
+.wa-h .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--emerald));display:grid;place-items:center}
+.wa-h .av svg{width:16px}
+.wa-h b{display:block;font-size:11.5px;color:#E9EDEF}
+.wa-h span{font-size:9.5px;color:#8696A0}
+.feed{position:absolute;top:76px;left:0;right:0;padding:8px 9px 40px;display:flex;flex-direction:column;gap:7px}
+.portrait .feed{gap:10px;padding:10px 12px 40px}
+.feed .a{--k:fadeUp;--dur:.8s}
+.scene.on .feed.a{--k:feedScroll;--dur:12.0s;--d:0s;opacity:1;animation-timing-function:linear}
+@keyframes feedScroll{0%,28%{transform:translateY(0)}36%,58%{transform:translateY(-150px)}66%,100%{transform:translateY(-330px)}}
+.portrait .scene.on .feed.a{--k:feedScrollP}
+@keyframes feedScrollP{0%,40%{transform:translateY(0)}48%,100%{transform:translateY(-250px)}}
+.bub{max-width:88%;padding:7px 9px;border-radius:9px;font-size:10.5px;line-height:1.38;color:#E9EDEF;background:#1F2C34;align-self:flex-start}
+.portrait .bub{font-size:13px}
+.bub.me{align-self:flex-end;background:#005C4B}
+.bub .tm{display:block;text-align:right;font-size:8.5px;color:#8696A0;margin-top:2px}
+.wcard{background:#F8FAFC;color:var(--paper-ink);border-radius:10px;padding:9px 10px;align-self:stretch;font-size:10.5px}
+.portrait .wcard{font-size:12.5px;padding:11px 12px}
+.wcard .k{font:700 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan)}
+.portrait .wcard .k{font-size:10px}
+.wcard b{display:block;font-size:12.5px;margin-top:4px}
+.portrait .wcard b{font-size:15px}
+.wcard .row{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.wcard .pill{font:600 9px/1 var(--mono);padding:4px 6px;border-radius:5px;background:#E2E8F0}
+.portrait .wcard .pill{font-size:11px}
+.wcard .pill.g{background:#D1FAE5;color:#065F46}
+.wcard .btns{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:7px}
+.wcard .btns span{text-align:center;font-weight:700;font-size:10px;padding:6px;border-radius:6px;background:#E0F2FE;color:var(--cyan)}
+.wcard.pas{border:1.5px solid var(--emerald);background:linear-gradient(180deg,#ECFDF5,#F8FAFC)}
+.wcard.pas .k{color:#047857}
+.wcard .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;margin-top:5px;font-size:9.5px}
+.portrait .wcard .kv{font-size:11.5px}
+.wcard .kv span{color:#64748B}
+.wcard .kv em{font-style:normal;font-weight:700;font-family:var(--mono)}
+.sigpad{background:#fff;border-radius:8px;height:60px;margin-top:6px;position:relative;border:1px dashed #94A3B8}
+.portrait .sigpad{height:78px}
+.sigpad svg{position:absolute;inset:4px 8px;width:calc(100% - 16px);height:calc(100% - 8px)}
+.sigpad .ln{position:absolute;left:10px;right:10px;bottom:12px;border-bottom:1px solid #CBD5E1}
+.callouts{display:flex;flex-direction:column;gap:12px;max-width:440px}
+.portrait .callouts{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:none;width:100%}
+.co{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);background:rgba(15,23,42,.7)}
+.portrait .co{grid-template-columns:1fr;gap:6px;padding:10px 12px}
+.co .n{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font:700 12px/1 var(--mono);background:rgba(2,132,199,.16);color:var(--cyan-l)}
+.portrait .co .n{display:none}
+.co b{display:block;font-size:14.5px;line-height:1.25}
+.co span{font-size:12.5px;color:var(--ink-2);line-height:1.35;display:block}
+.portrait .co b{font-size:15px}
+.portrait .co span{display:none}
+
+/* ---- Escena 5 ---- */
+.s5 .board{display:flex;flex-direction:column;gap:12px;min-height:0}
+.formula{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13.5px;font-weight:700}
+.formula .op{font:700 18px/1 var(--mono);color:var(--ink-3)}
+.formula .t1{color:var(--cyan-l)}.formula .t2{color:var(--orange-l)}.formula .t3{color:var(--emerald-l)}
+.liq{width:100%;border-collapse:separate;border-spacing:0 6px;font-size:13.5px}
+.liq th{font:600 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);text-align:right;padding:4px 14px}
+.liq th:first-child{text-align:left}
+.liq td{background:rgba(22,32,54,.9);padding:12px 14px;text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.liq td:first-child{text-align:left;font-family:var(--sans);border-left:1px solid var(--line);border-radius:12px 0 0 12px}
+.liq td:last-child{border-right:1px solid var(--line);border-radius:0 12px 12px 0;color:var(--emerald-l)}
+.liq td small{display:block;font-size:11px;color:var(--ink-3);font-weight:500}
+.liq td.lab{color:var(--orange-l)}
+.liq tr.total td{background:rgba(2,132,199,.12);border-color:rgba(56,189,248,.3);font-size:15px}
+.liq tr.total td:first-child{font-weight:800}
+.portrait .liq{font-size:12.5px}
+.portrait .liq td,.portrait .liq th{padding:10px 8px}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.cta{position:absolute;left:30px;right:30px;bottom:96px;top:74px;border-radius:20px;display:grid;place-items:center;text-align:center;padding:24px;
+  background:radial-gradient(500px 240px at 50% 0%,rgba(16,185,129,.22),transparent 70%),rgba(8,13,25,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line-2);visibility:hidden}
+.portrait .cta{left:20px;right:20px;top:90px;bottom:120px}
+.cta h4{margin:0;font-size:34px;line-height:1.08;letter-spacing:-.03em;font-weight:800;text-wrap:balance}
+.portrait .cta h4{font-size:36px}
+.cta p{margin:12px auto 0;max-width:46ch;color:var(--ink-2);font-size:15px}
+.portrait .cta p{font-size:17px}
+.cta .row{display:flex;gap:12px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.portrait .cta .row{flex-direction:column;align-items:stretch}
+.cta .btn{font-size:16px;padding:15px 22px}
+.portrait .cta .btn{font-size:19px;padding:20px 22px}
+.cta .num{font:600 12px/1 var(--mono);color:var(--ink-3);margin-top:16px;letter-spacing:.04em}
+
+.loop{animation-play-state:paused}
+.playing:not(.paused) .scene.on .loop,.playing:not(.paused) .scene.on .glove,.playing:not(.paused) .scene.on .knock,.playing:not(.paused) .scene.on .lock::after{animation-play-state:running}
+@media (prefers-reduced-motion:reduce){.loop,.glove,.knock,.lock::after,.big-play .ring::after,.wave i,.scan{animation:none!important}.btn,.tab{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header class="nav">
+    <a class="brand" href="#" aria-label="OdontoOS by sobrinos">
+      <!-- Isotipo Vectorial Oficial OdontoOS (Diente + Infinito OS + Destello IA) -->
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <linearGradient id="odoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0284C7"/>
+            <stop offset="55%" stop-color="#0EA5E9"/>
+            <stop offset="100%" stop-color="#10B981"/>
+          </linearGradient>
+        </defs>
+        <path d="M18 9C10 9 5 15 5 24c0 8 3 12 4 19 1.5 8 3 15 8 15 4 0 4.5-6 7-13 1.5-4 3-5 8-5s6.5 1 8 5c2.5 7 3 13 7 13 5 0 6.5-7 8-15 1-7 4-11 4-19 0-9-5-15-13-15-5 0-8 2.5-14 2.5S23 9 18 9z" fill="none" stroke="url(#odoGrad)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 37a7.5 7.5 0 1 1 0-15c4.5 0 7.5 3.5 11 7.5 3.5 4 6.5 7.5 11 7.5a7.5 7.5 0 1 0 0-15c-3.5 0-6 2-8.2 4.5" fill="none" stroke="url(#odoGrad)" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M52 4l2.2 6.2L60.5 12.5l-6.3 2.3L52 21l-2.2-6.2-6.3-2.3 6.3-2.3z" fill="#10B981"/>
+      </svg>
+      <span><span class="wm">odonto<b>OS</b></span><span class="by">by sobrinos ✦</span></span>
+    </a>
+    <div style="display:flex;align-items:center;gap:10px">
+      <a class="btn btn-ghost btn-sm" href="#diagnosticador"><span>Diagnóstico de Dolores</span></a>
+      <a class="btn btn-ghost btn-sm" href="#alianza"><span>Implementación</span></a>
+      <a class="btn btn-ghost btn-sm" href="https://proyecto-odon.vercel.app" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg><span>Demo en vivo</span>
+      </a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div style="min-width:0">
+      <span class="eyebrow"><i></i>Gestión clínica + IA · Mar del Plata</span>
+      <h1>Tu clínica, con las <span class="grad">manos libres.</span></h1>
+      <p class="lede">OdontoOS escucha mientras atendés: arma el odontograma, el presupuesto con copago y la receta firmada. Completa las órdenes de <strong>Dental Scan</strong> y la planilla del <strong>Círculo Odontológico</strong>, y le manda todo al paciente por WhatsApp.</p>
+      <div class="hero-cta">
+        <a class="btn btn-wa" href="https://wa.me/5492262356371?text=Hola%20Agust%C3%ADn%2C%20vi%20el%20video%20de%20OdontoOS%20y%20quiero%20conversar%20para%20mi%20cl%C3%ADnica." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.2-.2-.4-.3z"/></svg>
+          Escribinos por WhatsApp</a>
+        <a class="btn btn-ghost" href="https://proyecto-odon.vercel.app" target="_blank" rel="noopener">Probá la demo interactiva</a>
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="fact"><span class="k">VOZ</span><p><b>Odontograma dictado.</b> Sin tocar el teclado con los guantes puestos.</p></div>
+      <div class="fact"><span class="k">MDP</span><p><b>Órdenes y planillas locales</b> que se completan solas, con la placa adjunta.</p></div>
+      <div class="fact"><span class="k">$</span><p><b>Liquidación por especialista</b> descontando el laboratorio protésico.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= PRODUCT TOUR PLAYER ================= -->
+  <section class="player" id="tour" aria-label="Recorrido del producto OdontoOS">
+    <!-- Soporta tanto locucion-odontoos.mp3 como video-odontoos.mp4 -->
+    <audio id="vo-audio" preload="auto">
+      <source src="locucion-odontoos.mp3" type="audio/mpeg">
+      <source src="video-odontoos.mp4" type="video/mp4">
+    </audio>
+
+    <div class="tabs" role="tablist" aria-label="Escenas del video" id="tabs"></div>
+
+    <div class="stage paused" id="stage" tabindex="0" aria-label="Video. Espacio para reproducir o pausar; flechas para adelantar o retroceder.">
+      <div class="cv" id="cv">
+
+        <!-- ESCENA 1 -->
+        <div class="scene s1" data-i="0">
+          <div class="sh"><span class="no">01 · EL PROBLEMA</span><h3>El caos operativo en el sillón</h3>
+            <span class="clock a" style="--d:.2s"><span class="chip or">3 pacientes esperando</span><span class="chip red mono">16:12 · 25 min de atraso</span></span></div>
+          <div class="grid">
+            <div class="card c1 a" style="--d:.3s">
+              <span class="lbl">Sillón 1 · en atención</span>
+              <div class="glovebox">
+                <svg class="kb" viewBox="0 0 200 64" aria-hidden="true"><rect x="1" y="1" width="198" height="62" rx="8" fill="#0F172A" stroke="#334155" stroke-width="2"/>
+                  <g fill="#1E293B" stroke="#334155"><rect x="10" y="10" width="16" height="12" rx="3"/><rect x="30" y="10" width="16" height="12" rx="3"/><rect x="50" y="10" width="16" height="12" rx="3"/><rect x="70" y="10" width="16" height="12" rx="3"/><rect x="90" y="10" width="16" height="12" rx="3"/><rect x="110" y="10" width="16" height="12" rx="3"/><rect x="130" y="10" width="16" height="12" rx="3"/><rect x="150" y="10" width="16" height="12" rx="3"/><rect x="170" y="10" width="20" height="12" rx="3"/>
+                  <rect x="16" y="27" width="16" height="12" rx="3"/><rect x="36" y="27" width="16" height="12" rx="3"/><rect x="56" y="27" width="16" height="12" rx="3"/><rect x="76" y="27" width="16" height="12" rx="3"/><rect x="96" y="27" width="16" height="12" rx="3"/><rect x="116" y="27" width="16" height="12" rx="3"/><rect x="136" y="27" width="16" height="12" rx="3"/><rect x="156" y="27" width="34" height="12" rx="3"/><rect x="40" y="44" width="120" height="12" rx="3"/></g></svg>
+                <svg class="glove" viewBox="0 0 100 120" aria-hidden="true"><g fill="#7DD3FC" stroke="#0369A1" stroke-width="2.5" stroke-linejoin="round">
+                  <rect x="22" y="6" width="13" height="50" rx="6.5"/><rect x="37" y="0" width="13" height="56" rx="6.5"/><rect x="52" y="2" width="13" height="54" rx="6.5"/><rect x="67" y="10" width="12" height="46" rx="6"/>
+                  <path d="M20 46h60v30c0 14-10 26-24 26h-8c-14 0-28-10-28-24z"/><path d="M20 62c-8-8-16-14-12-20s12 2 16 8"/><rect x="28" y="100" width="44" height="18" rx="4" fill="#38BDF8"/></g></svg>
+                <span class="lock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+              </div>
+              <p class="warn"><b>Guantes contaminados.</b> Para cargar la historia clínica tenés que sacártelos o dictarle a alguien.</p>
+            </div>
+            <div class="card c2 a" style="--d:.6s">
+              <span class="lbl">Recepción</span>
+              <div class="door"><div class="d"><span class="knock loop"></span><span class="knock k2 loop"></span></div><p><b>Toc, toc.</b> “Doc, ¿lo paso al de las 16?”</p></div>
+              <div class="notif a" style="--k:slideL;--d:2.2s"><span class="ic r">R</span><div><div class="t">Recepción · ahora</div><div class="m">Llegó el paciente de OSDE <b>sin la orden</b>.</div></div></div>
+              <div class="notif a" style="--k:slideL;--d:4.2s"><span class="ic w">W</span><div><div class="t">WhatsApp · 4 sin leer</div><div class="m">“¿Me confirman el turno de mañana?”</div></div></div>
+              <div class="notif a" style="--k:slideL;--d:6.4s"><span class="ic r">R</span><div><div class="t">Recepción · ahora</div><div class="m">Dental Scan pide la orden firmada.</div></div></div>
+            </div>
+            <div class="card c3 a" style="--d:.9s">
+              <div class="os-head"><b>Orden de prestación odontológica</b><span>OBRA SOCIAL<br>AUDITORÍA</span></div>
+              <div class="os-row"><span>Afiliado</span><em>M. G. · plan 410</em></div>
+              <div class="os-row"><span>Prestación</span><em class="mono">03.02 · Endodoncia · pieza 26</em></div>
+              <div class="os-row"><span>Rx post</span><em class="miss">No adjunta</em></div>
+              <div class="os-row"><span>Conformidad</span><em class="miss">Sin firma del paciente</em></div>
+              <div class="firma-box">FIRMA DEL PACIENTE</div>
+              <div class="stamp a" style="--k:slam;--d:6.8s;--dur:.7s"><b>DEBITADA</b><i>FALTA FIRMA Y RX</i></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESCENA 2 -->
+        <div class="scene s2" data-i="1">
+          <div class="sh"><span class="no">02 · BIOSEGURIDAD</span><h3>Manos libres con IA: dictás y se carga solo</h3></div>
+          <div class="grid">
+            <div class="card voice a" style="--d:.1s">
+              <div class="mic"><span class="dot loop"></span><span class="lbl">Escuchando · Sillón 1</span><span class="chip cy" style="margin-left:auto">ES-AR</span></div>
+              <div class="wave" id="wave"></div>
+              <div class="trans" id="trans"></div>
+              <span class="mini">Transcripción en tiempo real · historia clínica de M. G.</span>
+            </div>
+            <div class="card odo a" style="--d:.3s">
+              <span class="lbl">Odontograma</span>
+              <div class="arch" id="arch"></div>
+              <div class="teeth">
+                <div class="tooth">
+                  <svg viewBox="0 0 100 100" aria-hidden="true">
+                    <polygon class="f" points="2,2 98,2 70,30 30,30"/><polygon class="f" points="98,2 98,98 70,70 70,30"/><polygon class="f" points="2,98 98,98 70,70 30,70"/><polygon class="f" points="2,2 30,30 30,70 2,98"/><rect class="f" x="30" y="30" width="40" height="40"/>
+                    <polygon class="p a" style="--k:paint;--d:4.3s;--dur:.6s" fill="#EF4444" points="98,2 98,98 70,70 70,30"/>
+                    <rect class="p a" style="--k:paint;--d:4.6s;--dur:.6s" fill="#EF4444" x="30" y="30" width="40" height="40"/>
+                  </svg>
+                  <span class="tag" style="color:#FCA5A5">16</span><small>Caries M-O<br>a tratar</small>
+                </div>
+                <div class="tooth">
+                  <svg viewBox="0 0 100 100" aria-hidden="true">
+                    <polygon class="f" points="2,2 98,2 70,30 30,30"/><polygon class="f" points="98,2 98,98 70,70 70,30"/><polygon class="f" points="2,98 98,98 70,70 30,70"/><polygon class="f" points="2,2 30,30 30,70 2,98"/><rect class="f" x="30" y="30" width="40" height="40"/>
+                    <g class="a" style="--k:paint;--d:2.1s;--dur:.6s"><rect fill="#8B5CF6" opacity=".85" x="30" y="30" width="40" height="40"/><line x1="50" y1="-4" x2="50" y2="104" stroke="#C4B5FD" stroke-width="5"/></g>
+                  </svg>
+                  <span class="tag" style="color:#C4B5FD">26</span><small>Endodoncia<br>realizada</small>
+                </div>
+              </div>
+              <div class="legend"><span><i style="background:#EF4444"></i>A realizar</span><span><i style="background:#8B5CF6"></i>Realizado</span></div>
+            </div>
+            <div class="card bud a" style="--d:.5s">
+              <div style="display:flex;justify-content:space-between;align-items:center"><span class="lbl">Presupuesto · OSDE 410</span><span class="chip ok a" style="--k:pop;--d:5.6s">Copago calculado</span></div>
+              <div class="brow a" style="--k:slideL;--d:2.6s"><span class="c">03.02</span><span class="dsc">Endodoncia multirradicular<small>Pieza 26</small></span><span class="v">$ 210.000</span></div>
+              <div class="brow a" style="--k:slideL;--d:4.9s"><span class="c">02.02</span><span class="dsc">Obturación compuesta M-O<small>Pieza 16</small></span><span class="v">$ 56.000</span></div>
+              <div class="tot a" style="--d:5.4s"><span>Cobertura OSDE (80 %)</span><span class="v">− $ 212.800</span><span class="big">Copago paciente</span><span class="big v">$ 53.200</span></div>
+              <div class="rp a" style="--k:rise;--d:6.6s;--dur:.9s">
+                <div class="rh"><span>CONSULTORIO ODONTOLÓGICO · MAR DEL PLATA</span><span>30/10/2026</span></div>
+                <div class="rx">Rp/</div>
+                <div class="med">Clindamicina 300 mg</div>
+                <div class="pos">1 cápsula cada 8 h durante 7 días · M. G. · OSDE 410</div>
+                <div class="sig"><svg viewBox="0 0 150 42" aria-hidden="true"><path class="draw a" style="--k:draw;--d:8s;--dur:2.2s" pathLength="1" d="M4 30c10-22 18-26 20-14s-6 20 2 14 12-26 18-20-4 22 4 16 10-14 14-10-2 12 6 8 8-12 14-10 0 10 8 8 14-8 22-10 20 0 30-4" fill="none" stroke="#0369A1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span>Firma digital<br>validada</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESCENA 3 -->
+        <div class="scene s3" data-i="2">
+          <div class="sh"><span class="no">03 · ECOSISTEMA MDP</span><h3>Dental Scan + Círculo Odontológico, sin papeles</h3></div>
+          <div class="grid">
+            <div class="card rxv a" style="--d:.1s">
+              <div class="rxbar"><span class="t">Visor radiográfico · Panorámica · M. G.</span><span class="chip cy mono">DICOM</span></div>
+              <div class="pano"><svg id="pano" viewBox="0 0 480 236" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg><span class="scan loop"></span>
+                <div class="ds a" style="--k:rise;--d:1.2s">
+                  <div class="h"><b>Dental Scan</b><span>LA RIOJA 3501 · MDP</span></div>
+                  <div class="ck"><span class="bx"><svg viewBox="0 0 20 20"><path class="draw a" pathLength="1" style="--k:draw;--d:2.4s;--dur:.45s" d="M4 10l4 4 8-9"/></svg></span>Cone Beam</div>
+                  <div class="ck"><span class="bx"><svg viewBox="0 0 20 20"><path class="draw a" pathLength="1" style="--k:draw;--d:3.1s;--dur:.45s" d="M4 10l4 4 8-9"/></svg></span>Panorámica</div>
+                  <div class="ck"><span class="bx"><svg viewBox="0 0 20 20"><path class="draw a" pathLength="1" style="--k:draw;--d:3.8s;--dur:.45s" d="M4 10l4 4 8-9"/></svg></span>ATM 4 tomas</div>
+                  <div class="ft">Orden oficial A5 · generada desde la ficha</div>
+                </div>
+              </div>
+            </div>
+            <div class="card circ a" style="--d:.4s">
+              <div class="h"><b>Registro de Prestaciones</b><span>CÍRCULO ODONTOLÓGICO · MAR DEL PLATA</span></div>
+              <table class="ctab">
+                <thead><tr><th>Fecha</th><th>Pieza</th><th>Cara</th><th>Código</th></tr></thead>
+                <tbody>
+                  <tr><td class="m"><span class="a" style="--k:fadeIn;--d:5.0s">30/10</span></td><td class="m"><span class="a" style="--k:fadeIn;--d:5.3s">26</span></td><td class="m"><span class="a" style="--k:fadeIn;--d:5.6s">—</span></td><td class="m"><span class="a" style="--k:fadeIn;--d:5.9s">03.02</span></td></tr>
+                  <tr><td class="m"><span class="a" style="--k:fadeIn;--d:6.4s">30/10</span></td><td class="m"><span class="a" style="--k:fadeIn;--d:6.7s">16</span></td><td class="m"><span class="a" style="--k:fadeIn;--d:7.0s">M-O</span></td><td class="m"><span class="a" style="--k:fadeIn;--d:7.3s">02.02</span></td></tr>
+                  <tr class="empty"><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                </tbody>
+              </table>
+              <div class="okbar a" style="--k:pop;--d:8.6s"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><span>Placa adjunta OK<small>Panorámica 30/10 · lista para presentar</small></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESCENA 4 -->
+        <div class="scene s4" data-i="3">
+          <div class="sh"><span class="no">04 · PACIENTE</span><h3>La app del paciente vive en WhatsApp</h3></div>
+          <div class="grid">
+            <div class="phone a" style="--k:rise;--d:.1s">
+              <div class="scr">
+                <span class="isl"></span>
+                <div class="wa-h">
+                  <span class="av"><svg viewBox="0 0 48 48"><path d="M14 6c-6 0-10 5-10 12 0 6 2 9 3 14 1 6 2 12 6 12 3 0 3-5 5-10 1-3 2-4 6-4s5 1 6 4c2 5 2 10 5 10 4 0 5-6 6-12 1-5 3-8 3-14 0-7-4-12-10-12-4 0-6 2-10 2S18 6 14 6z" fill="none" stroke="#fff" stroke-width="4"/></svg></span>
+                  <div><b>Tu clínica · OdontoOS</b><span>cuenta de empresa</span></div>
+                </div>
+                <div class="feed a">
+                  <div class="bub a" style="--d:.5s">Hola Marina, te recordamos tu próximo turno 👇<span class="tm">10:02</span></div>
+                  <div class="wcard a" style="--d:1.0s"><span class="k">Próximo turno</span><b>Jue 6/11 · 16:30</b>
+                    <div class="row"><span class="pill">Sillón 2</span><span class="pill">La Rioja 2173</span></div>
+                    <div class="btns"><span>Confirmo</span><span>Reprogramar</span></div></div>
+                  <div class="bub me a" style="--d:2.2s">Confirmo ✓<span class="tm">10:03 ✓✓</span></div>
+                  <div class="wcard a" style="--d:3.0s"><span class="k">Tu medicación</span><b>Clindamicina 300 mg</b>
+                    <div class="row"><span class="pill g">08:00</span><span class="pill">16:00</span><span class="pill">00:00</span><span class="pill">7 días</span></div></div>
+                  <div class="wcard pas a" style="--d:5.2s"><span class="k">Pasaporte de implante · ANMAT</span><b>Straumann Ø 4.1 × 10 mm</b>
+                    <div class="kv"><span>Lote</span><em>CH-88412</em><span>Pieza</span><em>36</em><span>Colocado</span><em>30/10/2026</em></div></div>
+                  <div class="wcard a" style="--d:7.8s"><span class="k">Consentimiento informado</span><b>Firmá acá con el dedo</b>
+                    <div class="sigpad"><span class="ln"></span><svg viewBox="0 0 200 50" preserveAspectRatio="none"><path class="draw a" style="--k:draw;--d:8.6s;--dur:2.0s" pathLength="1" d="M6 36c10-26 22-30 22-14s-8 20 2 14 14-28 22-22-6 24 4 18 12-16 16-12-2 14 8 9 10-14 16-12 0 12 10 9 16-9 26-11 22 0 34-5 20-6 28-4" fill="none" stroke="#0F172A" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+                    <div class="row"><span class="pill g a" style="--k:pop;--d:10.8s">Firmado ✓</span></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="callouts">
+              <div class="co a" style="--k:slideL;--d:1.0s"><span class="n">01</span><div><b>Turno confirmado en un toque</b><span>Sillón y dirección incluidos. Menos ausentes, menos llamadas a recepción.</span></div></div>
+              <div class="co a" style="--k:slideL;--d:3.1s"><span class="n">02</span><div><b>Posología con horarios</b><span>La receta del sillón se convierte en recordatorios de toma.</span></div></div>
+              <div class="co a" style="--k:slideL;--d:5.3s"><span class="n">03</span><div><b>Pasaporte ANMAT del implante</b><span>Marca, medida y lote siempre a mano para el paciente.</span></div></div>
+              <div class="co a" style="--k:slideL;--d:7.9s"><span class="n">04</span><div><b>Firma digital desde el celular</b><span>Cero descargas: todo pasa en WhatsApp.</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESCENA 5 -->
+        <div class="scene s5" data-i="4">
+          <div class="sh"><span class="no">05 · GESTIÓN</span><h3>Liquidación automática por especialista</h3></div>
+          <div class="board">
+            <div class="formula a" style="--d:.1s"><span class="t1">Facturado bruto</span><span class="op">−</span><span class="t2">Costo protésico</span><span class="op">=</span><span class="t3">Neto especialista</span><span class="chip cy" style="margin-left:auto">Octubre 2026 · valores de ejemplo</span></div>
+            <table class="liq">
+              <thead><tr><th>Especialista</th><th>Bruto</th><th>Laboratorio</th><th>Neto</th></tr></thead>
+              <tbody>
+                <tr class="a" style="--d:.2s"><td>Dra. Ríos<small>Implantes</small></td><td data-n="3850000" data-d=".3"></td><td class="lab" data-n="920000" data-d=".5" data-neg></td><td data-n="2930000" data-d=".7"></td></tr>
+                <tr class="a" style="--d:.5s"><td>Dr. Méndez<small>Prótesis</small></td><td data-n="2640000" data-d=".6"></td><td class="lab" data-n="1180000" data-d=".8" data-neg></td><td data-n="1460000" data-d="1.0"></td></tr>
+                <tr class="a" style="--d:.8s"><td>Dra. Sosa<small>Endodoncia</small></td><td data-n="1920000" data-d=".9"></td><td class="lab" data-n="0" data-d="1.1" data-neg></td><td data-n="1920000" data-d="1.3"></td></tr>
+                <tr class="total a" style="--d:1.2s"><td>Total clínica</td><td data-n="8410000" data-d="1.3"></td><td class="lab" data-n="2100000" data-d="1.5" data-neg></td><td data-n="6310000" data-d="1.7"></td></tr>
+              </tbody>
+            </table>
+            <div class="acts a" style="--d:2.2s"><span class="chip ok">Enviado a cada especialista</span><span class="chip cy">Exportado a Excel</span><span class="chip or">Lab. protésico conciliado</span></div>
+          </div>
+          <div class="cta a" style="--k:ctaIn;--d:4.2s;--dur:.9s">
+            <div>
+              <h4>Adaptado a los dolores <span style="color:var(--emerald-l)">de tu clínica.</span></h4>
+              <p>Lo configuramos con tus obras sociales, tus especialistas y tus planillas. Probalo vos mismo o escribinos y lo vemos juntos.</p>
+              <div class="row">
+                <a class="btn btn-wa" href="https://wa.me/5492262356371?text=Hola%20Agust%C3%ADn%2C%20vi%20el%20video%20de%20OdontoOS%20y%20quiero%20conversar%20para%20mi%20cl%C3%ADnica." target="_blank" rel="noopener" data-noclick>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>Hablemos por WhatsApp</a>
+                <a class="btn btn-ghost" href="https://proyecto-odon.vercel.app" target="_blank" rel="noopener" data-noclick>Abrir demo interactiva en vivo</a>
+              </div>
+              <div class="num">+54 9 2262 35-6371 · Agustín</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /cv -->
+
+      <div class="subs idle" id="subs" aria-hidden="true"><p id="subline"></p></div>
+      <div class="big-play" id="bigplay"><button type="button" id="bigbtn" aria-label="Reproducir el video">
+        <span class="ring"><svg viewBox="0 0 24 24" fill="#fff"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg></span>
+        <span style="text-align:left"><span id="bigtxt">Mirá el recorrido</span><small id="bigsub">CON LOCUCIÓN · 1:12</small></span></button></div>
+      <span class="badge-fallback" id="fb" hidden>VISTA PREVIA SIN AUDIO</span>
+    </div>
+
+    <div class="controls">
+      <button class="ctl" id="pp" type="button" aria-label="Reproducir"><svg viewBox="0 0 24 24" fill="currentColor" id="ppi"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg></button>
+      <span class="time"><b id="cur">0:00</b> / <span id="dur">1:12</span></span>
+      <div class="prog" id="prog" role="slider" tabindex="0" aria-label="Posición del video" aria-valuemin="0" aria-valuemax="72" aria-valuenow="0">
+        <div class="track"><div class="fill" id="fill"></div></div><span class="knob" id="knob"></span>
+      </div>
+      <button class="speed" id="spd" type="button" aria-label="Velocidad de reproducción">1x</button>
+      <button class="ctl" id="mute" type="button" aria-label="Silenciar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="mutei"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+    </div>
+  </section>
+
+  <div class="strip">
+    <span><b>Pensado para Mar del Plata:</b> órdenes de Dental Scan, planillas del Círculo Odontológico y obras sociales con copago.</span>
+    <a class="btn btn-ghost btn-sm" href="https://wa.me/5492262356371?text=Hola%20Agust%C3%ADn%2C%20vi%20el%20video%20de%20OdontoOS%20y%20quiero%20conversar%20para%20mi%20cl%C3%ADnica." target="_blank" rel="noopener">Pedí una demo para tu clínica</a>
+  </div>
+
+  <!-- ================= DIAGNOSTICADOR DE DOLORES PUNTUALES ================= -->
+  <section class="sec-block" id="diagnosticador">
+    <div class="sec-head">
+      <span class="eyebrow"><i></i>Diagnóstico Operativo por Clínica</span>
+      <h2>¿Cuál de estos 5 cuellos de botella frena hoy a tu clínica?</h2>
+      <p>Cada policonsultorio en Mar del Plata trabaja distinto. Tocá el dolor principal de tu centro para ver cómo lo resuelve <b>OdontoOS</b> desde el primer mes.</p>
+    </div>
+    <div class="pain-layout">
+      <div class="pain-list" role="tablist">
+        <button class="pain-btn" type="button" aria-selected="true" data-pain="0"><span>01 · Odontólogos con guantes y doble carga</span><span>→</span></button>
+        <button class="pain-btn" type="button" aria-selected="false" data-pain="1"><span>02 · Presupuestos entregados que se enfrían</span><span>→</span></button>
+        <button class="pain-btn" type="button" aria-selected="false" data-pain="2"><span>03 · Débitos de Obras Sociales y Círculo</span><span>→</span></button>
+        <button class="pain-btn" type="button" aria-selected="false" data-pain="3"><span>04 · Sillones vacíos y caos en Recepción</span><span>→</span></button>
+        <button class="pain-btn" type="button" aria-selected="false" data-pain="4"><span>05 · Liquidación descontando Laboratorio</span><span>→</span></button>
+      </div>
+      <div class="pain-detail" id="pain-detail">
+        <div>
+          <span class="chip cy mono" id="pd-tag">DOLOR #01 · BIOSEGURIDAD EN SILLÓN</span>
+          <h3 style="font-size:26px;margin:14px 0 10px" id="pd-title">El odontólogo termina de atender y pierde 10 minutos tipeando fichas, recetas y órdenes</h3>
+          <p style="color:var(--ink-2);font-size:15.5px;line-height:1.6;margin:0" id="pd-desc">Con OdontoOS el profesional dicta en voz alta al sacarse los guantes: la IA marca las caras en el Odontograma FDI, suma los códigos al presupuesto de 20 ítems, genera la receta membretada Rp/ con su firma digital y deja lista la orden de Dental Scan.</p>
+        </div>
+        <div class="pain-metrics" id="pd-metrics">
+          <div><b>20 seg</b><span>Tiempo de evolución por voz</span></div>
+          <div><b>100%</b><span>Sincronizado con Presupuesto y OS</span></div>
+          <div><b>Cero</b><span>Contaminación cruzada en teclado</span></div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn btn-wa" id="pd-wa" href="https://wa.me/5492262356371?text=Hola%20Agust%C3%ADn%2C%20quiero%20resolver%20la%20carga%20cl%C3%ADnica%20con%20IA%20en%20mi%20consultorio." target="_blank" rel="noopener">Resolver este dolor en mi clínica</a>
+          <a class="btn btn-ghost" href="https://proyecto-odon.vercel.app" target="_blank" rel="noopener">Probarlo en la Demo en Vivo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MODALIDAD ALIANZA TECNOLÓGICA SOBRINOS ================= -->
+  <section class="sec-block" id="alianza">
+    <div class="sec-head">
+      <span class="eyebrow"><i></i>Implementación Llave en Mano en Mar del Plata</span>
+      <h2>No comprás un enlatado: sumás un socio tecnológico para tu clínica</h2>
+      <p>En <b>sobrinos</b> adaptamos OdontoOS a las reglas reales de tu centro: tus sillones, tus convenios de obras sociales y tu forma de liquidar.</p>
+    </div>
+    <div class="alianza-grid">
+      <div class="step-cards">
+        <div class="step-c"><span class="sn">Etapa 1 · Mes 1</span><h4>Base Operativa, Sillones y Sala en Vivo</h4><p>Configuración de tus sillones, alerta silenciosa de recepción al box, semáforo de laboratorio protésico y fichas con alertas médicas críticas.</p></div>
+        <div class="step-c"><span class="sn">Etapa 2 · Mes 2</span><h4>Odontograma Cotizador + Manos Libres IA</h4><p>Puesta en marcha del dictado clínico por voz, lectura de planillas por foto, recetario oficial Rp/ y orden interactiva de Dental Scan.</p></div>
+        <div class="step-c"><span class="sn">Etapa 3 · Mes 3</span><h4>Portal Paciente en WhatsApp + Firmas</h4><p>Web-App sin descargas para tus pacientes: turnos, esquema horario de medicamentos, pasaporte de implantes ANMAT y firma digital.</p></div>
+        <div class="step-c"><span class="sn">Etapa 4 · Mes 4</span><h4>Auditoría Obras Sociales y Liquidación</h4><p>Planilla oficial del Círculo Odontológico autocompletada, coberturas por plan (% o $) y liquidación neta descontando laboratorio.</p></div>
+      </div>
+      <div class="alianza-card">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
+            <span class="chip cy mono">ODONTOOS · BY SOBRINOS</span>
+            <span class="chip ok">Prototipo 100% Operativo</span>
+          </div>
+          <h3 style="font-size:26px;margin:0 0 10px">¿Agendamos una demo presencial o por Meet de 15 minutos?</h3>
+          <p style="color:var(--ink-2);font-size:15px;margin:0 0 18px">Te mostramos la plataforma funcionando en vivo con un caso real de tu clínica y armamos una propuesta a medida según la cantidad de sillones y profesionales.</p>
+          <ul style="margin:0;padding-left:18px;color:var(--ink-2);font-size:14px;line-height:1.8">
+            <li><b style="color:#fff">Servidores, Backups diarios y Consumo de IA</b> incluidos.</li>
+            <li><b style="color:#fff">Adaptación continua</b> de planillas de Obras Sociales y Prepagas.</li>
+            <li><b style="color:#fff">Soporte directo en Mar del Plata</b> con el equipo de Sobrinos.</li>
+          </ul>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <a class="btn btn-wa" style="width:100%" href="https://wa.me/5492262356371?text=Hola%20Agust%C3%ADn%2C%20vi%20la%20landing%20de%20OdontoOS%20y%20quiero%20coordinar%20una%20demo%20para%20mi%20cl%C3%ADnica." target="_blank" rel="noopener">Hablar con Agustín por WhatsApp (2262 35-6371)</a>
+          <a class="btn btn-ghost" style="width:100%" href="https://proyecto-odon.vercel.app" target="_blank" rel="noopener">Abrir Plataforma Demo Interactiva →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>OdontoOS · by sobrinos</span><span>Mar del Plata, Argentina · +54 9 2262 35-6371</span></footer>
+</div>
+
+<script>
+(() => {
+  /* ===== Tiempos exactos sincronizados con tu locución real (1:12) ===== */
+  const SCENES = [
+    { t: 0,    n: '00:00', l: 'El caos en el sillón' },
+    { t: 15.8, n: '00:16', l: 'Manos libres con IA' },
+    { t: 35.7, n: '00:36', l: 'Dental Scan + Círculo' },
+    { t: 51.2, n: '00:51', l: 'App en WhatsApp' },
+    { t: 63.5, n: '01:03', l: 'Liquidación + contacto' }
+  ];
+  const SUBS = [
+    { s: 0.0,  e: 2.8,  x: 'Pensá en cómo trabaja hoy tu clínica odontológica.' },
+    { s: 3.0,  e: 7.4,  x: 'Tus profesionales están en el sillón con los guantes puestos y no pueden tocar el teclado.' },
+    { s: 7.6,  e: 11.1, x: 'Recepción golpea la puerta del box para avisar que llegó un paciente,' },
+    { s: 11.1, e: 15.6, x: 'y a fin de mes siempre falta una firma o una radiografía para cobrar la obra social.' },
+    { s: 15.8, e: 19.2, x: 'Por eso en Sobrinos creamos OdontoOS:' },
+    { s: 19.4, e: 23.8, x: 'el primer sistema diseñado en Mar del Plata para la operatoria real del sillón dental.' },
+    { s: 24.0, e: 27.8, x: 'Al terminar de atender, el odontólogo dicta la evolución con su voz,' },
+    { s: 28.0, e: 35.5, x: 'y la inteligencia artificial pinta las caras en el odontograma, cotiza el presupuesto de 20 ítems y emite la receta membretada en segundos.' },
+    { s: 35.7, e: 39.2, x: 'Además, está 100% conectado con tu ecosistema local:' },
+    { s: 39.4, e: 44.5, x: 'emitís la orden oficial de Dental Scan con un clic, visualizás las placas panorámicas en alta definición,' },
+    { s: 44.7, e: 51.0, x: 'y el sistema vuelca cada pieza trabajada directo en la planilla oficial del Círculo Odontológico y las prepagas.' },
+    { s: 51.2, e: 55.2, x: '¿Y el paciente? Recibe todo en su WhatsApp, sin descargar ninguna aplicación.' },
+    { s: 55.4, e: 63.2, x: 'Ve cuándo y dónde tiene turno, consulta a qué hora tomar su medicación, lleva su pasaporte de implantes ANMAT y firma la conformidad con el dedo.' },
+    { s: 63.5, e: 67.4, x: 'Y si tu clínica tiene un dolor específico, lo adaptamos a tu medida.' },
+    { s: 67.6, e: 72.1, x: 'Probá la demo interactiva acá abajo o escribinos por WhatsApp para implementarlo en tu centro.' }
+  ];
+  const TRANSCRIPT = [
+    ['Pieza','hl'],['26',  'hv'],['endodoncia','hv'],['realizada,','hv'],
+    ['pieza','hl'],['16','ho'],['caries','ho'],['mesio-oclusal,','ho'],
+    ['recetar',''],['Clindamicina','hl'],['300','hl'],['mg.','hl']
+  ];
+
+  const $ = s => document.querySelector(s);
+  const audio = $('#vo-audio'), stage = $('#stage'), cv = $('#cv');
+  const scenes = [...cv.querySelectorAll('.scene')];
+  let DUR = 72.12, mode = 'audio', cur = -1, started = false, rate = 1;
+  const timer = { t: 0, paused: true, last: 0 };
+
+  /* ----- Construcción dinámica ----- */
+  const tabs = $('#tabs');
+  SCENES.forEach((sc, i) => {
+    const b = document.createElement('button');
+    b.className = 'tab'; b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', 'false');
+    b.innerHTML = `<span class="n">${String(i + 1).padStart(2, '0')} · ${sc.n}</span><span class="l">${sc.l}</span><span class="bar"></span>`;
+    b.addEventListener('click', () => { seek(sc.t + 0.02); play(); });
+    tabs.appendChild(b);
+  });
+  const tabEls = [...tabs.children];
+
+  const wave = $('#wave');
+  for (let i = 0; i < 38; i++) { const b = document.createElement('i'); b.className = 'loop'; b.style.setProperty('--h', (30 + Math.abs(Math.sin(i * 1.7)) * 70) + '%'); b.style.animationDelay = (-(i * 0.083) % 1).toFixed(2) + 's'; wave.appendChild(b); }
+  $('#trans').innerHTML = TRANSCRIPT.map(([w, c], i) => `<span class="w a ${c}" style="--k:fadeIn;--dur:.35s;--d:${(0.6 + i * 0.36).toFixed(2)}s">${w}</span>`).join('');
+  const arch = $('#arch');
+  [18,17,16,15,14,13,12,11,'|',21,22,23,24,25,26,27,28].forEach(n => { const s = document.createElement('span'); if (n === '|') s.className = 'sep'; else { s.textContent = n; if (n === 16 || n === 26) s.className = 'x x' + n; } arch.appendChild(s); });
+
+  (function pano() {
+    const svg = $('#pano');
+    let h = `<defs><radialGradient id="pg" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#1b2433"/><stop offset="1" stop-color="#02040A"/></radialGradient>
+      <linearGradient id="tu" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#E5E7EB" stop-opacity=".95"/><stop offset=".55" stop-color="#CBD5E1" stop-opacity=".7"/><stop offset="1" stop-color="#94A3B8" stop-opacity=".08"/></linearGradient>
+      <linearGradient id="tl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E5E7EB" stop-opacity=".95"/><stop offset=".55" stop-color="#CBD5E1" stop-opacity=".7"/><stop offset="1" stop-color="#94A3B8" stop-opacity=".08"/></linearGradient>
+      <filter id="bl"><feGaussianBlur stdDeviation="1.1"/></filter></defs>
+      <rect width="480" height="236" fill="url(#pg)"/>
+      <ellipse cx="240" cy="118" rx="230" ry="96" fill="none" stroke="#334155" stroke-opacity=".35" stroke-width="18" filter="url(#bl)"/>`;
+    const n = 16, x0 = 44, w = (480 - 88) / n;
+    for (let i = 0; i < n; i++) {
+      const k = (i - 7.5) / 7.5, curve = 16 * k * k;
+      const molar = Math.abs(k) > .55, tw = w - (molar ? 3 : 6), x = x0 + i * w + (w - tw) / 2;
+      const crownU = molar ? 22 : 26, rootU = molar ? 36 : 44;
+      const yU = 112 - curve;
+      h += `<g filter="url(#bl)"><rect x="${x}" y="${yU - crownU - rootU}" width="${tw}" height="${crownU + rootU}" rx="${tw / 2.4}" fill="url(#tu)"/></g>`;
+      const yL = 124 - curve * .7;
+      h += `<g filter="url(#bl)"><rect x="${x}" y="${yL}" width="${tw}" height="${crownU + rootU - 4}" rx="${tw / 2.4}" fill="url(#tl)"/></g>`;
+      if (i === 13) h += `<line x1="${x + tw / 2}" y1="${yU - crownU - rootU + 6}" x2="${x + tw / 2}" y2="${yU - 10}" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/>`
+        + `<rect x="${x - 4}" y="${yU - crownU - rootU - 6}" width="${tw + 8}" height="${crownU + rootU + 12}" rx="6" fill="none" stroke="#A78BFA" stroke-width="1.6" stroke-dasharray="4 3"/><text x="${x + tw / 2}" y="${yU - crownU - rootU - 11}" fill="#C4B5FD" font-family="JetBrains Mono,monospace" font-size="10" font-weight="600" text-anchor="middle">26</text>`;
+      if (i === 2) h += `<ellipse cx="${x + tw * .62}" cy="${yU - 9}" rx="4.5" ry="4" fill="#0B1120" opacity=".85"/>`
+        + `<rect x="${x - 4}" y="${yU - crownU - rootU - 6}" width="${tw + 8}" height="${crownU + rootU + 12}" rx="6" fill="none" stroke="#F87171" stroke-width="1.6" stroke-dasharray="4 3"/><text x="${x + tw / 2}" y="${yU - crownU - rootU - 11}" fill="#FCA5A5" font-family="JetBrains Mono,monospace" font-size="10" font-weight="600" text-anchor="middle">16</text>`;
+    }
+    h += `<text x="10" y="226" fill="#64748B" font-family="JetBrains Mono,monospace" font-size="9">D</text><text x="462" y="226" fill="#64748B" font-family="JetBrains Mono,monospace" font-size="9">I</text>`;
+    svg.innerHTML = h;
+  })();
+
+  const prog = $('#prog');
+  function placeMarks() { prog.querySelectorAll('.mk').forEach(m => m.remove()); SCENES.slice(1).forEach(sc => { const m = document.createElement('span'); m.className = 'mk'; m.style.left = (sc.t / DUR * 100) + '%'; prog.appendChild(m); }); }
+  placeMarks();
+
+  /* ----- Subtítulos tipo karaoke ----- */
+  const subline = $('#subline'), subsBox = $('#subs');
+  let subIdx = -2, subWords = [], subWeights = [];
+  function setSub(i) {
+    subIdx = i;
+    if (i < 0) { subline.innerHTML = ''; subWords = []; return; }
+    const words = SUBS[i].x.split(' ');
+    subline.innerHTML = words.map(w => `<span>${w}</span>`).join(' ');
+    subWords = [...subline.children];
+    let acc = 0; const tot = words.reduce((a, w) => a + w.length + 1, 0);
+    subWeights = words.map(w => (acc += w.length + 1) / tot);
+  }
+  function renderSubs(t) {
+    let i = SUBS.findIndex(s => t >= s.s && t < s.e);
+    let idle = false;
+    if (i < 0) {
+      for (let k = SUBS.length - 1; k >= 0; k--) if (t >= SUBS[k].e) { i = k; break; }
+      idle = true;
+    }
+    if (!started && t < 0.05) { i = -1; }
+    if (i !== subIdx) setSub(i);
+    subsBox.classList.toggle('idle', idle);
+    if (i < 0) return;
+    const s = SUBS[i], f = idle ? 1 : (t - s.s) / (s.e - s.s);
+    subWords.forEach((el, k) => {
+      const prev = k ? subWeights[k - 1] : 0;
+      el.className = f >= subWeights[k] ? 'on' : (f > prev ? 'cur' : '');
+    });
+  }
+
+  /* ----- Reloj: audio real o temporizador de respaldo ----- */
+  const now = () => mode === 'audio' ? audio.currentTime : timer.t;
+  const isPaused = () => mode === 'audio' ? audio.paused : timer.paused;
+
+  function toTimer(reason) {
+    if (mode === 'timer') return;
+    const wasPlaying = !audio.paused || pendingPlay;
+    timer.t = audio.currentTime || 0; mode = 'timer';
+    try { audio.pause(); } catch (e) {}
+    $('#fb').hidden = false; $('#fb').title = reason || '';
+    $('#bigsub').textContent = 'VISTA PREVIA · 1:12';
+    if (wasPlaying) play();
+  }
+  let pendingPlay = false;
+  audio.addEventListener('error', () => toTimer('Subí locucion-odontoos.mp3 a la misma carpeta'));
+  audio.addEventListener('loadedmetadata', () => { if (isFinite(audio.duration) && audio.duration > 1) { DUR = audio.duration; $('#dur').textContent = fmt(DUR); prog.setAttribute('aria-valuemax', Math.round(DUR)); placeMarks(); } });
+
+  function play() {
+    started = true;
+    if (now() >= DUR - 0.05) seek(0);
+    if (mode === 'audio') {
+      pendingPlay = true;
+      const p = audio.play();
+      if (p && p.catch) p.then(() => { pendingPlay = false; }).catch(err => { pendingPlay = false; if (err && err.name !== 'NotAllowedError' && err.name !== 'AbortError') toTimer(); else if (err && err.name === 'NotSupportedError') toTimer(); });
+    } else { timer.paused = false; timer.last = performance.now(); onPlayState(); }
+    loop();
+  }
+  function pause() { if (mode === 'audio') audio.pause(); else { timer.paused = true; onPlayState(); } }
+  function toggle() { isPaused() ? play() : pause(); }
+  function seek(t) {
+    t = Math.max(0, Math.min(DUR - 0.01, t));
+    if (mode === 'audio') { try { audio.currentTime = t; } catch (e) {} } else timer.t = t;
+    started = true; render(t, true);
+  }
+
+  ['play', 'pause', 'ended'].forEach(ev => audio.addEventListener(ev, onPlayState));
+  audio.addEventListener('timeupdate', () => render(audio.currentTime));
+  audio.addEventListener('seeked', () => render(audio.currentTime, true));
+  audio.addEventListener('ratechange', () => render(now(), true));
+
+  function onPlayState() {
+    const p = isPaused();
+    stage.classList.toggle('paused', p);
+    stage.classList.toggle('playing', !p || started);
+    $('#bigplay').style.opacity = p ? '' : '0';
+    $('#bigplay').style.pointerEvents = p ? 'auto' : 'none';
+    $('#bigtxt').textContent = !started ? 'Mirá el recorrido' : (now() >= DUR - 0.1 ? 'Ver de nuevo' : 'Seguir viendo');
+    $('#pp').setAttribute('aria-label', p ? 'Reproducir' : 'Pausar');
+    $('#ppi').innerHTML = p ? '<path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/>' : '<rect x="6" y="4.5" width="4" height="15" rx="1.2"/><rect x="14" y="4.5" width="4" height="15" rx="1.2"/>';
+    render(now(), true);
+    if (!p) loop();
+  }
+
+  let raf = 0;
+  function loop() {
+    cancelAnimationFrame(raf);
+    const step = ts => {
+      if (mode === 'timer' && !timer.paused) {
+        timer.t += (ts - timer.last) / 1000 * rate; timer.last = ts;
+        if (timer.t >= DUR) { timer.t = DUR; timer.paused = true; render(DUR); onPlayState(); return; }
+      }
+      render(now());
+      if (!isPaused()) raf = requestAnimationFrame(step);
+    };
+    timer.last = performance.now();
+    raf = requestAnimationFrame(step);
+  }
+
+  /* ----- Render ----- */
+  const fmt = s => { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+  const nums = [...cv.querySelectorAll('[data-n]')];
+  const money = new Intl.NumberFormat('es-AR');
+  function sceneAt(t) { let i = 0; SCENES.forEach((s, k) => { if (t >= s.t) i = k; }); return i; }
+  function activate(i, t) {
+    stage.style.setProperty('--off', Math.max(0, t - SCENES[i].t).toFixed(3) + 's');
+    stage.style.setProperty('--rate', rate);
+    scenes.forEach(s => s.classList.remove('on'));
+    void cv.offsetWidth;
+    scenes[i].classList.add('on');
+    tabEls.forEach((b, k) => b.setAttribute('aria-selected', k === i ? 'true' : 'false'));
+    cur = i;
+  }
+  function render(t, force) {
+    const i = sceneAt(t);
+    if (i !== cur || force) activate(i, t);
+    const pct = Math.min(100, t / DUR * 100);
+    $('#fill').style.width = pct + '%'; $('#knob').style.left = pct + '%';
+    $('#cur').textContent = fmt(t);
+    prog.setAttribute('aria-valuenow', Math.round(t)); prog.setAttribute('aria-valuetext', fmt(t) + ' de ' + fmt(DUR));
+    tabEls.forEach((b, k) => { const a = SCENES[k].t, z = SCENES[k + 1] ? SCENES[k + 1].t : DUR; b.querySelector('.bar').style.width = (Math.max(0, Math.min(1, (t - a) / (z - a))) * 100) + '%'; });
+    renderSubs(t);
+    if (i === 4) { const lt = t - SCENES[4].t; nums.forEach(el => { const d = +el.dataset.d, to = +el.dataset.n, f = Math.max(0, Math.min(1, (lt - d) / 1.2)), e = 1 - Math.pow(1 - f, 3); el.textContent = (el.hasAttribute('data-neg') && to ? '− ' : '') + '$ ' + money.format(Math.round(to * e / 1000) * 1000); }); }
+  }
+
+  /* ----- Controles ----- */
+  stage.addEventListener('click', e => { if (e.target.closest('a,[data-noclick]')) return; toggle(); });
+  $('#bigbtn').addEventListener('click', e => { e.stopPropagation(); toggle(); });
+  $('#pp').addEventListener('click', toggle);
+  stage.addEventListener('keydown', e => {
+    if (e.key === ' ' || e.key === 'k') { e.preventDefault(); toggle(); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); seek(now() + 5); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); seek(now() - 5); }
+  });
+  prog.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); seek(now() + 5); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); seek(now() - 5); }
+    else if (e.key === 'Home') { e.preventDefault(); seek(0); }
+    else if (e.key === 'End') { e.preventDefault(); seek(DUR - 0.1); }
+  });
+  let drag = false;
+  const posToT = e => { const r = prog.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * DUR; };
+  prog.addEventListener('pointerdown', e => { drag = true; try { prog.setPointerCapture(e.pointerId); } catch (_) {} seek(posToT(e)); });
+  prog.addEventListener('pointermove', e => { if (drag) seek(posToT(e)); });
+  ['pointerup', 'pointercancel'].forEach(ev => prog.addEventListener(ev, () => { drag = false; }));
+
+  $('#spd').addEventListener('click', () => {
+    rate = rate === 1 ? 1.25 : 1;
+    audio.playbackRate = rate; $('#spd').textContent = rate === 1 ? '1x' : '1.25x';
+    render(now(), true);
+  });
+  const muteIcon = m => m ? '<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/>' : '<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>';
+  $('#mute').addEventListener('click', () => { audio.muted = !audio.muted; $('#mutei').innerHTML = muteIcon(audio.muted); $('#mute').setAttribute('aria-label', audio.muted ? 'Activar sonido' : 'Silenciar'); });
+
+  function fit() {
+    const w = stage.clientWidth, portrait = w < 620;
+    cv.classList.toggle('portrait', portrait);
+    const W = portrait ? 560 : 960, H = portrait ? 880 : 540, k = w / W;
+    cv.style.transform = `scale(${k})`;
+    stage.style.height = (H * k) + 'px';
+  }
+  if ('ResizeObserver' in window) new ResizeObserver(fit).observe(stage); else addEventListener('resize', fit);
+  fit();
+
+  /* ----- Diagnosticador interactivo de dolores ----- */
+  const PAINS = [
+    {
+      tag: 'DOLOR #01 · BIOSEGURIDAD EN SILLÓN',
+      title: 'El odontólogo termina de atender y pierde 10 minutos tipeando fichas, recetas y órdenes',
+      desc: 'Con OdontoOS el profesional dicta en voz alta al sacarse los guantes: la IA marca las caras en el Odontograma FDI, suma los códigos al presupuesto de 20 ítems, genera la receta membretada Rp/ con su firma digital y deja lista la orden de Dental Scan.',
+      m: [['20 seg','Tiempo de evolución por voz'],['100%','Sincronizado con Presupuesto y OS'],['Cero','Contaminación cruzada en teclado']],
+      wa: 'Hola Agustín, quiero resolver la carga clínica manos libres con IA en mi clínica.'
+    },
+    {
+      tag: 'DOLOR #02 · CIERRE DE PRESUPUESTOS',
+      title: 'Los presupuestos de implantes, prótesis y ortodoncia quedan en “lo pienso y te aviso”',
+      desc: 'Mientras marcás el odontograma, el sistema cotiza en vivo los 20 ítems descontando lo que cubre la obra social (% o monto fijo) y lo envía al WhatsApp del paciente con validez arancelaria de 15 días para protegerte de aumentos de laboratorio.',
+      m: [['En vivo','Cotización automática de 20 ítems'],['15 días','Cláusula de vigencia arancelaria'],['1 clic','Aprobación desde el celular']],
+      wa: 'Hola Agustín, me interesa el Odontograma Cotizador para cerrar más presupuestos.'
+    },
+    {
+      tag: 'DOLOR #03 · AUDITORÍA DE OBRAS SOCIALES',
+      title: 'A fin de mes se traban cobros porque falta una firma del paciente o adjuntar la placa',
+      desc: 'Cada pieza trabajada en el odontograma se vuelca sola en la planilla oficial de Registro de Prestaciones del Círculo Odontológico, abrocha la radiografía de Dental Scan y registra la firma digital del paciente desde su celular.',
+      m: [['0 débitos','Control de autorización, Rx y firma'],['A5 Oficial','Orden Dental Scan integrada'],['PDF 1 hoja','Impresión limpia sin bordes']],
+      wa: 'Hola Agustín, quiero evitar débitos de obras sociales con las planillas y firmas digitales.'
+    },
+    {
+      tag: 'DOLOR #04 · RECEPCIÓN Y SILLONES',
+      title: 'Interrupciones en el box, pacientes que olvidan el turno y huecos vacíos por cancelaciones',
+      desc: 'Secretaría anuncia la llegada del paciente con un botón y el odontólogo responde «Ya lo hago pasar» o «En 5 min» desde el sillón. Incluye recordatorios con variables por WhatsApp, pedido de reseñas en Google Maps y Bolsa Cubre-Huecos.',
+      m: [['Bidireccional','Sala de espera conectada al box'],['Automático','Recordatorios y link de reseñas'],['En 10 min','Bolsa de pacientes cubre-huecos']],
+      wa: 'Hola Agustín, quiero ordenar la recepción, los recordatorios de WhatsApp y la agenda de sillones.'
+    },
+    {
+      tag: 'DOLOR #05 · LIQUIDACIÓN DE ESPECIALISTAS',
+      title: 'Horas haciendo cuentas manuales a fin de mes para descontar el gasto del protésico',
+      desc: 'OdontoOS diferencia qué profesional trabajó sobre cada diente y calcula automáticamente la liquidación mensual: toma el total facturado bruto, resta primero el costo del laboratorio dental y aplica el porcentaje de cada especialista.',
+      m: [['Automático','Bruto − Laboratorio = Neto'],['Multi-Sillón','Trazabilidad por especialista'],['Claro','Liquidación lista en 1 clic']],
+      wa: 'Hola Agustín, me interesa la liquidación automática de especialistas descontando laboratorio.'
+    }
+  ];
+  document.querySelectorAll('[data-pain]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = +btn.dataset.pain, p = PAINS[idx];
+      document.querySelectorAll('[data-pain]').forEach(b => b.setAttribute('aria-selected', b === btn ? 'true' : 'false'));
+      $('#pd-tag').textContent = p.tag;
+      $('#pd-title').textContent = p.title;
+      $('#pd-desc').textContent = p.desc;
+      $('#pd-metrics').innerHTML = p.m.map(([b, s]) => `<div><b>${b}</b><span>${s}</span></div>`).join('');
+      $('#pd-wa').href = 'https://wa.me/5492262356371?text=' + encodeURIComponent(p.wa);
+    });
+  });
+
+  activate(0, 8.5);
+  tabEls[0].setAttribute('aria-selected', 'true');
+  $('#dur').textContent = fmt(DUR);
+})();
+</script>
+
+</body>
+</html>
