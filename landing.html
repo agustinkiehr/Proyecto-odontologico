@@ -104,7 +104,7 @@ h1 .grad{background:linear-gradient(100deg,var(--cyan-l),var(--emerald-l));-webk
 .big-play .ring svg{width:22px;height:22px;margin-left:3px}
 .big-play small{display:block;font:500 12px/1 var(--mono);color:var(--ink-2);margin-top:6px;letter-spacing:.04em}
 @keyframes ring{0%{transform:scale(.9);opacity:1}100%{transform:scale(1.35);opacity:0}}
-.badge-fallback{position:absolute;top:12px;right:12px;z-index:6;font:600 11px/1 var(--mono);color:var(--orange-l);background:rgba(234,88,12,.12);border:1px solid rgba(234,88,12,.35);padding:7px 10px;border-radius:8px;letter-spacing:.03em}
+.badge-fallback{position:absolute;top:12px;right:12px;z-index:6;font:600 11px/1 var(--mono);color:var(--orange-l);background:rgba(234,88,12,.16);border:1px solid rgba(234,88,12,.45);padding:7px 10px;border-radius:8px;letter-spacing:.03em}
 
 .controls{display:flex;align-items:center;gap:6px;padding:10px 12px;border-top:1px solid var(--line)}
 .ctl{appearance:none;background:none;border:0;color:var(--ink);width:40px;height:40px;border-radius:10px;display:grid;place-items:center;cursor:pointer;flex:none;transition:background .2s}
@@ -426,7 +426,6 @@ footer{border-top:1px solid var(--line);padding-block:22px 34px;color:var(--ink-
 <div class="wrap">
   <header class="nav">
     <a class="brand" href="#" aria-label="OdontoOS by sobrinos">
-      <!-- Isotipo Vectorial Oficial OdontoOS (Diente + Infinito OS + Destello IA) -->
       <svg viewBox="0 0 64 64" aria-hidden="true">
         <defs>
           <linearGradient id="odoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -471,11 +470,7 @@ footer{border-top:1px solid var(--line);padding-block:22px 34px;color:var(--ink-
 
   <!-- ================= PRODUCT TOUR PLAYER ================= -->
   <section class="player" id="tour" aria-label="Recorrido del producto OdontoOS">
-    <!-- Soporta tanto locucion-odontoos.mp3 como video-odontoos.mp4 -->
-    <audio id="vo-audio" preload="auto">
-      <source src="locucion-odontoos.mp3" type="audio/mpeg">
-      <source src="video-odontoos.mp4" type="video/mp4">
-    </audio>
+    <audio id="vo-audio" src="locucion-odontoos.mp3" preload="auto"></audio>
 
     <div class="tabs" role="tablist" aria-label="Escenas del video" id="tabs"></div>
 
@@ -671,7 +666,7 @@ footer{border-top:1px solid var(--line);padding-block:22px 34px;color:var(--ink-
       <div class="big-play" id="bigplay"><button type="button" id="bigbtn" aria-label="Reproducir el video">
         <span class="ring"><svg viewBox="0 0 24 24" fill="#fff"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg></span>
         <span style="text-align:left"><span id="bigtxt">Mirá el recorrido</span><small id="bigsub">CON LOCUCIÓN · 1:12</small></span></button></div>
-      <span class="badge-fallback" id="fb" hidden>VISTA PREVIA SIN AUDIO</span>
+      <span class="badge-fallback" id="fb" hidden>MODO SIN AUDIO · SUBÍ LOCUCION-ODONTOOS.MP3</span>
     </div>
 
     <div class="controls">
@@ -802,6 +797,14 @@ footer{border-top:1px solid var(--line);padding-block:22px 34px;color:var(--ink-
   let DUR = 72.12, mode = 'audio', cur = -1, started = false, rate = 1;
   const timer = { t: 0, paused: true, last: 0 };
 
+  /* ----- Auto-buscador de fuentes de audio/video en el repositorio ----- */
+  const CANDIDATE_SOURCES = [
+    'locucion-odontoos.mp3',
+    'odontoos-tour-1080p.mp4',
+    'video-odontoos.mp4'
+  ];
+  let srcIndex = 0;
+
   /* ----- Construcción dinámica ----- */
   const tabs = $('#tabs');
   SCENES.forEach((sc, i) => {
@@ -879,42 +882,117 @@ footer{border-top:1px solid var(--line);padding-block:22px 34px;color:var(--ink-
     });
   }
 
-  /* ----- Reloj: audio real o temporizador de respaldo ----- */
+  /* ----- Reloj con Auto-Fallback garantizado ----- */
   const now = () => mode === 'audio' ? audio.currentTime : timer.t;
-  const isPaused = () => mode === 'audio' ? audio.paused : timer.paused;
+  const isPaused = () => mode === 'audio' ? (audio.paused && !pendingPlay) : timer.paused;
 
   function toTimer(reason) {
     if (mode === 'timer') return;
     const wasPlaying = !audio.paused || pendingPlay;
-    timer.t = audio.currentTime || 0; mode = 'timer';
+    pendingPlay = false;
+    timer.t = audio.currentTime || 0;
+    mode = 'timer';
     try { audio.pause(); } catch (e) {}
-    $('#fb').hidden = false; $('#fb').title = reason || '';
+    $('#fb').hidden = false;
+    $('#fb').title = reason || '';
     $('#bigsub').textContent = 'VISTA PREVIA · 1:12';
-    if (wasPlaying) play();
+    if (wasPlaying) {
+      timer.paused = false;
+      timer.last = performance.now();
+      onPlayState();
+    }
   }
+
   let pendingPlay = false;
-  audio.addEventListener('error', () => toTimer('Subí locucion-odontoos.mp3 a la misma carpeta'));
-  audio.addEventListener('loadedmetadata', () => { if (isFinite(audio.duration) && audio.duration > 1) { DUR = audio.duration; $('#dur').textContent = fmt(DUR); prog.setAttribute('aria-valuemax', Math.round(DUR)); placeMarks(); } });
+  let watchdog = null;
+
+  audio.addEventListener('error', () => {
+    srcIndex++;
+    if (srcIndex < CANDIDATE_SOURCES.length) {
+      audio.src = CANDIDATE_SOURCES[srcIndex];
+      audio.load();
+      if (pendingPlay) audio.play().catch(() => toTimer());
+    } else {
+      toTimer('Subí locucion-odontoos.mp3 o odontoos-tour-1080p.mp4 a tu repositorio');
+    }
+  });
+
+  audio.addEventListener('loadedmetadata', () => {
+    if (isFinite(audio.duration) && audio.duration > 1) {
+      DUR = audio.duration;
+      $('#dur').textContent = fmt(DUR);
+      prog.setAttribute('aria-valuemax', Math.round(DUR));
+      placeMarks();
+    }
+  });
 
   function play() {
     started = true;
     if (now() >= DUR - 0.05) seek(0);
     if (mode === 'audio') {
       pendingPlay = true;
+      onPlayState();
+      clearTimeout(watchdog);
+      const startCheck = audio.currentTime;
+      watchdog = setTimeout(() => {
+        if (mode === 'audio' && pendingPlay && audio.currentTime === startCheck) {
+          toTimer('Audio no disponible en la carpeta actual');
+        }
+      }, 650);
       const p = audio.play();
-      if (p && p.catch) p.then(() => { pendingPlay = false; }).catch(err => { pendingPlay = false; if (err && err.name !== 'NotAllowedError' && err.name !== 'AbortError') toTimer(); else if (err && err.name === 'NotSupportedError') toTimer(); });
-    } else { timer.paused = false; timer.last = performance.now(); onPlayState(); }
+      if (p && p.then) {
+        p.then(() => {
+          pendingPlay = false;
+          clearTimeout(watchdog);
+          onPlayState();
+        }).catch(() => {
+          clearTimeout(watchdog);
+          srcIndex++;
+          if (srcIndex < CANDIDATE_SOURCES.length) {
+            audio.src = CANDIDATE_SOURCES[srcIndex];
+            audio.play().then(() => { pendingPlay = false; onPlayState(); }).catch(() => toTimer());
+          } else {
+            toTimer();
+          }
+        });
+      }
+    } else {
+      timer.paused = false;
+      timer.last = performance.now();
+      onPlayState();
+    }
     loop();
   }
-  function pause() { if (mode === 'audio') audio.pause(); else { timer.paused = true; onPlayState(); } }
-  function toggle() { isPaused() ? play() : pause(); }
-  function seek(t) {
-    t = Math.max(0, Math.min(DUR - 0.01, t));
-    if (mode === 'audio') { try { audio.currentTime = t; } catch (e) {} } else timer.t = t;
-    started = true; render(t, true);
+
+  function pause() {
+    pendingPlay = false;
+    clearTimeout(watchdog);
+    if (mode === 'audio') {
+      audio.pause();
+      onPlayState();
+    } else {
+      timer.paused = true;
+      onPlayState();
+    }
   }
 
-  ['play', 'pause', 'ended'].forEach(ev => audio.addEventListener(ev, onPlayState));
+  function toggle() { isPaused() ? play() : pause(); }
+
+  function seek(t) {
+    t = Math.max(0, Math.min(DUR - 0.01, t));
+    if (mode === 'audio') {
+      try { audio.currentTime = t; } catch (e) {}
+    } else {
+      timer.t = t;
+    }
+    started = true;
+    render(t, true);
+  }
+
+  ['play', 'pause', 'ended'].forEach(ev => audio.addEventListener(ev, () => {
+    if (ev === 'play') pendingPlay = false;
+    onPlayState();
+  }));
   audio.addEventListener('timeupdate', () => render(audio.currentTime));
   audio.addEventListener('seeked', () => render(audio.currentTime, true));
   audio.addEventListener('ratechange', () => render(now(), true));
@@ -922,7 +1000,7 @@ footer{border-top:1px solid var(--line);padding-block:22px 34px;color:var(--ink-
   function onPlayState() {
     const p = isPaused();
     stage.classList.toggle('paused', p);
-    stage.classList.toggle('playing', !p || started);
+    stage.classList.toggle('playing', !p);
     $('#bigplay').style.opacity = p ? '' : '0';
     $('#bigplay').style.pointerEvents = p ? 'auto' : 'none';
     $('#bigtxt').textContent = !started ? 'Mirá el recorrido' : (now() >= DUR - 0.1 ? 'Ver de nuevo' : 'Seguir viendo');
@@ -937,8 +1015,15 @@ footer{border-top:1px solid var(--line);padding-block:22px 34px;color:var(--ink-
     cancelAnimationFrame(raf);
     const step = ts => {
       if (mode === 'timer' && !timer.paused) {
-        timer.t += (ts - timer.last) / 1000 * rate; timer.last = ts;
-        if (timer.t >= DUR) { timer.t = DUR; timer.paused = true; render(DUR); onPlayState(); return; }
+        timer.t += (ts - timer.last) / 1000 * rate;
+        timer.last = ts;
+        if (timer.t >= DUR) {
+          timer.t = DUR;
+          timer.paused = true;
+          render(DUR);
+          onPlayState();
+          return;
+        }
       }
       render(now());
       if (!isPaused()) raf = requestAnimationFrame(step);
