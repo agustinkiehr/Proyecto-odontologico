@@ -42,7 +42,7 @@
           <div>
             <div class="flex items-center gap-2">
               <h1 class="text-xl font-extrabold text-slate-900">OdontOS</h1>
-              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">Producción v1.4</span>
+              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">Producción v1.5</span>
             </div>
             <p class="text-xs text-slate-500">Elegí con qué perfil querés navegar la plataforma</p>
           </div>
@@ -57,7 +57,7 @@
             <span class="text-slate-400 group-hover:text-teal-600 font-bold">→</span>
           </div>
           <p class="font-bold text-slate-900 text-base mt-2">Dr. Ricardo Gómez (Director)</p>
-          <p class="text-xs text-slate-500 mt-1">Acceso total: Agenda con horario de inicio/fin, Odontograma IA, Estudios Rx, Línea de Tiempo, Caja y Liquidaciones.</p>
+          <p class="text-xs text-slate-500 mt-1">Acceso total: Agenda con horario de inicio/fin, Odontograma IA, Órdenes DentalScan, Estudios Rx, Caja y Liquidaciones.</p>
         </button>
 
         <button onclick="loginAs('profesional')" class="text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-blue-600 hover:bg-blue-50/40 transition group">
@@ -66,7 +66,7 @@
             <span class="text-slate-400 group-hover:text-blue-600 font-bold">→</span>
           </div>
           <p class="font-bold text-slate-900 text-base mt-2">Dra. Sofía / Coti (Especialista)</p>
-          <p class="text-xs text-slate-500 mt-1">Mide sus tiempos de inicio a fin en la agenda, abre fichas en 1 clic, evoluciona por voz, sube Rx y ve sus comisiones.</p>
+          <p class="text-xs text-slate-500 mt-1">Mide sus tiempos de inicio a fin en la agenda, abre fichas en 1 clic, evoluciona por voz, emite receta DentalScan y ve sus comisiones.</p>
         </button>
 
         <button onclick="loginAs('secretaria')" class="text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-amber-600 hover:bg-amber-50/40 transition group">
@@ -197,7 +197,7 @@
   <!-- ========================================================= -->
   <div class="flex-1 flex flex-col overflow-hidden">
 
-    <!-- TOPBAR CON SELECTOR DE PACIENTE DIRECTO Y BOTÓN DE VER HISTORIAL -->
+    <!-- TOPBAR CON SELECTOR DE PACIENTE DIRECTO Y BOTÓN DE ORDEN DENTALSCAN -->
     <header id="patient-header-bar" class="h-16 bg-white border-b border-slate-200 px-4 md:px-6 flex items-center justify-between shrink-0 gap-3 transition-all">
       <div class="flex items-center gap-3">
         <!-- Navegación móvil -->
@@ -213,11 +213,13 @@
         <div>
           <div class="flex flex-wrap items-center gap-2">
             <span class="text-xs text-slate-400 font-medium hidden sm:inline">Ficha activa:</span>
-            <!-- Selector rápido de paciente también arriba para abrir desde cualquier pantalla -->
             <select id="top-patient-Select" onchange="openPatientRecordByIndex(Number(this.value))" class="bg-slate-50 hover:bg-slate-100 border border-slate-300 text-slate-900 font-extrabold text-xs md:text-sm rounded-xl px-2.5 py-1 cursor-pointer"></select>
             <span id="current-patient-insurance" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">OSDE 310</span>
-            <button onclick="scrollToPatientHistory()" class="text-[11px] bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-bold px-2.5 py-0.5 rounded-lg transition">
-              🕒 Ver qué se hizo antes
+            <button onclick="scrollToPatientHistory()" class="text-[11px] bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-bold px-2.5 py-0.5 rounded-lg transition hidden lg:inline-block">
+              🕒 Qué se hizo antes
+            </button>
+            <button onclick="openDentalScanModal()" class="text-[11px] bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold px-2.5 py-0.5 rounded-lg transition">
+              📄 Orden DentalScan
             </button>
             <button onclick="deleteCurrentPatient()" title="Eliminar paciente actual" class="text-xs text-slate-400 hover:text-rose-600 px-1">🗑️</button>
           </div>
@@ -295,7 +297,6 @@
             </div>
           </div>
 
-          <!-- Lista de turnos con Inicio, Fin, Duración editable y link al legajo -->
           <div id="agenda-list" class="space-y-3.5"></div>
         </div>
       </section>
@@ -305,7 +306,7 @@
       <!-- ===================================================== -->
       <section id="tab-odontograma" class="space-y-6">
         
-        <!-- Resumen de Cita / Último Turno arriba de la Ficha para que el doctor sepa qué pasó antes apenas entra -->
+        <!-- Resumen de Cita / Último Turno arriba de la Ficha -->
         <div id="patient-quick-summary" class="bg-white border-2 border-teal-500/30 rounded-2xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-lg">📂</div>
@@ -317,9 +318,12 @@
               <p id="summary-what-happened" class="text-xs md:text-sm font-bold text-slate-900 mt-0.5"></p>
             </div>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="openDentalScanModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow-sm">
+              📄 Receta / Orden DentalScan
+            </button>
             <button onclick="scrollToPatientHistory()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-3 py-2 rounded-xl">
-              ↓ Ver Línea de Tiempo y Rx
+              ↓ Línea de Tiempo y Rx
             </button>
             <button onclick="openNewAppointmentModal()" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl">
               📅 Agendar Próxima Sesión
@@ -473,7 +477,7 @@
           </div>
         </div>
 
-        <!-- Bloque 3: LÍNEA DE TIEMPO ("QUÉ PASÓ ANTES") + RADIOGRAFÍAS -->
+        <!-- Bloque 3: LÍNEA DE TIEMPO ("QUÉ PASÓ ANTES") + RADIOGRAFÍAS + ORDEN DENTALSCAN -->
         <div id="history-section-anchor" class="grid lg:grid-cols-2 gap-6">
           <!-- Línea de Tiempo Cronológica de Turnos y Evoluciones -->
           <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
@@ -488,18 +492,23 @@
             <div id="patient-timeline" class="relative pl-5 border-l-2 border-teal-500/40 space-y-3.5 max-h-80 overflow-y-auto pr-2"></div>
           </div>
 
-          <!-- Galería de Estudios Rx y Tomografías -->
+          <!-- Galería de Estudios Rx y Tomografías + Botón Orden DentalScan -->
           <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
                 <div>
                   <span class="text-[10px] font-bold uppercase text-teal-600">Estudios del Paciente</span>
-                  <h3 class="text-sm font-bold text-slate-900">Radiografías, Tomografías (TAC) y Fotos</h3>
+                  <h3 class="text-sm font-bold text-slate-900">Radiografías, Tomografías (TAC) y DentalScan</h3>
                 </div>
-                <label class="cursor-pointer bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition">
-                  + Subir Rx / Tomografía
-                  <input type="file" accept="image/*" onchange="handleStudyUpload(event)" class="hidden" />
-                </label>
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <button onclick="openDentalScanModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm">
+                    📄 Emitir Orden DentalScan
+                  </button>
+                  <label class="cursor-pointer bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition">
+                    + Subir Rx / TAC
+                    <input type="file" accept="image/*" onchange="handleStudyUpload(event)" class="hidden" />
+                  </label>
+                </div>
               </div>
 
               <div class="grid grid-cols-3 gap-2 mb-3">
@@ -513,13 +522,13 @@
 
               <div id="studies-gallery" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2"></div>
             </div>
-            <p class="text-[11px] text-slate-400 mt-4 pt-3 border-t border-slate-100">Hacé clic en cualquier placa para abrirla en grande con filtro de contraste.</p>
+            <p class="text-[11px] text-slate-400 mt-4 pt-3 border-t border-slate-100">Hacé clic en cualquier placa para abrirla en grande con filtro de contraste o emití una orden para DentalScan.</p>
           </div>
         </div>
       </section>
 
       <!-- ===================================================== -->
-      <!-- SECCIÓN 3: TABLERO DEL DÍA (CON ACCESO A LA FICHA)    -->
+      <!-- SECCIÓN 3: TABLERO DEL DÍA                            -->
       <!-- ===================================================== -->
       <section id="tab-tablero" class="hidden space-y-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -813,6 +822,104 @@
     </div>
   </div>
 
+  <!-- ========================================================= -->
+  <!-- MÓDULO ORDEN / RECETA OFICIAL DENTALSCAN (2D / CBCT 3D)   -->
+  <!-- ========================================================= -->
+  <div id="dentalscan-modal" class="hidden fixed inset-0 bg-slate-900/75 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl border border-slate-200 my-8">
+      <div class="flex items-start justify-between border-b-2 border-indigo-600 pb-4 mb-5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="bg-indigo-600 text-white text-xs font-extrabold px-2.5 py-1 rounded-lg uppercase tracking-wider">DentalScan</span>
+            <span class="text-xs font-bold text-slate-500 uppercase">Orden de Diagnóstico por Imágenes</span>
+          </div>
+          <h3 class="text-lg font-extrabold text-slate-900 mt-1">Solicitud de Radiología Digital y Tomografía 3D</h3>
+        </div>
+        <button onclick="closeDentalScanModal()" class="text-slate-400 hover:text-slate-700 font-bold text-lg">✕</button>
+      </div>
+
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 mb-5 grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-slate-400 block">Paciente</span>
+          <b id="ds-patient-name" class="text-slate-900 text-sm">Martín Echeverría</b>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase font-bold text-slate-400 block">DNI</span>
+          <b id="ds-patient-dni" class="text-slate-800">34.890.122</b>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase font-bold text-slate-400 block">Obra Social / Prepaga</span>
+          <b id="ds-patient-ins" class="text-indigo-700">OSDE 310</b>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5 mb-5">
+        <div class="border border-slate-200 rounded-2xl p-4 space-y-2.5">
+          <span class="text-xs font-extrabold uppercase text-indigo-700 block border-b border-slate-100 pb-1.5">1. Radiología Digital 2D</span>
+          <label class="flex items-center gap-2 text-xs text-slate-800 cursor-pointer">
+            <input type="checkbox" value="Panorámica Digital (Ortopantomografía)" class="ds-check rounded text-indigo-600" checked />
+            <span><b>Panorámica Digital</b> (Ortopantomografía)</span>
+          </label>
+          <label class="flex items-center gap-2 text-xs text-slate-800 cursor-pointer">
+            <input type="checkbox" value="Teleradiografía Lateral con Cefalometría" class="ds-check rounded text-indigo-600" />
+            <span>Teleradiografía Lateral + Trazado Cefalométrico</span>
+          </label>
+          <label class="flex items-center gap-2 text-xs text-slate-800 cursor-pointer">
+            <input type="checkbox" value="Rx Periapical Digital" class="ds-check rounded text-indigo-600" />
+            <span>Rx Periapical / Bite-Wing</span>
+          </label>
+          <label class="flex items-center gap-2 text-xs text-slate-800 cursor-pointer">
+            <input type="checkbox" value="Estudio de ATM (Boca abierta y cerrada)" class="ds-check rounded text-indigo-600" />
+            <span>ATM Comparativa (Boca abierta / cerrada)</span>
+          </label>
+        </div>
+
+        <div class="border border-slate-200 rounded-2xl p-4 space-y-2.5 bg-indigo-50/30">
+          <span class="text-xs font-extrabold uppercase text-indigo-700 block border-b border-indigo-100 pb-1.5">2. Tomografía Cone Beam 3D (CBCT)</span>
+          <label class="flex items-center gap-2 text-xs text-slate-800 cursor-pointer">
+            <input type="checkbox" value="Tomografía Cone Beam 3D - Maxilar Superior" class="ds-check rounded text-indigo-600" />
+            <span>CBCT 3D · <b>Maxilar Superior</b></span>
+          </label>
+          <label class="flex items-center gap-2 text-xs text-slate-800 cursor-pointer">
+            <input type="checkbox" value="Tomografía Cone Beam 3D - Maxilar Inferior" class="ds-check rounded text-indigo-600" />
+            <span>CBCT 3D · <b>Maxilar Inferior</b></span>
+          </label>
+          <label class="flex items-center gap-2 text-xs text-slate-800 cursor-pointer">
+            <input type="checkbox" value="Tomografía 3D Sectorizada (Endodoncia / Implantes)" class="ds-check rounded text-indigo-600" />
+            <span>CBCT 3D · <b>Sectorizada (Alta Resolución)</b></span>
+          </label>
+          <label class="flex items-center gap-2 text-xs text-slate-800 cursor-pointer">
+            <input type="checkbox" value="Pack Ortodoncia Digital (Fotos + Panorámica + Tele)" class="ds-check rounded text-indigo-600" />
+            <span><b>Pack Ortodoncia</b> / Escaneo Intraoral 3D</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-3 mb-6">
+        <div>
+          <label class="text-[11px] font-bold text-slate-600">Piezas / Zona de interés</label>
+          <input id="ds-teeth" type="text" placeholder="Ej: Piezas 24, 36 o Retenidos" class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-900" />
+        </div>
+        <div class="md:col-span-2">
+          <label class="text-[11px] font-bold text-slate-600">Diagnóstico Presuntivo / Indicaciones</label>
+          <input id="ds-diag" type="text" value="Evaluación pre-quirúrgica / Control endodóntico" class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900" />
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200">
+        <span class="text-[11px] text-slate-400">Firmado digitalmente por: <b id="ds-doctor-sign" class="text-slate-700">Dr. Ricardo Gómez</b></span>
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button onclick="sendDentalScanWhatsApp()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center gap-1.5 shadow-sm">
+            📲 Enviar Orden por WhatsApp
+          </button>
+          <button onclick="printDentalScanOrder()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center gap-1.5 shadow-sm">
+            🖨️ Imprimir / Guardar PDF Oficial
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ====================================================
     // 1. ESTADO PERSISTENTE V4 (CON VALENTINA 11:00 A 12:30)
@@ -892,23 +999,23 @@
       { id: 'a3', date: todayStr, time: '12:30', duration: 30, category: 'control', patient: 'Martín Echeverría', phone: '5491155550101', chair: 'Sillón 2', dentist: 'Dra. Sofía Martínez', motif: '🦷 Pieza 24 · Control clínico y presupuesto', status: 'Pendiente' }
     ];
 
-    let dentists = JSON.parse(localStorage.getItem('odontos_v4_prod_dentists')) || defaultDentists;
-    let patients = JSON.parse(localStorage.getItem('odontos_v4_prod_patients')) || defaultPatients;
-    let appointments = JSON.parse(localStorage.getItem('odontos_v4_prod_appointments')) || defaultAppointments;
+    let dentists = JSON.parse(localStorage.getItem('odontos_v5_prod_dentists')) || defaultDentists;
+    let patients = JSON.parse(localStorage.getItem('odontos_v5_prod_patients')) || defaultPatients;
+    let appointments = JSON.parse(localStorage.getItem('odontos_v5_prod_appointments')) || defaultAppointments;
 
     function persistState() {
-      localStorage.setItem('odontos_v4_prod_dentists', JSON.stringify(dentists));
-      localStorage.setItem('odontos_v4_prod_patients', JSON.stringify(patients));
-      localStorage.setItem('odontos_v4_prod_appointments', JSON.stringify(appointments));
+      localStorage.setItem('odontos_v5_prod_dentists', JSON.stringify(dentists));
+      localStorage.setItem('odontos_v5_prod_patients', JSON.stringify(patients));
+      localStorage.setItem('odontos_v5_prod_appointments', JSON.stringify(appointments));
       localStorage.setItem('odontos_ai_credits', String(aiCredits));
       syncActivePatientToSupabase();
     }
 
     function resetDemoData() {
       if (!confirm('¿Restaurar los datos de muestra originales?')) return;
-      localStorage.removeItem('odontos_v4_prod_dentists');
-      localStorage.removeItem('odontos_v4_prod_patients');
-      localStorage.removeItem('odontos_v4_prod_appointments');
+      localStorage.removeItem('odontos_v5_prod_dentists');
+      localStorage.removeItem('odontos_v5_prod_patients');
+      localStorage.removeItem('odontos_v5_prod_appointments');
       location.reload();
     }
 
@@ -922,7 +1029,6 @@
         switchTab('odontograma');
       }
       renderAll();
-      // Efecto visual de apertura de ficha
       const bar = document.getElementById('patient-header-bar');
       bar.classList.remove('patient-flash');
       void bar.offsetWidth;
@@ -1230,7 +1336,7 @@
     }
 
     // ====================================================
-    // 7. ODONTOGRAMA Y ESTUDIOS RX
+    // 7. ODONTOGRAMA, RX Y RECETA DENTALSCAN
     // ====================================================
     function createToothSVG(toothNum, state = {}) {
       const isMissing = state.missing === true;
@@ -1324,6 +1430,116 @@
       document.getElementById('rx-modal-img').classList.toggle(cls);
     }
 
+    // Funciones de Orden DentalScan
+    function openDentalScanModal() {
+      const p = patients[activePatientIndex];
+      if (!p) return;
+      document.getElementById('ds-patient-name').innerText = p.name;
+      document.getElementById('ds-patient-dni').innerText = p.dni || 'S/D';
+      document.getElementById('ds-patient-ins').innerText = p.insurance || 'Particular';
+      const pendingTeeth = (p.treatments || []).filter(t => t.status === 'planned' && t.tooth).map(t => t.tooth);
+      document.getElementById('ds-teeth').value = pendingTeeth.length > 0 ? 'Piezas ' + [...new Set(pendingTeeth)].join(', ') : '';
+      document.getElementById('ds-doctor-sign').innerText = document.getElementById('sidebar-user-name').innerText;
+      document.getElementById('dentalscan-modal').classList.remove('hidden');
+    }
+
+    function closeDentalScanModal() {
+      document.getElementById('dentalscan-modal').classList.add('hidden');
+    }
+
+    function getSelectedDentalScanStudies() {
+      return Array.from(document.querySelectorAll('.ds-check:checked')).map(cb => cb.value);
+    }
+
+    function sendDentalScanWhatsApp() {
+      const p = patients[activePatientIndex];
+      const studies = getSelectedDentalScanStudies();
+      const teeth = document.getElementById('ds-teeth').value || 'General';
+      const diag = document.getElementById('ds-diag').value || 'Control odontológico';
+      const doc = document.getElementById('ds-doctor-sign').innerText;
+
+      p.treatments.unshift({
+        id: 'ds' + Date.now(),
+        tooth: null,
+        code: 'ORD-RX',
+        desc: `[Orden DentalScan] ${studies.join(' + ')} (${teeth})`,
+        dentist: doc,
+        status: 'done',
+        price: 0,
+        lab: 0,
+        date: new Date().toLocaleDateString('es-AR')
+      });
+      persistState();
+      renderAll();
+
+      const text = `📋 *ORDEN DE ESTUDIO RADIOLÓGICO — DENTALSCAN*\n\n` +
+        `👤 *Paciente:* ${p.name} (DNI: ${p.dni || '-'})\n` +
+        `🏥 *Cobertura:* ${p.insurance}\n\n` +
+        `🔬 *Estudios Solicitados:*\n${studies.map(s => '• ' + s).join('\n')}\n\n` +
+        `🦷 *Piezas / Zona:* ${teeth}\n` +
+        `🩺 *Diagnóstico:* ${diag}\n` +
+        `✍️ *Solicita:* ${doc}\n\n` +
+        `_Presentá esta orden digital en recepción de DentalScan._`;
+
+      closeDentalScanModal();
+      window.open(`https://wa.me/${p.phone}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function printDentalScanOrder() {
+      const p = patients[activePatientIndex];
+      const studies = getSelectedDentalScanStudies();
+      const teeth = document.getElementById('ds-teeth').value || 'General';
+      const diag = document.getElementById('ds-diag').value || 'Control odontológico';
+      const doc = document.getElementById('ds-doctor-sign').innerText;
+      const today = new Date().toLocaleDateString('es-AR');
+
+      const w = window.open('', '_blank', 'width=800,height=700');
+      w.document.write(`
+        <html>
+        <head>
+          <title>Receta DentalScan - ${p.name}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 40px; color: #0f172a; }
+            .box { border: 2px solid #4f46e5; border-radius: 16px; padding: 30px; max-width: 650px; margin: 0 auto; }
+            .header { display: flex; justify-content: space-between; border-bottom: 2px solid #e2e8f0; padding-bottom: 16px; margin-bottom: 20px; }
+            .badge { background: #4f46e5; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 13px; }
+            .meta { background: #f8fafc; padding: 14px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; }
+            ul { font-size: 15px; line-height: 1.7; }
+            .footer { margin-top: 50px; display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px dashed #cbd5e1; padding-top: 20px; }
+          </style>
+        </head>
+        <body onload="window.print()">
+          <div class="box">
+            <div class="header">
+              <div>
+                <span class="badge">DENTALSCAN · ORDEN OFICIAL</span>
+                <h2 style="margin: 8px 0 0 0;">Solicitud de Diagnóstico por Imágenes</h2>
+              </div>
+              <div style="text-align:right; font-size:13px; color:#64748b;">
+                <b>Fecha:</b> ${today}<br><b>OdontOS Digital</b>
+              </div>
+            </div>
+            <div class="meta">
+              <b>Paciente:</b> ${p.name} &nbsp;|&nbsp; <b>DNI:</b> ${p.dni || '-'} &nbsp;|&nbsp; <b>Cobertura:</b> ${p.insurance}
+            </div>
+            <h4 style="margin-bottom: 8px; color:#4f46e5;">Rp / Estudios Solicitados:</h4>
+            <ul>${studies.map(s => `<li><b>${s}</b></li>`).join('')}</ul>
+            <p style="font-size:14px;"><b>Piezas / Región de interés:</b> ${teeth}</p>
+            <p style="font-size:14px;"><b>Diagnóstico Presuntivo:</b> ${diag}</p>
+            <div class="footer">
+              <div style="font-size:12px; color:#64748b;">Orden generada con trazabilidad electrónica OdontOS</div>
+              <div style="text-align:center;">
+                <div style="border-bottom: 1px solid #0f172a; width: 200px; margin-bottom: 6px;"></div>
+                <b style="font-size:13px;">${doc}</b><br><span style="font-size:11px; color:#64748b;">Firma y Sello Profesional</span>
+              </div>
+            </div>
+          </div>
+        </body>
+        </html>
+      `);
+      w.document.close();
+    }
+
     // ====================================================
     // 8. RENDERIZADO GENERAL Y AGENDA CON INICIO / FIN
     // ====================================================
@@ -1364,20 +1580,18 @@
         <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-300">${a}</span>
       `).join('');
 
-      // Resumen superior de "Qué se le hizo antes" y "Qué tiene pendiente"
       const doneTreats = (p.treatments || []).filter(t => t.status === 'done');
       const plannedTreats = (p.treatments || []).filter(t => t.status === 'planned');
       document.getElementById('summary-last-visit').innerText = doneTreats.length > 0
         ? `· Última intervención: ${doneTreats[0].date || 'Reciente'}`
         : '· Primera consulta';
       document.getElementById('summary-what-happened').innerHTML =
-        `<span class="text-blue-700">Antes: ${doneTreats.length > 0 ? `Pieza ${doneTreats[0].tooth} (${doneTreats[0].desc})` : 'Sin prestaciones previas'}</span> · ` +
+        `<span class="text-blue-700">Antes: ${doneTreats.length > 0 ? `Pieza ${doneTreats[0].tooth || '-'} (${doneTreats[0].desc})` : 'Sin prestaciones previas'}</span> · ` +
         `<span class="text-rose-600">Pendiente hoy: ${plannedTreats.length > 0 ? plannedTreats.map(t => `P.${t.tooth} ${t.desc}`).join(' / ') : 'Nada pendiente'}</span>`;
 
       document.getElementById('upper-jaw').innerHTML = upperTeeth.map(t => createToothSVG(t, p.odontogram[t] || {})).join('');
       document.getElementById('lower-jaw').innerHTML = lowerTeeth.map(t => createToothSVG(t, p.odontogram[t] || {})).join('');
 
-      // Tabla de Tratamientos
       let doneSum = 0, plannedSum = 0;
       document.getElementById('treatments-table-body').innerHTML = (p.treatments || []).map(t => {
         if (t.status === 'done') doneSum += Number(t.price);
@@ -1409,7 +1623,6 @@
       document.getElementById('total-done-amount').innerText = '$' + doneSum.toLocaleString('es-AR');
       document.getElementById('total-planned-amount').innerText = '$' + plannedSum.toLocaleString('es-AR');
 
-      // Galería Rx
       if (!p.studies) p.studies = defaultPatients[0].studies;
       document.getElementById('studies-gallery').innerHTML = p.studies.map(st => `
         <div onclick="openRxViewer('${st.id}')" class="group cursor-pointer bg-slate-900 rounded-xl overflow-hidden border border-slate-200 hover:border-teal-500 transition">
@@ -1423,7 +1636,6 @@
         </div>
       `).join('');
 
-      // Línea de Tiempo Clínica
       const patientApps = appointments.filter(a => a.patient.toLowerCase() === p.name.toLowerCase());
       const timelineItems = [
         ...patientApps.map(a => ({
@@ -1435,7 +1647,7 @@
         ...(p.treatments || []).map(t => ({
           badge: t.status === 'done' ? `🔵 Realizado el ${t.date || 'Anterior'}` : '🔴 Pendiente / Propuesto en Odontograma',
           badgeCls: t.status === 'done' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-rose-50 text-rose-700 border-rose-200',
-          title: `Pieza ${t.tooth || '-'}: ${t.desc}`,
+          title: `${t.tooth ? 'Pieza ' + t.tooth + ': ' : ''}${t.desc}`,
           meta: `Atendido por: ${t.dentist} · Arancel: $${Number(t.price).toLocaleString('es-AR')}`
         }))
       ];
@@ -1449,14 +1661,12 @@
         </div>
       `).join('');
 
-      // Presupuesto WhatsApp
       const discountPct = Number(document.getElementById('budget-discount').value || 0);
       const finalTotal = Math.round(plannedSum * (1 - discountPct / 100));
       const lines = plannedTreats.map(t => `• Pieza ${t.tooth || '-'}: ${t.desc} — $${Number(t.price).toLocaleString('es-AR')}`).join('\n');
       document.getElementById('whatsapp-preview-box').innerText =
         `Hola ${p.name.split(' ')[0]}! 👋 Te enviamos desde el consultorio tu presupuesto odontológico:\n\n${lines || '• Sin prestaciones pendientes.'}\n\n*Total a abonar: $${finalTotal.toLocaleString('es-AR')}*\n\nRespondé este mensaje para confirmar tu próximo turno.`;
 
-      // Portal Celular Paciente
       document.getElementById('mobile-patient-name').innerText = 'Hola, ' + p.name.split(' ')[0];
       document.getElementById('mobile-patient-ins').innerText = p.insurance;
       document.getElementById('mobile-next-turn').innerText = patientApps.length > 0
@@ -1503,8 +1713,6 @@
         return `
           <div class="bg-white border border-slate-200 ${st.border} rounded-2xl p-4 md:p-5 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4 hover:shadow-md transition">
             <div class="flex flex-col sm:flex-row items-start gap-4">
-              
-              <!-- BLOQUE DE HORARIO DE INICIO A FINALIZACIÓN + CANTIDAD DE TIEMPO (PEDIDO DE COTI AUDIO 1) -->
               <div class="bg-slate-900 text-white px-4 py-3 rounded-2xl shrink-0 min-w-[175px] text-center shadow-sm">
                 <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Inicio a Finalización</span>
                 <span class="text-base font-extrabold text-white block mt-0.5">${a.time} a ${endTime} hs</span>
@@ -1513,7 +1721,6 @@
                 </div>
               </div>
 
-              <!-- Paciente Clicable + Tarea a Realizar + Qué pasó antes -->
               <div class="space-y-2">
                 <div class="flex flex-wrap items-center gap-2">
                   <button onclick="openPatientRecordByName('${a.patient}')" class="text-base font-extrabold text-slate-900 hover:text-teal-600 underline decoration-dotted underline-offset-4 text-left">
@@ -1525,7 +1732,6 @@
                   <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">${a.chair} · ${a.dentist}</span>
                 </div>
 
-                <!-- Tarea escrita y bien visual abajo del paciente -->
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border ${st.badge} text-xs md:text-sm font-extrabold">
                   <span>QUÉ HACER HOY:</span>
                   <span>${a.motif}</span>
@@ -1533,7 +1739,6 @@
               </div>
             </div>
 
-            <!-- Controles rápidos: Cambiar duración en vivo, estado y WhatsApp -->
             <div class="flex flex-wrap items-center gap-2 self-end lg:self-center shrink-0">
               <div class="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-xl px-2 py-1">
                 <span class="text-[10px] font-bold text-slate-500">Tiempo:</span>
