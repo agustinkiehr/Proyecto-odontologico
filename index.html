@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OdontOS v3.5 — Sistema de Gestión Odontológica</title>
+  <title>OdontOS v3.6 — Sistema de Gestión Odontológica</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,13 +37,28 @@
     .rx-invert { filter: invert(1) contrast(1.15); }
     .rx-contrast { filter: contrast(1.85) brightness(1.05); }
     .rx-both { filter: invert(1) contrast(1.85); }
+    @keyframes pulse-mic {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.45); }
+      50% { box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); }
+    }
+    .mic-recording {
+      animation: pulse-mic 1.4s infinite;
+      background-color: #E11D48 !important;
+      color: #FFFFFF !important;
+      border-color: #BE123C !important;
+    }
+    #print-sheet { display: none; }
     @media print {
-      .no-print { display: none !important; }
-      body { background: #FFFFFF !important; }
+      #auth-screen, #app-shell, .modal-backdrop, .no-print { display: none !important; }
+      body { background: #FFFFFF !important; margin: 0; padding: 0; }
+      #print-sheet { display: block !important; padding: 32px; color: #0F172A; }
     }
   </style>
 </head>
 <body class="min-h-screen antialiased">
+
+  <!-- HOJA LIMPIA EXCLUSIVA PARA IMPRESIÓN / PDF OFICIAL -->
+  <div id="print-sheet"></div>
 
   <!-- ========================================================= -->
   <!-- PANTALLA DE ACCESO SAAS MULTI-CONSULTORIO (LOGIN / ALTA)  -->
@@ -58,14 +73,13 @@
             </svg>
           </div>
           <div>
-            <h1 class="font-bold text-lg text-slate-900 leading-tight">OdontOS</h1>
+            <h1 class="font-bold text-lg text-slate-900 leading-tight">OdontOS <span class="text-xs font-semibold text-blue-600">v3.6</span></h1>
             <p class="text-xs text-slate-500">Gestión clínica ágil · Multi-consultorio</p>
           </div>
         </div>
-        <span id="cloud-status-pill" class="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Modo Local Aislado</span>
+        <span id="cloud-status-pill" class="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Verificando...</span>
       </div>
 
-      <!-- Tabs Login vs Registro -->
       <div class="grid grid-cols-2 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
         <button onclick="switchAuthTab('login')" id="tab-auth-login" class="py-2 rounded-lg bg-white text-slate-900 shadow-2xs">Ingresar</button>
         <button onclick="switchAuthTab('register')" id="tab-auth-register" class="py-2 rounded-lg text-slate-600">Crear mi consultorio</button>
@@ -73,7 +87,6 @@
 
       <div id="auth-error" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium"></div>
 
-      <!-- Formulario Login -->
       <form id="form-login" onsubmit="handleAuthLogin(event)" class="space-y-3.5 text-sm">
         <div>
           <label class="block text-xs font-medium text-slate-700 mb-1">Email profesional</label>
@@ -83,12 +96,11 @@
           <label class="block text-xs font-medium text-slate-700 mb-1">Contraseña</label>
           <input type="password" id="login-pass" required placeholder="••••••••" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
-        <button type="submit" id="btn-login-submit" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-xs transition">
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-xs transition">
           Entrar a mi consultorio
         </button>
       </form>
 
-      <!-- Formulario Crear Consultorio Independiente -->
       <form id="form-register" onsubmit="handleAuthRegister(event)" class="hidden space-y-3 text-sm">
         <div>
           <label class="block text-xs font-medium text-slate-700 mb-1">Nombre del Consultorio / Clínica</label>
@@ -97,11 +109,11 @@
         <div class="grid grid-cols-2 gap-2.5">
           <div>
             <label class="block text-xs font-medium text-slate-700 mb-1">Tu Nombre y Apellido</label>
-            <input type="text" id="reg-doctor" required placeholder="Dra. Valentina Rossi" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm" />
+            <input type="text" id="reg-doctor" required placeholder="Dra. Valentina Rossi" class="w-full border border-slate-200 rounded-xl px-3.5 py-2 text-sm" />
           </div>
           <div>
             <label class="block text-xs font-medium text-slate-700 mb-1">Matrícula (M.N. / M.P.)</label>
-            <input type="text" id="reg-license" required placeholder="M.P. 14.892" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm" />
+            <input type="text" id="reg-license" required placeholder="M.P. 14.892" class="w-full border border-slate-200 rounded-xl px-3.5 py-2 text-sm" />
           </div>
         </div>
         <div>
@@ -116,28 +128,27 @@
           <input type="checkbox" id="reg-seed-prices" checked class="accent-blue-600 w-4 h-4" />
           Precargar los 52 procedimientos sugeridos listos para usar
         </label>
-        <button type="submit" id="btn-reg-submit" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-xs transition">
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-xs transition">
           Crear cuenta independiente gratis
         </button>
       </form>
 
       <div class="pt-3 border-t border-slate-100 space-y-2.5 text-center">
         <button onclick="enterDemoAccount()" class="w-full py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition">
-          🚀 Entrar a Clínica Demo con datos cargados (1 clic)
+          🚀 Explorar Clínica Demo con datos cargados (1 clic)
         </button>
         <button onclick="openModal('modal-supabase')" class="text-[11px] text-slate-400 hover:text-blue-600 underline">
-          ⚙️ Configurar conexión Cloud Supabase Multi-Usuario
+          ⚙️ Configuración Cloud Supabase
         </button>
       </div>
     </div>
   </div>
 
   <!-- ========================================================= -->
-  <!-- SHELL DE LA APLICACIÓN (VISIBLE CON SESIÓN ACTIVA)        -->
+  <!-- SHELL DE LA APLICACIÓN                                    -->
   <!-- ========================================================= -->
   <div id="app-shell" class="hidden min-h-screen flex flex-col md:flex-row">
 
-    <!-- SIDEBAR IZQUIERDO: CONSULTORIO + GESTIÓN COMPLETA (BLOQUE 3) -->
     <aside class="no-print w-full md:w-60 bg-white/95 backdrop-blur border-b md:border-b-0 md:border-r border-slate-200/80 flex flex-col justify-between shrink-0">
       <div>
         <div class="px-5 py-4 flex items-center justify-between border-b border-slate-100">
@@ -149,13 +160,12 @@
             </div>
             <div class="min-w-0">
               <span class="font-bold text-slate-900 tracking-tight text-sm block truncate" id="sidebar-clinic-name">OdontOS</span>
-              <span class="text-[10px] text-slate-400 block truncate" id="sidebar-user-email">v3.5 SaaS</span>
+              <span class="text-[10px] text-slate-400 block truncate" id="sidebar-user-email">v3.6 SaaS</span>
             </div>
           </div>
         </div>
 
         <nav class="p-3 space-y-4 text-sm">
-          <!-- Bloque Consultorio -->
           <div>
             <p class="px-3 mb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Consultorio</p>
             <div class="space-y-0.5">
@@ -174,12 +184,11 @@
                 <span>🦷</span> <span>Odontograma</span>
               </button>
               <button onclick="openPatientDetail(state.activePatientId, 'estudios')" id="nav-documentos" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 transition">
-                <span>🩻</span> <span>Documentos y Rx</span>
+                <span>🩻</span> <span>Placas Rx y Órdenes</span>
               </button>
             </div>
           </div>
 
-          <!-- Bloque Gestión (BLOQUE 3 COMPLETO) -->
           <div>
             <p class="px-3 mb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Gestión</p>
             <div class="space-y-0.5">
@@ -202,7 +211,6 @@
         </nav>
       </div>
 
-      <!-- Pie Sidebar: Sincronización + Cerrar Sesión -->
       <div class="p-3 border-t border-slate-100 space-y-2 text-xs">
         <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/70">
           <div class="flex items-center justify-between mb-0.5">
@@ -221,7 +229,6 @@
       </div>
     </aside>
 
-    <!-- ÁREA PRINCIPAL -->
     <div class="flex-1 flex flex-col min-w-0">
       <header class="no-print h-14 bg-white/85 backdrop-blur border-b border-slate-200/80 px-4 lg:px-7 flex items-center justify-between gap-3 sticky top-0 z-20">
         <div class="flex items-center gap-2.5 min-w-0">
@@ -242,7 +249,7 @@
             <option value="secretaria">📋 Secretaría / Recepción</option>
           </select>
           <button onclick="openPortalModal()" class="text-xs font-medium px-2.5 py-1.5 rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition flex items-center gap-1">
-            <span>📱</span> <span class="hidden sm:inline">Portal Paciente</span>
+            <span>📱</span> <span class="hidden sm:inline">Firma en Tablet</span>
           </button>
         </div>
       </header>
@@ -252,16 +259,60 @@
   </div>
 
   <!-- ========================================================= -->
-  <!-- MODALES OPERATIVOS                                        -->
+  <!-- MODALES OPERATIVOS + MODAL MICRÓFONO EN VIVO              -->
   <!-- ========================================================= -->
 
+  <!-- Modal: Dictado por Voz en Vivo (Web Speech API es-AR Real) -->
+  <div id="modal-voice-odontograma" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-lg w-full overflow-hidden">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span id="voice-live-badge" class="w-3 h-3 rounded-full bg-slate-500"></span>
+          <div>
+            <h3 class="font-bold text-sm">Dictado Clínico por Voz al Odontograma</h3>
+            <p class="text-[11px] text-slate-400">Reconocimiento en vivo Español (Argentina) · Costo $0</p>
+          </div>
+        </div>
+        <button onclick="stopVoiceModal()" class="text-slate-400 hover:text-white text-lg">✕</button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs">
+        <div class="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-100 text-slate-700 space-y-1">
+          <p class="font-semibold text-blue-950">Ejemplos que podés hablar de corrido al micrófono:</p>
+          <p>• <em>"Pieza dieciséis caries oclusal, veinticuatro resina mesial"</em></p>
+          <p>• <em>"Once corona a realizar, treinta y seis implante, treinta y ocho ausente"</em></p>
+          <p>• <em>"Cuarenta y seis endodoncia"</em> o <em>"veintiséis endodoncia a realizar"</em></p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="font-semibold text-slate-700">Transcripción detectada (editable antes de aplicar):</label>
+            <button type="button" id="btn-toggle-odo-mic" onclick="toggleOdontogramaMic()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 text-white font-semibold flex items-center gap-1.5 shadow-xs">
+              <span>🎙️</span> <span id="lbl-odo-mic">Iniciar micrófono</span>
+            </button>
+          </div>
+          <textarea id="voice-odo-transcript" rows="3" oninput="previewVoiceCommands()" placeholder="Tocá 'Iniciar micrófono' y hablá claro (o escribí acá)..." class="w-full border border-slate-200 rounded-xl p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+
+        <div id="voice-detected-preview" class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-500 min-h-[48px]">
+          Esperando indicaciones clínicas...
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+          <button type="button" onclick="stopVoiceModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-medium">Cancelar</button>
+          <button type="button" onclick="applyVoiceToOdontograma()" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-xs">✓ Aplicar al Odontograma</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal: Nuevo Turno -->
-  <div id="modal-turno" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+  <div id="modal-turno" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-lg w-full overflow-hidden">
       <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
         <div>
           <h3 class="font-bold text-slate-900 text-base">Agendar turno</h3>
-          <p class="text-xs text-slate-500">Asigná sillón físico, práctica del tarifario y seña opcional.</p>
+          <p class="text-xs text-slate-500">Asigná fecha exacta, sillón físico y seña opcional.</p>
         </div>
         <button onclick="closeModal('modal-turno')" class="text-slate-400 hover:text-slate-600 text-lg">✕</button>
       </div>
@@ -272,7 +323,7 @@
             <select id="turno-patient" required class="w-full border border-slate-200 rounded-lg px-3 py-2 bg-white"></select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-700 mb-1">Fecha</label>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Fecha real del turno</label>
             <input type="date" id="turno-date" required class="w-full border border-slate-200 rounded-lg px-3 py-2" />
           </div>
           <div class="grid grid-cols-2 gap-2">
@@ -334,7 +385,7 @@
   </div>
 
   <!-- Modal Post-Turno WhatsApp -->
-  <div id="modal-turno-ok" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+  <div id="modal-turno-ok" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-md w-full p-6 text-center space-y-4">
       <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto text-xl font-bold">✓</div>
       <div>
@@ -351,7 +402,7 @@
   </div>
 
   <!-- Modal: Alta Paciente -->
-  <div id="modal-paciente" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+  <div id="modal-paciente" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-lg w-full overflow-hidden">
       <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
         <h3 class="font-bold text-slate-900 text-base">Nuevo paciente</h3>
@@ -383,7 +434,7 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-700 mb-1">Origen (Trazabilidad interna)</label>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Origen (Control interno)</label>
             <select id="np-origin" class="w-full border border-slate-200 rounded-lg px-3 py-2 bg-white">
               <option value="Recomendación">Recomendación</option>
               <option value="Obra Social">Obra Social</option>
@@ -405,29 +456,29 @@
     </div>
   </div>
 
-  <!-- Modal: Importar Pacientes CSV con Vista Previa (Bloque 3) -->
-  <div id="modal-import-csv" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+  <!-- Modal: Importar Pacientes CSV -->
+  <div id="modal-import-csv" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-xl w-full p-6 space-y-4 text-sm">
       <div class="flex justify-between items-center border-b border-slate-100 pb-3">
         <div>
           <h3 class="font-bold text-slate-900">⬆️ Importar pacientes desde Excel / CSV</h3>
-          <p class="text-xs text-slate-500">Pegá tus filas separadas por coma o punto y coma: <code>Nombre, DNI, WhatsApp, ObraSocial, SaldoInicial</code></p>
+          <p class="text-xs text-slate-500">Formato por línea: <code>Nombre, DNI, WhatsApp, ObraSocial, SaldoInicial</code></p>
         </div>
         <button onclick="closeModal('modal-import-csv')" class="text-slate-400">✕</button>
       </div>
       <textarea id="csv-raw-input" rows="5" oninput="previewCsvImport()" placeholder="Juan Pérez, 31444555, 5491133334444, OSDE 310, 0&#10;María López, 29888777, 5491166667777, Particular, 45000" class="w-full border border-slate-200 rounded-xl p-3 text-xs font-mono"></textarea>
       <div id="csv-preview-box" class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600">
-        Pegá datos arriba para ver la vista previa antes de importar.
+        Pegá datos arriba para previsualizar antes de crear.
       </div>
       <div class="flex justify-end gap-2">
         <button onclick="closeModal('modal-import-csv')" class="px-4 py-2 rounded-lg border border-slate-200 text-xs">Cancelar</button>
-        <button onclick="confirmCsvImport()" class="px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700">Confirmar importación</button>
+        <button onclick="confirmCsvImport()" class="px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold">Confirmar importación</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal: Nueva Orden a Laboratorio Dental (Bloque 3) -->
-  <div id="modal-lab-order" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+  <!-- Modal: Nueva Orden Laboratorio -->
+  <div id="modal-lab-order" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-lg w-full overflow-hidden">
       <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
         <h3 class="font-bold text-slate-900 text-base">🧪 Nueva orden para Técnico de Laboratorio</h3>
@@ -465,7 +516,7 @@
   </div>
 
   <!-- Modal: Orden Radiológica DentalScan -->
-  <div id="modal-dentalscan" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+  <div id="modal-dentalscan" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-xl w-full overflow-hidden">
       <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
         <div>
@@ -479,9 +530,9 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="p-3.5 rounded-xl border border-slate-200 space-y-2">
             <p class="font-semibold text-xs text-slate-800 uppercase">1. Radiología Digital 2D</p>
-            <label class="flex items-center gap-2 text-xs"><input type="checkbox" class="ds-check" value="Panorámica Digital" checked> Panorámica Digital</label>
-            <label class="flex items-center gap-2 text-xs"><input type="checkbox" class="ds-check" value="Teleradiografía + Cefalometría"> Teleradiografía Lateral</label>
-            <label class="flex items-center gap-2 text-xs"><input type="checkbox" class="ds-check" value="Rx Periapical Seriada"> Rx Periapical / Bite-Wing</label>
+            <label class="flex items-center gap-2 text-xs"><input type="checkbox" class="ds-check" value="Panorámica Digital (Ortopantomografía)" checked> Panorámica Digital</label>
+            <label class="flex items-center gap-2 text-xs"><input type="checkbox" class="ds-check" value="Teleradiografía Lateral + Cefalometría"> Teleradiografía Lateral</label>
+            <label class="flex items-center gap-2 text-xs"><input type="checkbox" class="ds-check" value="Rx Periapical / Bite-Wing"> Rx Periapical / Bite-Wing</label>
             <label class="flex items-center gap-2 text-xs"><input type="checkbox" class="ds-check" value="ATM Comparativa"> ATM Comparativa</label>
           </div>
           <div class="p-3.5 rounded-xl border border-blue-200 bg-blue-50/40 space-y-2">
@@ -493,26 +544,26 @@
           </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <input type="text" id="ds-zone" placeholder="Piezas / Zona de interés (ej: 46-47)" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-xs" />
+          <input type="text" id="ds-zone" placeholder="Piezas / Zona de interés (ej: Sector 46-47)" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-xs" />
           <input type="text" id="ds-diag" placeholder="Diagnóstico presuntivo" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-xs" />
         </div>
         <div class="pt-2 flex flex-wrap justify-between items-center gap-2 border-t border-slate-100">
           <span class="text-[11px] text-slate-500" id="ds-doctor-sign">Firma profesional</span>
           <div class="flex gap-2">
             <button onclick="sendDentalScanWhatsApp()" class="px-3.5 py-2 rounded-lg bg-emerald-600 text-white text-xs font-semibold">📲 Enviar WhatsApp</button>
-            <button onclick="window.print()" class="px-3.5 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold">🖨️ Imprimir PDF</button>
+            <button onclick="printCleanDentalScan()" class="px-3.5 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold">🖨️ Imprimir PDF Limpio</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal: Portal Móvil del Paciente -->
-  <div id="modal-portal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+  <!-- Modal: Firma en Tablet / Consultorio -->
+  <div id="modal-portal" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-slate-50 rounded-3xl border-4 border-slate-900 shadow-2xl max-w-sm w-full overflow-hidden">
       <div class="bg-blue-600 text-white px-5 py-4 flex items-center justify-between">
         <div>
-          <p class="text-[10px] uppercase tracking-wider text-blue-100" id="portal-clinic-label">Portal del Paciente</p>
+          <p class="text-[10px] uppercase tracking-wider text-blue-100" id="portal-clinic-label">Conformidad en Consultorio</p>
           <h3 id="portal-patient-name" class="font-bold text-base">—</h3>
         </div>
         <button onclick="closeModal('modal-portal')" class="text-white/80 hover:text-white text-lg">✕</button>
@@ -521,7 +572,7 @@
         <div id="portal-next-appt" class="p-3 rounded-xl bg-white border border-slate-200"></div>
         <div id="portal-balance-box" class="p-3 rounded-xl bg-white border border-slate-200"></div>
         <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-2">
-          <p class="font-semibold text-slate-800">✍️ Firmar Consentimiento Informado</p>
+          <p class="font-semibold text-slate-800">✍️ Firma del Paciente con el dedo / lápiz</p>
           <select id="portal-consent-type" class="w-full border border-slate-200 rounded-lg px-2.5 py-1.5 bg-slate-50">
             <option>Conformidad de Presupuesto y Plan</option>
             <option>Consentimiento Endodoncia / Conducto</option>
@@ -531,7 +582,7 @@
           <canvas id="sig-canvas" width="300" height="110" class="w-full bg-slate-50 border border-dashed border-slate-300 rounded-lg touch-none cursor-crosshair"></canvas>
           <div class="flex justify-between items-center">
             <button onclick="clearSignature()" class="text-slate-400 hover:text-slate-600 underline">Limpiar</button>
-            <button onclick="signDocumentSHA256()" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-semibold">Firmar SHA-256</button>
+            <button onclick="signDocumentSHA256()" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-semibold">Sellar SHA-256</button>
           </div>
         </div>
       </div>
@@ -539,7 +590,7 @@
   </div>
 
   <!-- Modal: Certificado de Asistencia -->
-  <div id="modal-certificado" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+  <div id="modal-certificado" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-md w-full p-6 space-y-4 text-sm">
       <div class="flex justify-between items-center border-b border-slate-100 pb-3">
         <h3 class="font-bold text-slate-900">Certificado Odontológico de Asistencia</h3>
@@ -548,36 +599,32 @@
       <div id="cert-body" class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs leading-relaxed space-y-2"></div>
       <div class="flex justify-end gap-2">
         <button onclick="closeModal('modal-certificado')" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs">Cerrar</button>
-        <button onclick="window.print()" class="px-4 py-1.5 rounded-lg bg-blue-600 text-white font-semibold text-xs">🖨️ Imprimir</button>
+        <button onclick="printCleanCertificate()" class="px-4 py-1.5 rounded-lg bg-blue-600 text-white font-semibold text-xs">🖨️ Imprimir con Membrete</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal: Configuración Cloud Multi-Tenant Supabase -->
-  <div id="modal-supabase" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+  <!-- Modal: Configuración Cloud Supabase -->
+  <div id="modal-supabase" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-lg w-full p-6 space-y-4 text-sm">
       <div class="flex justify-between items-center">
         <h3 class="font-bold text-slate-900">☁️ Conexión Cloud Multi-Consultorio (Supabase)</h3>
         <button onclick="closeModal('modal-supabase')" class="text-slate-400">✕</button>
       </div>
-      <p class="text-xs text-slate-500 leading-relaxed">
-        Con un único proyecto gratuito de Supabase podés darle usuario y contraseña independiente a todos los odontólogos que quieras. Cada cuenta sincroniza su propio estado aislado mediante <strong>Row Level Security (RLS)</strong>.
-      </p>
       <div class="space-y-2.5 text-xs">
         <div>
           <label class="block font-medium text-slate-700 mb-1">Supabase Project URL</label>
-          <input id="sb-url" type="text" placeholder="https://tuproyecto.supabase.co" class="w-full border border-slate-200 rounded-lg px-3 py-2" />
+          <input id="sb-url" type="text" class="w-full border border-slate-200 rounded-lg px-3 py-2" />
         </div>
         <div>
-          <label class="block font-medium text-slate-700 mb-1">Supabase Anon Public Key</label>
-          <input id="sb-key" type="password" placeholder="eyJhbGciOiJIUzI1NiIsInR..." class="w-full border border-slate-200 rounded-lg px-3 py-2" />
+          <label class="block font-medium text-slate-700 mb-1">Supabase Publishable / Anon Key</label>
+          <input id="sb-key" type="password" class="w-full border border-slate-200 rounded-lg px-3 py-2" />
         </div>
       </div>
       <div class="flex flex-wrap justify-between items-center gap-2 pt-2 border-t border-slate-100">
         <button onclick="exportFullBackup()" class="px-3 py-2 rounded-lg border border-slate-200 text-xs font-medium">⬇ Respaldo JSON</button>
         <div class="flex gap-2">
-          <button onclick="disconnectSupabase()" class="px-3 py-2 rounded-lg border border-rose-200 text-rose-600 text-xs">Usar solo local</button>
-          <button onclick="saveSupabaseConfig()" class="px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold">Conectar Cloud</button>
+          <button onclick="saveSupabaseConfig()" class="px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold">Guardar conexión</button>
         </div>
       </div>
     </div>
@@ -585,29 +632,317 @@
 
   <script>
     // =========================================================================
-    // CONFIGURACIÓN FIJA OPCIONAL PARA PRODUCCIÓN:
-    // Si pegás acá tu URL y ANON KEY antes de subir a GitHub, ningún odontólogo
-    // tendrá que configurar nada: entran directo al link y crean su usuario en la nube.
+    // CONEXIÓN PRE-CONFIGURADA CON TU PROYECTO SUPABASE EN PRODUCCIÓN
     // =========================================================================
-  const DEFAULT_SUPABASE_URL = 'https://djxgtdfzboeeksndmcdr.supabase.co';
-const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2VE';
+    const DEFAULT_SUPABASE_URL = 'https://djxgtdfzboeeksndmcdr.supabase.co';
+    const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2VE';
 
-    const TODAY_ISO = new Date().toISOString().slice(0, 10);
+    function toLocalISO(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    const TODAY_ISO = toLocalISO(new Date());
+    let agendaWeekOffset = 0; // 0 = semana actual real, -1 = anterior, +1 = próxima
     let sbClient = null;
-    let currentSession = null; // { email, userId, clinicName, isCloud, isDemo }
+    let currentSession = null;
     let cloudSyncTimer = null;
 
     // =========================================================================
-    // CATÁLOGO DE 52 PRÁCTICAS ODONTOLÓGICAS SUGERIDAS (ONBOARDING 1 CLIC)
+    // MOTOR DE VOZ EN VIVO REAL (WEB SPEECH API es-AR · COSTO $0)
+    // =========================================================================
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let activeRecognition = null;
+    let activeMicTarget = null; // 'odontograma' | 'evolucion'
+
+    const SPOKEN_TEETH_MAP = {
+      'once': 11, 'doce': 12, 'trece': 13, 'catorce': 14, 'quince': 15, 'dieciseis': 16, 'dieciséis': 16, 'diecisiete': 17, 'dieciocho': 18,
+      'veintiuno': 21, 'veintidos': 22, 'veintidós': 22, 'veintitres': 23, 'veintitrés': 23, 'veinticuatro': 24, 'veinticinco': 25, 'veintiseis': 26, 'veintiséis': 26, 'veintisiete': 27, 'veintiocho': 28,
+      'treinta y uno': 31, 'treinta y dos': 32, 'treinta y tres': 33, 'treinta y cuatro': 34, 'treinta y cinco': 35, 'treinta y seis': 36, 'treinta y siete': 37, 'treinta y ocho': 38,
+      'cuarenta y uno': 41, 'cuarenta y dos': 42, 'cuarenta y tres': 43, 'cuarenta y cuatro': 44, 'cuarenta y cinco': 45, 'cuarenta y seis': 46, 'cuarenta y siete': 47, 'cuarenta y ocho': 48,
+      'cincuenta y uno': 51, 'cincuenta y dos': 52, 'cincuenta y tres': 53, 'cincuenta y cuatro': 54, 'cincuenta y cinco': 55,
+      'sesenta y uno': 61, 'sesenta y dos': 62, 'sesenta y tres': 63, 'sesenta y cuatro': 64, 'sesenta y cinco': 65,
+      'setenta y uno': 71, 'setenta y dos': 72, 'setenta y tres': 73, 'setenta y cuatro': 74, 'setenta y cinco': 75,
+      'ochenta y uno': 81, 'ochenta y dos': 82, 'ochenta y tres': 83, 'ochenta y cuatro': 84, 'ochenta y cinco': 85
+    };
+
+    function normalizeSpokenNumbers(rawText) {
+      let txt = (rawText || '').toLowerCase();
+      Object.entries(SPOKEN_TEETH_MAP).forEach(([word, num]) => {
+        const rgx = new RegExp('\\b' + word + '\\b', 'gi');
+        txt = txt.replace(rgx, String(num));
+      });
+      return txt;
+    }
+
+    function parseSpokenOdontogramaCommands(rawText) {
+      const normalized = normalizeSpokenNumbers(rawText);
+      const validFDI = new Set([
+        11,12,13,14,15,16,17,18, 21,22,23,24,25,26,27,28,
+        31,32,33,34,35,36,37,38, 41,42,43,44,45,46,47,48,
+        51,52,53,54,55, 61,62,63,64,65, 71,72,73,74,75, 81,82,83,84,85
+      ]);
+
+      // Separar en segmentos por cada aparición de un número FDI válido
+      const tokens = normalized.match(/\b\d{2}\b/g) || [];
+      const actions = [];
+      let searchIdx = 0;
+
+      tokens.forEach((tStr, i) => {
+        const num = Number(tStr);
+        if (!validFDI.has(num)) return;
+        const start = normalized.indexOf(tStr, searchIdx);
+        const nextToken = tokens[i + 1];
+        const end = nextToken ? normalized.indexOf(nextToken, start + 2) : normalized.length;
+        searchIdx = start + 2;
+        const phrase = normalized.slice(start, end);
+
+        const surfaces = [];
+        if (/mesial|mesio/.test(phrase)) surfaces.push('M');
+        if (/distal|disto/.test(phrase)) surfaces.push('D');
+        if (/vestibular/.test(phrase)) surfaces.push('V');
+        if (/palatin|lingual/.test(phrase)) surfaces.push('L');
+        if (/oclusal|incisal/.test(phrase) || surfaces.length === 0) surfaces.push('O');
+
+        const isPending = /a realizar|pendiente|indicad|falta/.test(phrase);
+
+        if (/ausente|extraid|extraccion|extracción|exodoncia/.test(phrase)) {
+          actions.push({ tooth: num, type: 'missing', label: `Pieza ${num}: Ausente / Extraída` });
+        } else if (/implante/.test(phrase)) {
+          actions.push({ tooth: num, type: isPending ? 'implant_blue' : 'implant_red', label: `Pieza ${num}: Implante ${isPending ? '(a realizar)' : '(existente)'}` });
+        } else if (/corona/.test(phrase)) {
+          actions.push({ tooth: num, type: isPending ? 'crown_blue' : 'crown_red', label: `Pieza ${num}: Corona ${isPending ? '(a realizar - Azul)' : '(instalada - Rojo)'}` });
+        } else if (/endodoncia|conducto|perno/.test(phrase)) {
+          actions.push({ tooth: num, type: isPending ? 'endo_blue' : 'endo_red', label: `Pieza ${num}: Endodoncia ${isPending ? '(a realizar - Azul)' : '(realizada - Rojo)'}` });
+        } else if (/caries|carie|lesion|lesión/.test(phrase)) {
+          actions.push({ tooth: num, type: 'surface_blue', surfaces, label: `Pieza ${num}: Caries activa en ${surfaces.join('+')} (Azul)` });
+        } else if (/resina|obturacion|obturación|arregl|amalgama|composite/.test(phrase)) {
+          actions.push({ tooth: num, type: isPending ? 'surface_planned' : 'surface_red', surfaces, label: `Pieza ${num}: Obturación ${surfaces.join('+')} (${isPending ? 'a realizar' : 'Rojo'})` });
+        } else if (/filtrad|rehacer|defectuosa/.test(phrase)) {
+          actions.push({ tooth: num, type: 'surface_defect', surfaces, label: `Pieza ${num}: Obturación filtrada en ${surfaces.join('+')}` });
+        }
+      });
+
+      return actions;
+    }
+
+    function startVoiceDictation() {
+      document.getElementById('voice-odo-transcript').value = '';
+      document.getElementById('voice-detected-preview').innerHTML = 'Tocá <strong>Iniciar micrófono</strong> y hablá con naturalidad...';
+      openModal('modal-voice-odontograma');
+      toggleOdontogramaMic();
+    }
+
+    function toggleOdontogramaMic() {
+      if (!SpeechRecognitionAPI) {
+        alert('Tu navegador no soporta dictado directo por micrófono (usá Google Chrome, Edge o Safari).Igual podés escribir la frase abajo.');
+        return;
+      }
+      if (activeRecognition && activeMicTarget === 'odontograma') {
+        activeRecognition.stop();
+        return;
+      }
+      stopAnyActiveMic();
+
+      const rec = new SpeechRecognitionAPI();
+      rec.lang = 'es-AR';
+      rec.continuous = true;
+      rec.interimResults = true;
+      activeRecognition = rec;
+      activeMicTarget = 'odontograma';
+
+      const btn = document.getElementById('btn-toggle-odo-mic');
+      const lbl = document.getElementById('lbl-odo-mic');
+      const badge = document.getElementById('voice-live-badge');
+      const box = document.getElementById('voice-odo-transcript');
+      const baseText = box.value ? box.value + ' ' : '';
+
+      btn.classList.add('mic-recording');
+      lbl.textContent = 'Escuchando... (Tocar para pausar)';
+      badge.className = 'w-3 h-3 rounded-full bg-rose-500 animate-ping';
+
+      rec.onresult = (event) => {
+        let transcript = '';
+        for (let i = 0; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript + ' ';
+        }
+        box.value = (baseText + transcript).trim();
+        previewVoiceCommands();
+      };
+
+      rec.onerror = (ev) => {
+        if (ev.error === 'not-allowed') alert('Permiso de micrófono bloqueado. Habilitalo en el candadito de la barra de direcciones.');
+        stopAnyActiveMic();
+      };
+
+      rec.onend = () => {
+        btn.classList.remove('mic-recording');
+        lbl.textContent = 'Seguir dictando';
+        badge.className = 'w-3 h-3 rounded-full bg-slate-500';
+        activeRecognition = null;
+        activeMicTarget = null;
+      };
+
+      rec.start();
+    }
+
+    function previewVoiceCommands() {
+      const txt = document.getElementById('voice-odo-transcript').value;
+      const actions = parseSpokenOdontogramaCommands(txt);
+      const preview = document.getElementById('voice-detected-preview');
+      if (!actions.length) {
+        preview.innerHTML = '<span class="text-slate-400">Mencioná número de pieza FDI + hallazgo (ej: "dieciséis caries oclusal")...</span>';
+        return;
+      }
+      preview.innerHTML = `<div class="font-semibold text-emerald-800 mb-1.5">✓ ${actions.length} cambio(s) listos para pintar:</div>` +
+        `<div class="flex flex-wrap gap-1.5">` +
+        actions.map(a => `<span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-800 font-medium">${a.label}</span>`).join('') +
+        `</div>`;
+    }
+
+    function applyVoiceToOdontograma() {
+      const txt = document.getElementById('voice-odo-transcript').value;
+      const actions = parseSpokenOdontogramaCommands(txt);
+      if (!actions.length) {
+        alert('No se detectaron piezas con estados válidos todavía.');
+        return;
+      }
+      const p = getPatientById(state.activePatientId);
+      actions.forEach(a => {
+        if (!p.teeth[a.tooth]) p.teeth[a.tooth] = { surfaces: {} };
+        if (!p.teeth[a.tooth].surfaces) p.teeth[a.tooth].surfaces = {};
+        const t = p.teeth[a.tooth];
+
+        if (a.type === 'missing') t.missing = 'red';
+        else if (a.type === 'implant_red') t.implant = 'red';
+        else if (a.type === 'implant_blue') t.implant = 'blue';
+        else if (a.type === 'crown_red') t.crown = 'red';
+        else if (a.type === 'crown_blue') t.crown = 'planned_blue';
+        else if (a.type === 'endo_red') t.root = 'endo_red';
+        else if (a.type === 'endo_blue') t.root = 'endo_blue';
+        else if (a.type === 'surface_blue') a.surfaces.forEach(s => t.surfaces[s] = 'blue');
+        else if (a.type === 'surface_red') a.surfaces.forEach(s => t.surfaces[s] = 'red');
+        else if (a.type === 'surface_planned') a.surfaces.forEach(s => t.surfaces[s] = 'blue_planned');
+        else if (a.type === 'surface_defect') a.surfaces.forEach(s => t.surfaces[s] = 'defect');
+      });
+      state.selectedTeeth = [actions[actions.length - 1].tooth];
+      state.unsavedOdontograma = true;
+      stopVoiceModal();
+      saveState();
+      render();
+    }
+
+    function stopVoiceModal() {
+      stopAnyActiveMic();
+      closeModal('modal-voice-odontograma');
+    }
+
+    // Dictado libre en vivo dentro del campo de Evolución Clínica
+    function toggleEvolutionVoiceDictation() {
+      if (!SpeechRecognitionAPI) {
+        alert('Usá Chrome, Edge o Safari para dictado por micrófono en vivo.');
+        return;
+      }
+      const btn = document.getElementById('btn-ev-mic');
+      const textarea = document.getElementById('ev-note');
+      if (!btn || !textarea) return;
+
+      if (activeRecognition && activeMicTarget === 'evolucion') {
+        activeRecognition.stop();
+        return;
+      }
+      stopAnyActiveMic();
+
+      const rec = new SpeechRecognitionAPI();
+      rec.lang = 'es-AR';
+      rec.continuous = true;
+      rec.interimResults = true;
+      activeRecognition = rec;
+      activeMicTarget = 'evolucion';
+
+      const initialText = textarea.value ? textarea.value.trim() + ' ' : '';
+      btn.classList.add('mic-recording');
+      btn.innerHTML = '🔴 Grabando voz... (Clic para frenar)';
+
+      rec.onresult = (ev) => {
+        let spoken = '';
+        for (let i = 0; i < ev.results.length; i++) {
+          spoken += ev.results[i][0].transcript + ' ';
+        }
+        textarea.value = (initialText + spoken).trim();
+      };
+      rec.onerror = () => stopAnyActiveMic();
+      rec.onend = () => {
+        btn.classList.remove('mic-recording');
+        btn.innerHTML = '🎙️ Dictar evolución con micrófono';
+        activeRecognition = null;
+        activeMicTarget = null;
+      };
+      rec.start();
+    }
+
+    function stopAnyActiveMic() {
+      if (activeRecognition) {
+        try { activeRecognition.stop(); } catch (e) {}
+        activeRecognition = null;
+        activeMicTarget = null;
+      }
+    }
+
+    // =========================================================================
+    // SUBIDA Y COMPRESIÓN REAL DE PLACAS RADIOGRÁFICAS (PARA NEGATOSCOPIO)
+    // =========================================================================
+    function handleRxFileUpload(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const p = getPatientById(state.activePatientId);
+      if (!p) return;
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 1000;
+          let w = img.width, h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+
+          const label = prompt('Título o pieza del estudio (ej: Rx Periapical p.16 / Panorámica):', file.name.replace(/\.[^.]+$/, '')) || 'Estudio Rx';
+          if (!p.rxImages) p.rxImages = [];
+          p.rxImages.unshift({
+            id: 'rx_' + Date.now(),
+            title: label,
+            date: new Date().toLocaleDateString('es-AR'),
+            dataUrl: compressedDataUrl
+          });
+          state.activeRxId = p.rxImages[0].id;
+          saveState();
+          render();
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // =========================================================================
+    // CATÁLOGO DE 52 PRÁCTICAS ODONTOLÓGICAS SUGERIDAS
     // =========================================================================
     function getSuggested52Catalog() {
       return [
-        // Consultas y Diagnóstico (4)
         { code: '01.01', cat: 'Diagnóstico', name: 'Consulta, diagnóstico y fichado inicial', duration: 30, price: 25000, lab: 0 },
         { code: '01.02', cat: 'Diagnóstico', name: 'Consulta de urgencia / guardia', duration: 30, price: 32000, lab: 0 },
         { code: '01.03', cat: 'Diagnóstico', name: 'Control periódico semestral', duration: 20, price: 20000, lab: 0 },
         { code: '01.04', cat: 'Diagnóstico', name: 'Rx Periapical digital en consultorio', duration: 15, price: 14000, lab: 0 },
-        // Operatoria Dental (8)
         { code: '02.01', cat: 'Operatoria', name: 'Obturación resina simple (1 cara)', duration: 30, price: 48000, lab: 0 },
         { code: '02.02', cat: 'Operatoria', name: 'Obturación resina compuesta (2 caras)', duration: 45, price: 58000, lab: 0 },
         { code: '02.03', cat: 'Operatoria', name: 'Reconstrucción coronaria compleja (3+ caras)', duration: 60, price: 74000, lab: 0 },
@@ -616,7 +951,6 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         { code: '02.06', cat: 'Operatoria', name: 'Blanqueamiento ambulatorio con cubetas', duration: 30, price: 165000, lab: 28000 },
         { code: '02.07', cat: 'Operatoria', name: 'Blanqueamiento clínico en consultorio', duration: 60, price: 210000, lab: 0 },
         { code: '02.08', cat: 'Operatoria', name: 'Protección pulpar directa / Biodentine', duration: 30, price: 42000, lab: 0 },
-        // Endodoncia (7)
         { code: '03.01', cat: 'Endodoncia', name: 'Endodoncia unirradicular (Incisivo/Canino)', duration: 60, price: 125000, lab: 0 },
         { code: '03.02', cat: 'Endodoncia', name: 'Endodoncia birradicular (Premolar)', duration: 60, price: 148000, lab: 0 },
         { code: '03.03', cat: 'Endodoncia', name: 'Endodoncia multirradicular mecanizada (Molar)', duration: 90, price: 185000, lab: 0 },
@@ -624,7 +958,6 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         { code: '03.05', cat: 'Endodoncia', name: 'Retratamiento endodóntico molar', duration: 90, price: 230000, lab: 0 },
         { code: '03.06', cat: 'Endodoncia', name: 'Biopulpectomía / Urgencia apertura cameral', duration: 30, price: 52000, lab: 0 },
         { code: '03.07', cat: 'Endodoncia', name: 'Poste de fibra de vidrio + muñón', duration: 45, price: 110000, lab: 0 },
-        // Prótesis y Rehabilitación (10)
         { code: '04.01', cat: 'Prótesis', name: 'Perno muñón colado', duration: 45, price: 125000, lab: 38000 },
         { code: '04.02', cat: 'Prótesis', name: 'Corona libre de metal Zirconio / E-Max', duration: 60, price: 420000, lab: 110000 },
         { code: '04.03', cat: 'Prótesis', name: 'Corona ceramometálica', duration: 60, price: 330000, lab: 85000 },
@@ -635,21 +968,18 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         { code: '04.08', cat: 'Prótesis', name: 'Prótesis flexible (Deflex / Valplast)', duration: 45, price: 490000, lab: 150000 },
         { code: '04.09', cat: 'Prótesis', name: 'Placa miorrelajante orgánica rígida (Bruxismo)', duration: 30, price: 165000, lab: 45000 },
         { code: '04.10', cat: 'Prótesis', name: 'Recementado o compostura protésica', duration: 30, price: 48000, lab: 15000 },
-        // Prevención y Periodoncia (6)
         { code: '05.01', cat: 'Periodoncia', name: 'Tartrectomía y profilaxis por ultrasonido', duration: 45, price: 45000, lab: 0 },
         { code: '05.02', cat: 'Periodoncia', name: 'Raspaje y alisado radicular por cuadrante', duration: 45, price: 68000, lab: 0 },
         { code: '05.03', cat: 'Periodoncia', name: 'Mantenimiento periodontal trimestral', duration: 30, price: 42000, lab: 0 },
         { code: '05.04', cat: 'Periodoncia', name: 'Gingivectomía / Alargamiento coronario estético', duration: 60, price: 135000, lab: 0 },
         { code: '05.05', cat: 'Periodoncia', name: 'Ferulización periodontal con fibra', duration: 45, price: 85000, lab: 0 },
         { code: '05.06', cat: 'Periodoncia', name: 'Topicación con flúor barniz', duration: 20, price: 26000, lab: 0 },
-        // Odontopediatría (6)
         { code: '08.01', cat: 'Odontopediatría', name: 'Motivación y adaptación pediátrica', duration: 30, price: 28000, lab: 0 },
         { code: '08.02', cat: 'Odontopediatría', name: 'Sellador de fosas y fisuras por pieza', duration: 20, price: 32000, lab: 0 },
         { code: '08.03', cat: 'Odontopediatría', name: 'Inactivación de caries / Ionómero vítreo', duration: 30, price: 38000, lab: 0 },
         { code: '08.04', cat: 'Odontopediatría', name: 'Pulpotomía / Tratamiento pulpar primario', duration: 45, price: 72000, lab: 0 },
         { code: '08.05', cat: 'Odontopediatría', name: 'Exodoncia diente temporario', duration: 30, price: 44000, lab: 0 },
         { code: '08.06', cat: 'Odontopediatría', name: 'Mantenedor de espacio fijo banda-ansa', duration: 30, price: 130000, lab: 42000 },
-        // Cirugía e Implantes (7)
         { code: '10.01', cat: 'Cirugía e Implantes', name: 'Exodoncia simple', duration: 45, price: 68000, lab: 0 },
         { code: '10.02', cat: 'Cirugía e Implantes', name: 'Exodoncia compleja con odontosección / colgajo', duration: 60, price: 120000, lab: 0 },
         { code: '10.03', cat: 'Cirugía e Implantes', name: 'Exodoncia tercer molar retenido', duration: 90, price: 195000, lab: 0 },
@@ -657,7 +987,6 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         { code: '11.02', cat: 'Cirugía e Implantes', name: 'Regeneración ósea guiada + membrana', duration: 60, price: 340000, lab: 95000 },
         { code: '11.03', cat: 'Cirugía e Implantes', name: 'Segunda cirugía + tapón cicatrizal', duration: 30, price: 65000, lab: 0 },
         { code: '11.04', cat: 'Cirugía e Implantes', name: 'Corona atornillada sobre implante (Zirconio + TiBase)', duration: 60, price: 480000, lab: 145000 },
-        // Ortodoncia (4)
         { code: '06.01', cat: 'Ortodoncia', name: 'Instalación brackets metálicos por arcada', duration: 60, price: 390000, lab: 0 },
         { code: '06.02', cat: 'Ortodoncia', name: 'Instalación brackets estéticos zafiro/cerámicos', duration: 60, price: 540000, lab: 0 },
         { code: '06.03', cat: 'Ortodoncia', name: 'Control mensual de ortodoncia', duration: 30, price: 48000, lab: 0 },
@@ -665,13 +994,13 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       ];
     }
 
-    // Generador de Consultorio Limpio para Nuevos Odontólogos Registrados
     function createBlankClinicState(clinicName, doctorName, license, seedPrices = true) {
       return {
         clinicProfile: { name: clinicName, ownerDoctor: doctorName, license },
         role: 'director',
         currentView: 'inicio',
         activePatientId: null,
+        activeRxId: null,
         patientSubTab: 'odontograma',
         agendaMode: 'semana',
         agendaCompact: false,
@@ -680,7 +1009,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         selectedTeeth: [16],
         unsavedOdontograma: false,
         unsavedPerio: false,
-        dayNotes: { Lun: '', Mar: '', Mié: '', Jue: '', Vie: '', Sáb: '' },
+        dayNotes: {},
         qrPendingDiff: null,
         catalog: seedPrices ? getSuggested52Catalog() : getSuggested52Catalog().slice(0, 8),
         team: [
@@ -693,13 +1022,17 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       };
     }
 
-    // Estado Completo de Clínica Demo
     function getInitialDemoState() {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const TOMORROW_ISO = toLocalISO(tomorrow);
+
       return {
         clinicProfile: { name: 'Clínica Demo OdontOS', ownerDoctor: 'Dr. Ricardo Gómez', license: 'M.N. 28.491' },
         role: 'director',
         currentView: 'inicio',
         activePatientId: 'p1',
+        activeRxId: null,
         patientSubTab: 'odontograma',
         agendaMode: 'semana',
         agendaCompact: false,
@@ -708,14 +1041,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         selectedTeeth: [16],
         unsavedOdontograma: false,
         unsavedPerio: false,
-        dayNotes: {
-          Lun: 'Protésico retira impresiones 13hs',
-          Mar: '',
-          Mié: 'Stock anestesia revisado',
-          Jue: 'Atención Dra. Sofía (Endo)',
-          Vie: '',
-          Sáb: 'Guardia mediodía'
-        },
+        dayNotes: { [TODAY_ISO]: 'Atención Endo + Protésico 13hs' },
         qrPendingDiff: {
           patientId: 'p1',
           submittedAt: 'Hace 14 min en Sala de Espera',
@@ -727,12 +1053,12 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         },
         catalog: getSuggested52Catalog(),
         team: [
-          { id: 'doc1', name: 'Dr. Ricardo Gómez', specialty: 'Dirección Médica · Rehabilitación e Implantes', license: 'M.N. 28.491', commissionPct: 100, schedule: 'Lun, Mié y Jue · 09:00 a 18:00', paidOut: 0 },
+          { id: 'doc1', name: 'Dr. Ricardo Gómez', specialty: 'Dirección Médica · Rehabilitación e Implantes', license: 'M.N. 28.491', commissionPct: 100, schedule: 'Lun, Mié y Vie · 09:00 a 18:00', paidOut: 0 },
           { id: 'doc2', name: 'Dra. Sofía Martínez', specialty: 'Especialista en Endodoncia y Odontopediatría', license: 'M.P. 19.304', commissionPct: 45, schedule: 'Jue y Vie · 10:00 a 17:00', paidOut: 0 }
         ],
         labOrders: [
           { id: 'lo1', labName: 'Lab. CeramDent', patientId: 'p1', work: 'Corona Zirconio monolítico p.16 · Color A2', dueDate: TODAY_ISO, status: 'en_clinica', cost: 110000, paid: 110000 },
-          { id: 'lo2', labName: 'Lab. CeramDent', patientId: 'p2', work: 'Encerado diagnóstico + 2 Carillas Disilicato 11-21', dueDate: TODAY_ISO, status: 'pendiente', cost: 160000, paid: 50000 }
+          { id: 'lo2', labName: 'Lab. CeramDent', patientId: 'p2', work: 'Encerado diagnóstico + 2 Carillas Disilicato 11-21', dueDate: TOMORROW_ISO, status: 'pendiente', cost: 160000, paid: 50000 }
         ],
         patients: [
           {
@@ -758,7 +1084,8 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
               18: { missing: 'red', surfaces: {} },
               28: { missing: 'red', surfaces: {} }
             },
-            snapshots: [{ id: 'sn1', date: '10/08/2026', title: 'Ingreso inicial', note: 'Se releva caries en 24 y pieza 16 con conducto.' }],
+            rxImages: [],
+            snapshots: [{ id: 'sn1', date: '10/10/2026', title: 'Ingreso inicial', note: 'Se releva caries en 24 y pieza 16 con conducto.' }],
             evolutions: [
               { id: 'ev1', date: '14/11/2026 10:30', doctor: 'Dra. Sofía Martínez', tooth: '16', treatment: '03.03 · Endodoncia multirradicular mecanizada (Molar)', note: 'Conductometría electrónica y obturación termoplastizada de 4 conductos (MV1, MV2, DV, P).', fee: 185000, labCost: 0, paid: 185000, payMethod: 'Transferencia', commissionPctSnapshot: 45, signedHash: 'a94f8e2c11...7d31', previousVersions: [] },
               { id: 'ev2', date: '20/11/2026 11:00', doctor: 'Dr. Ricardo Gómez', tooth: '16', treatment: '04.02 · Corona libre de metal Zirconio / E-Max', note: 'Tallado, escaneo digital y provisorio acrílico. Orden enviada a Lab. CeramDent.', fee: 420000, labCost: 110000, paid: 200000, payMethod: 'Efectivo', commissionPctSnapshot: 100, signedHash: null, previousVersions: [] }
@@ -789,6 +1116,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
             systemic: [],
             osDebt: 0,
             teeth: { 11: { crown: 'planned_blue', surfaces: {} }, 21: { crown: 'planned_blue', surfaces: {} } },
+            rxImages: [],
             snapshots: [],
             evolutions: [],
             endoCanals: [],
@@ -811,6 +1139,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
             systemic: ['Respirador bucal'],
             osDebt: 0,
             teeth: { 55: { surfaces: { O: 'red' } }, 64: { surfaces: { O: 'blue', M: 'blue' } } },
+            rxImages: [],
             snapshots: [],
             evolutions: [],
             endoCanals: [],
@@ -819,9 +1148,9 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
           }
         ],
         appointments: [
-          { id: 'ap1', patientId: 'p1', date: TODAY_ISO, dayCol: 'Jue', time: '10:00', duration: 60, chair: 'Sillón 1', doctor: 'Dr. Ricardo Gómez', task: 'Instalación Corona Zirconio p.16', labStatus: 'en_clinica', deposit: 0, note: 'Traer panorámica', attended: true },
-          { id: 'ap2', patientId: 'p2', date: TODAY_ISO, dayCol: 'Jue', time: '11:30', duration: 60, chair: 'Sillón 2', doctor: 'Dra. Sofía Martínez', task: 'Prueba mock-up 11-21 (Guantes Nitrilo)', labStatus: 'pendiente', deposit: 15000, note: '', attended: true },
-          { id: 'ap3', patientId: 'p3', date: TODAY_ISO, dayCol: 'Vie', time: '15:00', duration: 45, chair: 'Sillón 3', doctor: 'Dra. Sofía Martínez', task: 'Inactivación pieza 64', labStatus: 'no_aplica', deposit: 0, note: '', attended: true }
+          { id: 'ap1', patientId: 'p1', date: TODAY_ISO, time: '10:00', duration: 60, chair: 'Sillón 1', doctor: 'Dr. Ricardo Gómez', task: 'Instalación Corona Zirconio p.16', labStatus: 'en_clinica', deposit: 0, note: 'Traer panorámica' },
+          { id: 'ap2', patientId: 'p2', date: TODAY_ISO, time: '11:30', duration: 60, chair: 'Sillón 2', doctor: 'Dra. Sofía Martínez', task: 'Prueba mock-up 11-21 (Guantes Nitrilo)', labStatus: 'pendiente', deposit: 15000, note: '' },
+          { id: 'ap3', patientId: 'p3', date: TOMORROW_ISO, time: '15:00', duration: 45, chair: 'Sillón 3', doctor: 'Dra. Sofía Martínez', task: 'Inactivación pieza 64', labStatus: 'no_aplica', deposit: 0, note: '' }
         ],
         cashMovements: [
           { id: 'c1', date: '14/11/2026', concept: 'Cobro Endodoncia p.16 · Martín Echeverría', type: 'ingreso', method: 'Transferencia', amount: 185000, doctor: 'Dra. Sofía Martínez', labDeduct: 0, commPct: 45 },
@@ -835,11 +1164,11 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     let state = getInitialDemoState();
 
     // =========================================================================
-    // MOTOR MULTI-TENANT: SUPABASE AUTH + AISLAMIENTO LOCAL POR EMAIL
+    // MOTOR MULTI-TENANT SUPABASE AUTH
     // =========================================================================
     function initSupabaseClient() {
-      const url = DEFAULT_SUPABASE_URL || localStorage.getItem('odontos_sb_url') || '';
-      const key = DEFAULT_SUPABASE_ANON_KEY || localStorage.getItem('odontos_sb_key') || '';
+      const url = localStorage.getItem('odontos_sb_url') || DEFAULT_SUPABASE_URL || '';
+      const key = localStorage.getItem('odontos_sb_key') || DEFAULT_SUPABASE_ANON_KEY || '';
       const pill = document.getElementById('cloud-status-pill');
 
       if (url && key && window.supabase) {
@@ -882,26 +1211,19 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       const email = document.getElementById('reg-email').value.trim().toLowerCase();
       const pass = document.getElementById('reg-pass').value;
       const seedPrices = document.getElementById('reg-seed-prices').checked;
-
       const freshState = createBlankClinicState(clinic, doctor, license, seedPrices);
 
       if (sbClient) {
         const { data, error } = await sbClient.auth.signUp({ email, password: pass });
         if (error) return showAuthError(error.message);
-        if (!data.session) {
-          return showAuthError('Cuenta creada. Revisá tu email para confirmar o desactivá "Confirm email" en Supabase Auth para ingreso directo.');
-        }
+        if (!data.session) return showAuthError('Cuenta creada. Desactivá "Confirm email" en Supabase Auth para ingreso instantáneo.');
         await sbClient.from('clinic_workspaces').upsert({
-          user_id: data.user.id,
-          clinic_name: clinic,
-          state_json: freshState,
-          updated_at: new Date().toISOString()
+          user_id: data.user.id, clinic_name: clinic, state_json: freshState, updated_at: new Date().toISOString()
         });
         startSession({ email, userId: data.user.id, clinicName: clinic, isCloud: true, isDemo: false }, freshState);
       } else {
-        // Registro Local Aislado por Email
         const accounts = JSON.parse(localStorage.getItem('odontos_local_accounts') || '{}');
-        if (accounts[email]) return showAuthError('Ya existe un consultorio con ese email en este navegador. Ingresá desde la pestaña Ingresar.');
+        if (accounts[email]) return showAuthError('Ya existe ese email en este navegador.');
         accounts[email] = { pass, clinicName: clinic };
         localStorage.setItem('odontos_local_accounts', JSON.stringify(accounts));
         localStorage.setItem('odontos_tenant_' + email, JSON.stringify(freshState));
@@ -922,9 +1244,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         startSession({ email, userId: data.user.id, clinicName: loadedState.clinicProfile?.name || 'Consultorio', isCloud: true, isDemo: false }, loadedState);
       } else {
         const accounts = JSON.parse(localStorage.getItem('odontos_local_accounts') || '{}');
-        if (!accounts[email] || accounts[email].pass !== pass) {
-          return showAuthError('Email o contraseña incorrectos (o creá tu consultorio gratis en la pestaña de al lado).');
-        }
+        if (!accounts[email] || accounts[email].pass !== pass) return showAuthError('Email o contraseña incorrectos.');
         const raw = localStorage.getItem('odontos_tenant_' + email);
         const loadedState = raw ? JSON.parse(raw) : createBlankClinicState(accounts[email].clinicName, 'Profesional', 'M.N.', true);
         startSession({ email, userId: email, clinicName: accounts[email].clinicName, isCloud: false, isDemo: false }, loadedState);
@@ -932,22 +1252,21 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     }
 
     function enterDemoAccount() {
-      const raw = localStorage.getItem('odontos_tenant_demo');
+      const raw = localStorage.getItem('odontos_tenant_demo_v36');
       const demoState = raw ? JSON.parse(raw) : getInitialDemoState();
       startSession({ email: 'demo@odontos.app', userId: 'demo', clinicName: 'Clínica Demo OdontOS', isCloud: false, isDemo: true }, demoState);
     }
 
     function startSession(sessionObj, loadedState) {
       currentSession = sessionObj;
-      // Asegurar retrocompatibilidad de campos nuevos del Bloque 3
       if (!loadedState.catalog) loadedState.catalog = getSuggested52Catalog();
       if (!loadedState.team) loadedState.team = getInitialDemoState().team;
       if (!loadedState.labOrders) loadedState.labOrders = [];
+      if (!loadedState.dayNotes) loadedState.dayNotes = {};
       if (!loadedState.clinicProfile) loadedState.clinicProfile = { name: sessionObj.clinicName, ownerDoctor: 'Dr. Titular', license: 'M.N. 28.491' };
 
       state = loadedState;
       localStorage.setItem('odontos_active_session', JSON.stringify(sessionObj));
-
       document.getElementById('auth-screen').classList.add('hidden');
       document.getElementById('app-shell').classList.remove('hidden');
       document.getElementById('sidebar-clinic-name').textContent = state.clinicProfile.name;
@@ -958,9 +1277,8 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
 
     async function logoutSession() {
       if (!guardUnsavedChanges()) return;
-      if (sbClient && currentSession?.isCloud) {
-        await sbClient.auth.signOut();
-      }
+      stopAnyActiveMic();
+      if (sbClient && currentSession?.isCloud) await sbClient.auth.signOut();
       currentSession = null;
       localStorage.removeItem('odontos_active_session');
       document.getElementById('app-shell').classList.add('hidden');
@@ -969,7 +1287,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
 
     function saveState() {
       if (!currentSession) return;
-      const key = currentSession.isDemo ? 'odontos_tenant_demo' : 'odontos_tenant_' + currentSession.email;
+      const key = currentSession.isDemo ? 'odontos_tenant_demo_v36' : 'odontos_tenant_' + currentSession.email;
       localStorage.setItem(key, JSON.stringify(state));
       updateHeaderAndBadges();
 
@@ -1002,6 +1320,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     }
 
     function guardUnsavedChanges() {
+      stopAnyActiveMic();
       if (state.unsavedOdontograma) {
         if (!confirm('Tenés cambios sin guardar en el Odontograma. ¿Salir igual?')) return false;
         state.unsavedOdontograma = false;
@@ -1014,10 +1333,68 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     }
 
     // =========================================================================
-    // HELPERS GENERALES Y NAVEGACIÓN
+    // HELPERS FINANCIEROS Y DE FECHA REAL
     // =========================================================================
     function formatARS(num) {
       return '$ ' + Number(num || 0).toLocaleString('es-AR');
+    }
+
+    function getWeekDates(offsetWeeks = 0) {
+      const now = new Date();
+      const dayOfWeek = now.getDay(); // 0 Dom .. 6 Sab
+      const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+      const monday = new Date(now);
+      monday.setDate(now.getDate() + diffToMonday + offsetWeeks * 7);
+      const dayNames = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      return dayNames.map((shortName, i) => {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        const iso = toLocalISO(d);
+        return {
+          iso,
+          shortName,
+          label: `${shortName} ${d.getDate()}/${d.getMonth() + 1}`,
+          isToday: iso === TODAY_ISO
+        };
+      });
+    }
+
+    function renderDynamicMiniCalendar() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+      const firstDay = new Date(year, month, 1).getDay(); // 0=Dom
+      const leadingBlanks = firstDay === 0 ? 6 : firstDay - 1;
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const todayNum = now.getDate();
+
+      let cells = '';
+      for (let i = 0; i < leadingBlanks; i++) cells += `<span class="py-1.5 text-slate-300">·</span>`;
+      for (let d = 1; d <= daysInMonth; d++) {
+        const isToday = d === todayNum;
+        const dateISO = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const hasAppt = state.appointments.some(a => a.date === dateISO);
+        cells += `
+          <button onclick="agendaWeekOffset=0; navigate('agenda')" class="relative py-1.5 mx-auto w-8 h-8 rounded-xl flex items-center justify-center transition ${isToday ? 'bg-blue-600 text-white font-bold shadow-xs' : 'text-slate-700 hover:bg-slate-100'}">
+            ${d}
+            ${hasAppt && !isToday ? '<span class="w-1 h-1 rounded-full bg-blue-600 absolute bottom-1"></span>' : ''}
+          </button>
+        `;
+      }
+
+      return `
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-sm text-slate-900">${monthNames[month]} de ${year}</h3>
+            <button onclick="agendaWeekOffset=0; navigate('agenda')" class="text-xs text-blue-600 font-medium hover:underline">Ir a hoy</button>
+          </div>
+          <div class="grid grid-cols-7 text-center text-[11px] font-medium text-slate-400 mb-2">
+            <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+          </div>
+          <div class="grid grid-cols-7 gap-y-1 text-center text-xs">${cells}</div>
+        </div>
+      `;
     }
 
     function getPatientById(id) {
@@ -1053,7 +1430,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       const headerBtn = document.getElementById('header-active-patient');
       if (headerBtn) headerBtn.textContent = p ? `${p.name} (${p.insurance})` : 'Sin pacientes aún';
 
-      const todayCount = state.appointments.filter(a => a.dayCol === 'Jue' || a.date === TODAY_ISO).length;
+      const todayCount = state.appointments.filter(a => a.date === TODAY_ISO).length;
       const bToday = document.getElementById('badge-today-count');
       if (bToday) bToday.textContent = todayCount;
 
@@ -1086,10 +1463,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
 
     function openPatientDetail(patientId, subTab = 'odontograma') {
       if (!guardUnsavedChanges()) return;
-      if (!state.patients.length) {
-        openModal('modal-paciente');
-        return;
-      }
+      if (!state.patients.length) { openModal('modal-paciente'); return; }
       state.activePatientId = patientId || state.patients[0].id;
       state.currentView = 'paciente';
       state.patientSubTab = subTab;
@@ -1099,11 +1473,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       render();
     }
 
-    function changeRole(role) {
-      state.role = role;
-      saveState();
-      render();
-    }
+    function changeRole(role) { state.role = role; saveState(); render(); }
 
     function render() {
       updateHeaderAndBadges();
@@ -1119,7 +1489,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     }
 
     // =========================================================================
-    // BLOQUE 1: INICIO + AGENDA
+    // BLOQUE 1: INICIO + AGENDA DINÁMICA CON HORA REAL
     // =========================================================================
     function renderInicioView() {
       let totalDebt = 0, totalOpenBudgets = 0;
@@ -1137,9 +1507,9 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       const emptyOnboarding = state.patients.length === 0 ? `
         <div class="bg-blue-600 text-white rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
           <div>
-            <span class="text-[10px] uppercase tracking-wider font-bold bg-white/20 px-2.5 py-0.5 rounded-full">Consultorio Listo</span>
+            <span class="text-[10px] uppercase tracking-wider font-bold bg-white/20 px-2.5 py-0.5 rounded-full">Consultorio Activo</span>
             <h2 class="text-lg font-bold mt-1.5">¡Bienvenido/a a ${state.clinicProfile.name}!</h2>
-            <p class="text-xs text-blue-100 mt-0.5">Ya tenés ${(state.catalog || []).length} prestaciones cargadas en tu lista de precios. Creá tu primer paciente o importá tu planilla CSV.</p>
+            <p class="text-xs text-blue-100 mt-0.5">Tenés ${(state.catalog || []).length} prestaciones precargadas y dictado por micrófono habilitado. Creá tu primer paciente o importá un CSV.</p>
           </div>
           <div class="flex gap-2 shrink-0">
             <button onclick="openModal('modal-import-csv')" class="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-semibold">⬆️ Importar CSV</button>
@@ -1202,7 +1572,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
                   <span class="text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 font-semibold">${recallPatients.length} paciente(s)</span>
                 </div>
                 <p class="text-lg font-bold text-slate-900 mt-2">${recallPatients.map(p => p.name.split(' ')[0]).join(', ') || 'Al día'}</p>
-                <p class="text-[11px] text-slate-400 mt-1">Reactivación semestral sin campañas externas</p>
+                <p class="text-[11px] text-slate-400 mt-1">Reactivación semestral directa por WhatsApp</p>
               </div>
 
               <div onclick="navigate('laboratorio')" class="cursor-pointer bg-white rounded-2xl p-4 border border-slate-200/80 hover:border-blue-300 transition shadow-2xs">
@@ -1217,11 +1587,11 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
 
             <div class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-2xs">
               <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
-                <h2 class="font-bold text-sm text-slate-900">Próximos turnos por sillón</h2>
-                <button onclick="navigate('agenda')" class="text-xs font-semibold text-blue-600 hover:underline">Abrir agenda →</button>
+                <h2 class="font-bold text-sm text-slate-900">Próximos turnos agendados</h2>
+                <button onclick="navigate('agenda')" class="text-xs font-semibold text-blue-600 hover:underline">Abrir grilla semanal →</button>
               </div>
               <div class="divide-y divide-slate-100">
-                ${state.appointments.length === 0 ? '<p class="p-6 text-xs text-slate-400 text-center">No hay turnos cargados todavía.</p>' : state.appointments.map(ap => {
+                ${state.appointments.length === 0 ? '<p class="p-6 text-xs text-slate-400 text-center">No hay turnos cargados todavía.</p>' : state.appointments.slice(0, 6).map(ap => {
                   const pt = getPatientById(ap.patientId);
                   if (!pt) return '';
                   const labBadge = ap.labStatus === 'en_clinica'
@@ -1232,7 +1602,10 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
                   return `
                     <div onclick="openPatientDetail('${pt.id}', 'odontograma')" class="px-5 py-3.5 hover:bg-slate-50 cursor-pointer flex items-center justify-between gap-2">
                       <div class="flex items-start gap-3">
-                        <div class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 font-bold text-xs text-center">${ap.time}</div>
+                        <div class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 font-bold text-xs text-center">
+                          <div>${ap.time}</div>
+                          <div class="text-[10px] font-normal text-blue-500">${ap.date.slice(5)}</div>
+                        </div>
                         <div>
                           <div class="flex flex-wrap items-center gap-1.5">
                             <span class="font-semibold text-sm text-slate-900">${pt.name}</span>
@@ -1250,7 +1623,6 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
             </div>
           </div>
 
-          <!-- Acciones Rápidas + Mini Calendario -->
           <div class="xl:col-span-4 space-y-5">
             <div>
               <h2 class="text-sm font-bold text-slate-900 mb-3">Acciones rápidas</h2>
@@ -1269,35 +1641,19 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
                 </button>
                 <button onclick="openModal('modal-import-csv')" class="bg-white hover:border-blue-300 border border-slate-200/90 rounded-2xl p-3.5 flex items-center gap-3 text-left transition shadow-2xs">
                   <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">⬆️</div>
-                  <span class="text-xs font-semibold text-slate-800">Importar pacientes</span>
+                  <span class="text-xs font-semibold text-slate-800">Importar CSV</span>
                 </button>
                 <button onclick="openCertificadoModal()" class="col-span-2 bg-white hover:border-blue-300 border border-slate-200/90 rounded-2xl p-3.5 flex items-center gap-3 text-left transition shadow-2xs">
                   <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 font-bold">✓</div>
                   <div>
                     <span class="text-xs font-semibold text-slate-900 block">Certificado de asistencia</span>
-                    <span class="text-[11px] text-slate-400">Sale con membrete y matrícula de ${state.clinicProfile.ownerDoctor}</span>
+                    <span class="text-[11px] text-slate-400">Impresión limpia con matrícula de ${state.clinicProfile.ownerDoctor}</span>
                   </div>
                 </button>
               </div>
             </div>
 
-            <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="font-bold text-sm text-slate-900">Noviembre de 2026</h3>
-                <button onclick="navigate('agenda')" class="text-xs text-blue-600 font-medium hover:underline">Ver grilla</button>
-              </div>
-              <div class="grid grid-cols-7 text-center text-[11px] font-medium text-slate-400 mb-2">
-                <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
-              </div>
-              <div class="grid grid-cols-7 gap-y-1.5 text-center text-xs">
-                ${[26,27,28,29,30,31].map(d => `<span class="py-1.5 text-slate-300">${d}</span>`).join('')}
-                <span class="py-1.5 text-slate-700">1</span>
-                ${Array.from({length: 29}, (_, i) => i + 2).map(d => {
-                  const isToday = d === 26;
-                  return `<button onclick="navigate('agenda')" class="py-1.5 mx-auto w-8 h-8 rounded-xl flex items-center justify-center ${isToday ? 'bg-blue-600 text-white font-bold' : 'text-slate-700 hover:bg-slate-100'}">${d}</button>`;
-                }).join('')}
-              </div>
-            </div>
+            ${renderDynamicMiniCalendar()}
           </div>
         </div>
       `;
@@ -1312,40 +1668,44 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         p.alerts.customText = 'Eliquis (Anticoagulante oral declarado por QR)';
       }
       state.qrPendingDiff = null;
-      saveState();
-      render();
+      saveState(); render();
     }
     function dismissQrDiff() { state.qrPendingDiff = null; saveState(); render(); }
 
     function renderAgendaView() {
-      const hours = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+      const hours = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+      const weekDays = getWeekDates(agendaWeekOffset);
+      const currentRealHour = String(new Date().getHours()).padStart(2, '0') + ':00';
+
       const cols = state.agendaMode === 'sillones'
         ? [
-            { key: 'Sillón 1', title: 'Sillón 1 · Principal' },
-            { key: 'Sillón 2', title: 'Sillón 2 · Cirugía / Implantes' },
-            { key: 'Sillón 3', title: 'Sillón 3 · Especialidades' }
+            { key: 'Sillón 1', title: `Sillón 1 · Hoy (${TODAY_ISO.slice(5)})`, dateISO: TODAY_ISO, isToday: true },
+            { key: 'Sillón 2', title: `Sillón 2 · Cirugía / Implantes`, dateISO: TODAY_ISO, isToday: true },
+            { key: 'Sillón 3', title: `Sillón 3 · Especialidades`, dateISO: TODAY_ISO, isToday: true }
           ]
-        : [
-            { key: 'Lun', title: 'Lun 23' },
-            { key: 'Mar', title: 'Mar 24' },
-            { key: 'Mié', title: 'Mié 25' },
-            { key: 'Jue', title: 'Jue 26 (Hoy)' },
-            { key: 'Vie', title: 'Vie 27' },
-            { key: 'Sáb', title: 'Sáb 28' }
-          ];
+        : weekDays.map(d => ({ key: d.iso, title: d.isToday ? `${d.label} (Hoy)` : d.label, dateISO: d.iso, isToday: d.isToday }));
+
       const rowHeight = state.agendaCompact ? 'h-11' : 'h-16';
+      const rangeTitle = `${weekDays[0].label} al ${weekDays[5].label}`;
 
       return `
         <div class="space-y-4">
           <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-            <div>
-              <h1 class="text-xl font-bold text-slate-900">📅 Agenda y Sillones</h1>
-              <p class="text-xs text-slate-500">Clic en cualquier bloque libre para dar turno con seña y recordatorio WhatsApp.</p>
+            <div class="flex flex-wrap items-center gap-3">
+              <h1 class="text-xl font-bold text-slate-900">📅 Agenda</h1>
+              ${state.agendaMode === 'semana' ? `
+                <div class="inline-flex items-center rounded-xl bg-white border border-slate-200 p-0.5 text-xs">
+                  <button onclick="agendaWeekOffset--; render();" class="px-2.5 py-1 hover:bg-slate-100 rounded-lg font-bold">‹</button>
+                  <button onclick="agendaWeekOffset=0; render();" class="px-3 py-1 font-semibold text-slate-700 hover:bg-slate-50">${rangeTitle}</button>
+                  <button onclick="agendaWeekOffset++; render();" class="px-2.5 py-1 hover:bg-slate-100 rounded-lg font-bold">›</button>
+                </div>
+              ` : ''}
             </div>
+
             <div class="flex flex-wrap items-center gap-2">
               <div class="inline-flex rounded-xl bg-white border border-slate-200 p-0.5 text-xs">
                 <button onclick="state.agendaMode='semana'; saveState(); render();" class="px-3 py-1.5 rounded-lg font-medium ${state.agendaMode === 'semana' ? 'bg-slate-900 text-white' : 'text-slate-600'}">Semana</button>
-                <button onclick="state.agendaMode='sillones'; saveState(); render();" class="px-3 py-1.5 rounded-lg font-medium ${state.agendaMode === 'sillones' ? 'bg-slate-900 text-white' : 'text-slate-600'}">Por Sillones (1·2·3)</button>
+                <button onclick="state.agendaMode='sillones'; saveState(); render();" class="px-3 py-1.5 rounded-lg font-medium ${state.agendaMode === 'sillones' ? 'bg-slate-900 text-white' : 'text-slate-600'}">Hoy por Sillones (1·2·3)</button>
               </div>
               <button onclick="state.agendaCompact=!state.agendaCompact; saveState(); render();" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-medium text-slate-700">
                 ${state.agendaCompact ? '↕ Normal' : '▤ Compacto'}
@@ -1358,20 +1718,20 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
             <div class="min-w-[780px]">
               <div class="grid border-b border-slate-200 bg-slate-50/70" style="grid-template-columns: 68px repeat(${cols.length}, minmax(0, 1fr));">
                 <div class="p-2.5 text-[11px] text-slate-400 font-medium text-center border-r border-slate-100">Hora</div>
-                ${cols.map(c => `<div class="p-2.5 text-center border-r border-slate-100 last:border-r-0 ${c.key === 'Jue' ? 'bg-blue-50/60' : ''}"><span class="text-xs font-bold ${c.key === 'Jue' ? 'text-blue-700' : 'text-slate-700'}">${c.title}</span></div>`).join('')}
+                ${cols.map(c => `<div class="p-2.5 text-center border-r border-slate-100 last:border-r-0 ${c.isToday ? 'bg-blue-50/60' : ''}"><span class="text-xs font-bold ${c.isToday ? 'text-blue-700' : 'text-slate-700'}">${c.title}</span></div>`).join('')}
               </div>
 
               ${state.agendaMode === 'semana' ? `
                 <div class="grid border-b border-slate-200 bg-white" style="grid-template-columns: 68px repeat(${cols.length}, minmax(0, 1fr));">
                   <div class="p-2 text-[10px] text-slate-400 text-center border-r border-slate-100">📝 Nota</div>
-                  ${cols.map(c => `<div class="p-1.5 border-r border-slate-100 last:border-r-0"><input type="text" value="${state.dayNotes[c.key] || ''}" onchange="state.dayNotes['${c.key}']=this.value; saveState();" placeholder="+ Nota..." class="w-full text-[11px] text-slate-600 px-1.5 py-0.5 rounded focus:bg-blue-50/50 focus:outline-none" /></div>`).join('')}
+                  ${cols.map(c => `<div class="p-1.5 border-r border-slate-100 last:border-r-0"><input type="text" value="${state.dayNotes[c.dateISO] || ''}" onchange="state.dayNotes['${c.dateISO}']=this.value; saveState();" placeholder="+ Nota..." class="w-full text-[11px] text-slate-600 px-1.5 py-0.5 rounded focus:bg-blue-50/50 focus:outline-none" /></div>`).join('')}
                 </div>
               ` : ''}
 
               <div class="divide-y divide-slate-100 relative">
                 ${hours.map(h => {
-                  const isOffHours = h === '08:00' || h === '18:00';
-                  const isLiveLine = h === '12:00';
+                  const isOffHours = h === '08:00' || h === '19:00';
+                  const isLiveLine = h === currentRealHour && agendaWeekOffset === 0;
                   return `
                     <div class="grid relative" style="grid-template-columns: 68px repeat(${cols.length}, minmax(0, 1fr));">
                       ${isLiveLine ? `<div class="pointer-events-none absolute left-[68px] right-0 top-1/2 z-10 flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 -ml-1.5"></span><div class="h-[2px] bg-rose-500 w-full"></div></div>` : ''}
@@ -1379,10 +1739,12 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
                       ${cols.map(c => {
                         const matching = state.appointments.filter(ap => {
                           const sameHour = ap.time.slice(0, 2) === h.slice(0, 2);
-                          return state.agendaMode === 'sillones' ? sameHour && ap.chair === c.key : sameHour && ap.dayCol === c.key;
+                          return state.agendaMode === 'sillones'
+                            ? sameHour && ap.date === TODAY_ISO && ap.chair === c.key
+                            : sameHour && ap.date === c.dateISO;
                         });
                         return `
-                          <div onclick="openNewTurnoModal('${h}', '${c.key}')" class="${rowHeight} p-1 border-r border-slate-100 last:border-r-0 cursor-pointer ${isOffHours ? 'bg-slate-100/65' : 'bg-white hover:bg-blue-50/40'}">
+                          <div onclick="openNewTurnoModal('${h}', '${c.key}', '${c.dateISO}')" class="${rowHeight} p-1 border-r border-slate-100 last:border-r-0 cursor-pointer ${isOffHours ? 'bg-slate-100/65' : 'bg-white hover:bg-blue-50/40'}">
                             ${matching.map(ap => {
                               const pt = getPatientById(ap.patientId);
                               if (!pt) return '';
@@ -1407,7 +1769,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       `;
     }
 
-    function openNewTurnoModal(prefillHour = '10:00', colKey = '') {
+    function openNewTurnoModal(prefillHour = '10:00', colKey = '', dateISO = TODAY_ISO) {
       if (!state.patients.length) {
         alert('Primero creá al menos un paciente para poder asignarle un turno.');
         openModal('modal-paciente');
@@ -1415,9 +1777,9 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       }
       document.getElementById('turno-patient').innerHTML = state.patients.map(p => `<option value="${p.id}" ${p.id === state.activePatientId ? 'selected' : ''}>${p.name} (${p.insurance})</option>`).join('');
       document.getElementById('turno-doctor').innerHTML = state.team.map(d => `<option value="${d.name}">${d.name}</option>`).join('');
-      document.getElementById('turno-date').value = TODAY_ISO;
+      document.getElementById('turno-date').value = dateISO || TODAY_ISO;
       document.getElementById('turno-time').value = prefillHour;
-      if (colKey.startsWith('Sillón')) document.getElementById('turno-chair').value = colKey;
+      if (colKey && colKey.startsWith('Sillón')) document.getElementById('turno-chair').value = colKey;
       document.getElementById('turno-task').value = '';
       document.getElementById('turno-deposit').value = 0;
       document.getElementById('turno-note').value = '';
@@ -1441,7 +1803,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       const docObj = state.team.find(d => d.name === doctor);
       const commPct = docObj ? docObj.commissionPct : 100;
 
-      state.appointments.push({ id: 'ap_' + Date.now(), patientId, date, dayCol: 'Jue', time, duration, chair, doctor, task, labStatus, deposit, note, attended: true });
+      state.appointments.push({ id: 'ap_' + Date.now(), patientId, date, time, duration, chair, doctor, task, labStatus, deposit, note });
 
       if (deposit > 0) {
         pt.evolutions.unshift({
@@ -1466,7 +1828,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     }
 
     // =========================================================================
-    // BLOQUE 2: PACIENTES + IMPORTADOR CSV + FICHA Y ODONTOGRAMA
+    // BLOQUE 2: PACIENTES + ODONTOGRAMA + EVOLUCIONES CON MICRÓFONO + RX REAL
     // =========================================================================
     let patientFilterChip = 'todos';
     let patientSearchQuery = '';
@@ -1511,7 +1873,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
 
           <div class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-2xs">
             <div class="divide-y divide-slate-100">
-              ${filtered.length === 0 ? '<p class="p-8 text-center text-xs text-slate-400">No hay pacientes que coincidan con este filtro.</p>' : filtered.map(p => {
+              ${filtered.length === 0 ? '<p class="p-8 text-center text-xs text-slate-400">No hay pacientes en este filtro.</p>' : filtered.map(p => {
                 const fin = getPatientFinancials(p);
                 return `
                   <div class="p-4 hover:bg-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-3">
@@ -1544,11 +1906,9 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         const sep = line.includes(';') ? ';' : ',';
         const parts = line.split(sep).map(s => s.trim());
         return {
-          name: parts[0] || '',
-          dni: parts[1] || 'S/D',
+          name: parts[0] || '', dni: parts[1] || 'S/D',
           phone: (parts[2] || '').replace(/\D/g, '') || '5491100000000',
-          insurance: parts[3] || 'Particular',
-          debt: Number(parts[4] || 0)
+          insurance: parts[3] || 'Particular', debt: Number(parts[4] || 0)
         };
       }).filter(r => r.name.length >= 2);
     }
@@ -1556,12 +1916,9 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     function previewCsvImport() {
       const rows = parseCsvRows();
       const box = document.getElementById('csv-preview-box');
-      if (!rows.length) {
-        box.textContent = 'Pegá al menos una fila válida para previsualizar.';
-        return;
-      }
-      box.innerHTML = `<strong class="text-emerald-700">✓ ${rows.length} paciente(s) listos para crear:</strong> ` +
-        rows.slice(0, 4).map(r => `${r.name} (${r.insurance}${r.debt > 0 ? ' · Saldo ' + formatARS(r.debt) : ''})`).join(' · ');
+      if (!rows.length) { box.textContent = 'Pegá al menos una fila válida.'; return; }
+      box.innerHTML = `<strong class="text-emerald-700">✓ ${rows.length} paciente(s) listos:</strong> ` +
+        rows.slice(0, 4).map(r => `${r.name} (${r.insurance})`).join(' · ');
     }
 
     function confirmCsvImport() {
@@ -1579,14 +1936,12 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
           dentition: 'permanente', lastVisitDays: 0, permanentNote: '', signerInfo: 'Firma por sí mismo',
           cleanHistoryVerifiedAt: TODAY_ISO,
           alerts: { anesthesiaAllergy: false, latexAllergy: false, anticoagulants: false, bisphosphonates: false, antibioticProphylaxis: false, pregnant: false, customText: '' },
-          systemic: [], osDebt: 0, teeth: {}, snapshots: [], evolutions: evs, endoCanals: [], implants: [], perio: {}
+          systemic: [], osDebt: 0, teeth: {}, rxImages: [], snapshots: [], evolutions: evs, endoCanals: [], implants: [], perio: {}
         });
       });
       state.activePatientId = state.patients[0].id;
       document.getElementById('csv-raw-input').value = '';
-      saveState();
-      closeModal('modal-import-csv');
-      navigate('pacientes');
+      saveState(); closeModal('modal-import-csv'); navigate('pacientes');
     }
 
     function saveNewPatient(e) {
@@ -1606,13 +1961,12 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         signerInfo: 'Firma por sí mismo',
         cleanHistoryVerifiedAt: alertTxt ? null : TODAY_ISO,
         alerts: { anesthesiaAllergy: false, latexAllergy: false, anticoagulants: false, bisphosphonates: false, antibioticProphylaxis: false, pregnant: false, customText: alertTxt },
-        systemic: [], osDebt: 0, teeth: {}, snapshots: [], evolutions: [], endoCanals: [], implants: [], perio: {}
+        systemic: [], osDebt: 0, teeth: {}, rxImages: [], snapshots: [], evolutions: [], endoCanals: [], implants: [], perio: {}
       });
       closeModal('modal-paciente');
       openPatientDetail(id, 'odontograma');
     }
 
-    // Vista Detalle Paciente + Carta Dental Anatómica
     function renderPacienteDetailView() {
       const p = getPatientById(state.activePatientId);
       if (!p) return '<div class="p-8 text-center text-sm text-slate-500">Creá un paciente primero.</div>';
@@ -1666,10 +2020,10 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
               <div class="flex flex-wrap gap-1 text-xs">
                 ${[
                   { id: 'odontograma', label: '🦷 Carta Dental' },
-                  { id: 'evoluciones', label: `📋 Evoluciones y Cobro (${p.evolutions.length})` },
+                  { id: 'evoluciones', label: `📋 Evoluciones y Voz (${p.evolutions.length})` },
                   { id: 'ficha', label: '🩺 Ficha Médica' },
                   { id: 'especialidades', label: '🔬 Endo · Perio · Implantes' },
-                  { id: 'estudios', label: '🩻 Rx y Órdenes 3D' }
+                  { id: 'estudios', label: `🩻 Placas Rx (${(p.rxImages || []).length})` }
                 ].map(t => `<button onclick="switchPatientTab('${t.id}')" class="px-3.5 py-2 rounded-xl font-semibold ${state.patientSubTab === t.id ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100'}">${t.label}</button>`).join('')}
               </div>
               <button onclick="sendBudgetWhatsApp()" class="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
@@ -1692,8 +2046,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     function switchPatientTab(tab) {
       if (!guardUnsavedChanges()) return;
       state.patientSubTab = tab;
-      saveState();
-      render();
+      saveState(); render();
     }
 
     function renderOdontogramaTab(p) {
@@ -1719,7 +2072,9 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
                 </div>
               </div>
               <div class="flex gap-2">
-                <button ${readOnly ? 'disabled' : ''} onclick="startVoiceDictation()" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 disabled:opacity-40">🎙️ Cargar dictando</button>
+                <button ${readOnly ? 'disabled' : ''} onclick="startVoiceDictation()" class="px-3.5 py-1.5 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-xs font-bold text-rose-700 flex items-center gap-1.5 disabled:opacity-40">
+                  🎙️ Dictar con Micrófono en Vivo
+                </button>
                 <button onclick="state.unsavedOdontograma=false; saveState(); render();" class="px-4 py-1.5 rounded-xl ${state.unsavedOdontograma ? 'bg-amber-600' : 'bg-blue-600'} text-white text-xs font-semibold">
                   💾 ${state.unsavedOdontograma ? 'Guardar cambios *' : 'Guardar odontograma'}
                 </button>
@@ -1903,8 +2258,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       const p = getPatientById(state.activePatientId);
       p.dentition = type;
       state.selectedTeeth = [type === 'primaria' ? 55 : 16];
-      saveState();
-      render();
+      saveState(); render();
     }
 
     function saveOdontogramaSnapshot() {
@@ -1912,39 +2266,25 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       const note = document.getElementById('snap-note').value.trim() || 'Control clínico';
       p.snapshots.unshift({ id: 'sn_' + Date.now(), date: new Date().toLocaleDateString('es-AR'), title: `Copia #${p.snapshots.length + 1}`, note });
       state.unsavedOdontograma = false;
-      saveState();
-      render();
+      saveState(); render();
     }
 
-    function startVoiceDictation() {
-      const sample = prompt('🎙️ Dictado Clínico Multi-Pieza (ej: "15 caries y 26 endodoncia"):', '15 caries y 26 endodoncia');
-      if (!sample) return;
-      const p = getPatientById(state.activePatientId);
-      const regex = /(\d{2})\s+(caries|resina|endodoncia|corona a realizar|corona|ausente|implante)/gi;
-      let m, c = 0;
-      while ((m = regex.exec(sample)) !== null) {
-        const num = Number(m[1]), kw = m[2].toLowerCase();
-        if (!p.teeth[num]) p.teeth[num] = { surfaces: {} };
-        if (!p.teeth[num].surfaces) p.teeth[num].surfaces = {};
-        if (kw === 'caries') p.teeth[num].surfaces.O = 'blue';
-        else if (kw === 'resina') p.teeth[num].surfaces.O = 'red';
-        else if (kw === 'endodoncia') p.teeth[num].root = 'endo_red';
-        else if (kw === 'corona a realizar') p.teeth[num].crown = 'planned_blue';
-        else if (kw === 'corona') p.teeth[num].crown = 'red';
-        else if (kw === 'ausente') p.teeth[num].missing = 'red';
-        else if (kw === 'implante') p.teeth[num].implant = 'red';
-        c++;
-      }
-      if (c > 0) { state.unsavedOdontograma = true; render(); }
-    }
-
-    // Evoluciones Conectadas al Catálogo de 52 Prácticas
+    // Evoluciones con Botón de Micrófono Continuo en Vivo
     function renderEvolucionesTab(p) {
       const firstItem = state.catalog[0] || { price: 25000, lab: 0 };
       return `
         <div class="space-y-5">
           <form onsubmit="addEvolutionWithPayment(event)" class="bg-white rounded-2xl border border-slate-200/90 p-5 space-y-4 shadow-2xs">
-            <h3 class="font-bold text-sm text-slate-900">Registrar evolución clínica y cobro en 1 paso</h3>
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 class="font-bold text-sm text-slate-900">Registrar evolución clínica y cobro en 1 paso</h3>
+                <p class="text-[11px] text-slate-500">Dictá la nota clínica manos libres con el micrófono o tipeala.</p>
+              </div>
+              <button type="button" id="btn-ev-mic" onclick="toggleEvolutionVoiceDictation()" class="px-3.5 py-1.5 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition">
+                🎙️ Dictar evolución con micrófono
+              </button>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-12 gap-3 text-xs">
               <div class="md:col-span-2">
                 <label class="block font-medium text-slate-700 mb-1">Pieza FDI</label>
@@ -1963,7 +2303,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
                 </select>
               </div>
               <div class="md:col-span-12">
-                <textarea id="ev-note" rows="2" required placeholder="Detalle clínico de la sesión..." class="w-full border border-slate-200 rounded-lg px-3 py-2"></textarea>
+                <textarea id="ev-note" rows="3" required placeholder="Tocá 'Dictar evolución con micrófono' arriba a la derecha o escribí el detalle clínico..." class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></textarea>
               </div>
               <div class="md:col-span-3">
                 <label class="block font-medium text-slate-700 mb-1">Valor ($)</label>
@@ -2023,6 +2363,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
 
     function addEvolutionWithPayment(e) {
       e.preventDefault();
+      stopAnyActiveMic();
       const p = getPatientById(state.activePatientId);
       const proc = state.catalog[document.getElementById('ev-proc').value];
       const tooth = document.getElementById('ev-tooth').value.trim() || 'Gral';
@@ -2048,8 +2389,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
         });
       }
       p.lastVisitDays = 0;
-      saveState();
-      render();
+      saveState(); render();
     }
 
     function rectifyEvolution(evId) {
@@ -2061,8 +2401,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       ev.previousVersions.push({ date: ev.date, note: ev.note });
       ev.note = corrected;
       ev.date = new Date().toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' }) + ' (Rectificado)';
-      saveState();
-      render();
+      saveState(); render();
     }
 
     function renderFichaMedicaTab(p) {
@@ -2167,33 +2506,64 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       saveState(); render();
     }
 
+    // Negatoscopio Real con Subida de Placas JPG/PNG/WebP + Filtros Diagnósticos
     let rxFilterMode = 'normal';
-    function renderEstudiosRxTab() {
+    function renderEstudiosRxTab(p) {
+      if (!p.rxImages) p.rxImages = [];
+      const activeRx = p.rxImages.find(r => r.id === state.activeRxId) || p.rxImages[0] || null;
       const cls = rxFilterMode === 'contrast' ? 'rx-contrast' : rxFilterMode === 'invert' ? 'rx-invert' : rxFilterMode === 'both' ? 'rx-both' : '';
+
       return `
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
           <div class="lg:col-span-8 bg-slate-950 text-white rounded-2xl p-5 space-y-4">
             <div class="flex flex-wrap justify-between items-center gap-2">
-              <h3 class="font-bold text-sm">Negatoscopio Digital</h3>
-              <div class="flex gap-1.5 text-xs">
+              <div>
+                <h3 class="font-bold text-sm">${activeRx ? `${activeRx.title} (${activeRx.date})` : 'Negatoscopio Digital OdontOS'}</h3>
+                <p class="text-[11px] text-slate-400">Subí fotos o capturas de placas periapicales/panorámicas y aplicá filtros en vivo.</p>
+              </div>
+              <div class="flex flex-wrap gap-1.5 text-xs">
+                <label class="cursor-pointer px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 font-semibold">
+                  + Subir Placa Rx
+                  <input type="file" accept="image/*" onchange="handleRxFileUpload(event)" class="hidden" />
+                </label>
                 <button onclick="rxFilterMode='normal'; render();" class="px-2.5 py-1 rounded-lg ${rxFilterMode === 'normal' ? 'bg-blue-600' : 'bg-slate-800'}">Original</button>
                 <button onclick="rxFilterMode='contrast'; render();" class="px-2.5 py-1 rounded-lg ${rxFilterMode === 'contrast' ? 'bg-blue-600' : 'bg-slate-800'}">🔆 Contraste</button>
                 <button onclick="rxFilterMode='invert'; render();" class="px-2.5 py-1 rounded-lg ${rxFilterMode === 'invert' ? 'bg-blue-600' : 'bg-slate-800'}">◐ Invertir</button>
+                <button onclick="rxFilterMode='both'; render();" class="px-2.5 py-1 rounded-lg ${rxFilterMode === 'both' ? 'bg-blue-600' : 'bg-slate-800'}">⚡ Relieve</button>
               </div>
             </div>
-            <div class="bg-black rounded-xl p-6 flex justify-center border border-slate-800">
-              <svg viewBox="0 0 320 200" class="w-full max-w-md h-48 ${cls}">
-                <rect width="320" height="200" fill="#090D16"/><rect x="20" y="75" width="280" height="110" rx="8" fill="#2A3140"/>
-                <path d="M120 85 L110 165 Q122 170 134 115 L160 118 L186 115 Q198 170 210 165 L200 85 Z" fill="#CBD5E1"/>
-                <rect x="112" y="34" width="96" height="56" rx="16" fill="#F8FAFC"/>
-                <path d="M132 82 L117 158 M188 82 L203 158 M160 84 L160 152" stroke="#FFF" stroke-width="4"/>
-              </svg>
+
+            <div class="bg-black rounded-xl p-4 flex items-center justify-center border border-slate-800 min-h-[260px]">
+              ${activeRx ? `
+                <img src="${activeRx.dataUrl}" alt="${activeRx.title}" class="max-h-72 rounded-lg object-contain transition ${cls}" />
+              ` : `
+                <div class="text-center space-y-2 py-8">
+                  <svg viewBox="0 0 320 170" class="w-64 mx-auto opacity-80 ${cls}">
+                    <rect width="320" height="170" fill="#090D16"/><rect x="20" y="65" width="280" height="95" rx="8" fill="#2A3140"/>
+                    <path d="M120 75 L110 150 Q122 155 134 105 L160 108 L186 105 Q198 155 210 150 L200 75 Z" fill="#CBD5E1"/>
+                    <rect x="112" y="26" width="96" height="54" rx="16" fill="#F8FAFC"/>
+                    <path d="M132 72 L117 144 M188 72 L203 144 M160 74 L160 138" stroke="#FFF" stroke-width="4"/>
+                  </svg>
+                  <p class="text-xs text-slate-400">Vista de muestra · Tocá <strong>+ Subir Placa Rx</strong> arriba para cargar radiografías reales del paciente.</p>
+                </div>
+              `}
             </div>
+
+            ${p.rxImages.length > 0 ? `
+              <div class="flex gap-2 overflow-x-auto pt-1">
+                ${p.rxImages.map(img => `
+                  <button onclick="state.activeRxId='${img.id}'; render();" class="px-3 py-1.5 rounded-lg text-xs border shrink-0 ${activeRx && activeRx.id === img.id ? 'bg-blue-600 border-blue-500 text-white font-semibold' : 'bg-slate-900 border-slate-800 text-slate-300'}">
+                    🩻 ${img.title} (${img.date})
+                  </button>
+                `).join('')}
+              </div>
+            ` : ''}
           </div>
+
           <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 p-5 flex flex-col justify-between space-y-4">
             <div>
               <h3 class="font-bold text-base">Órdenes DentalScan 2D / 3D</h3>
-              <p class="text-xs text-slate-500 mt-1">Prescribí Panorámica o Cone Beam 3D con tu firma y enviala por WhatsApp en 5 segundos.</p>
+              <p class="text-xs text-slate-500 mt-1">Emití órdenes oficiales de Panorámica o Cone Beam 3D con membrete limpio listo para PDF o WhatsApp.</p>
             </div>
             <div class="space-y-2">
               <button onclick="openDentalScanModal()" class="w-full py-2.5 rounded-xl bg-blue-600 text-white text-xs font-semibold">🩻 Emitir Orden DentalScan</button>
@@ -2205,7 +2575,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     }
 
     // =========================================================================
-    // BLOQUE 3A: LISTA DE 52 PRECIOS EN 1 CLIC + EDICIÓN EN VIVO
+    // BLOQUE 3: LISTA DE PRECIOS + LABORATORIOS + EQUIPO + CAJA
     // =========================================================================
     let priceCatFilter = 'Todas';
     let priceSearch = '';
@@ -2236,7 +2606,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
           </div>
 
           <div class="bg-white rounded-2xl border border-slate-200/90 p-4 space-y-3 shadow-2xs">
-            <input type="text" value="${priceSearch}" oninput="priceSearch=this.value; render();" placeholder="Buscar por código (ej. 04.02) o nombre de prestación..." class="w-full border border-slate-200 rounded-xl px-3.5 py-2 text-sm" />
+            <input type="text" value="${priceSearch}" oninput="priceSearch=this.value; render();" placeholder="Buscar por código o nombre..." class="w-full border border-slate-200 rounded-xl px-3.5 py-2 text-sm" />
             <div class="flex flex-wrap gap-1.5 text-xs">
               ${categories.map(cat => `<button onclick="priceCatFilter='${cat}'; render();" class="px-3 py-1 rounded-full border font-medium ${priceCatFilter === cat ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-600 border-slate-200'}">${cat}</button>`).join('')}
             </div>
@@ -2246,12 +2616,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
             <table class="w-full text-xs text-left">
               <thead>
                 <tr class="border-b border-slate-200 bg-slate-50 text-slate-500">
-                  <th class="p-3">Código</th>
-                  <th class="p-3">Categoría</th>
-                  <th class="p-3">Prestación</th>
-                  <th class="p-3">Duración</th>
-                  <th class="p-3">Arancel ($ ARS)</th>
-                  <th class="p-3">Costo Lab Sugerido ($)</th>
+                  <th class="p-3">Código</th><th class="p-3">Categoría</th><th class="p-3">Prestación</th><th class="p-3">Duración</th><th class="p-3">Arancel ($ ARS)</th><th class="p-3">Costo Lab ($)</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100">
@@ -2263,12 +2628,8 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
                       <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600">${it.cat}</span></td>
                       <td class="p-3 font-semibold text-slate-900">${it.name}</td>
                       <td class="p-3 text-slate-500">${it.duration} min</td>
-                      <td class="p-3">
-                        <input ${!canEdit ? 'disabled' : ''} type="number" value="${it.price}" onchange="state.catalog[${realIdx}].price=Number(this.value); saveState();" class="w-28 border border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-900" />
-                      </td>
-                      <td class="p-3">
-                        <input ${!canEdit ? 'disabled' : ''} type="number" value="${it.lab}" onchange="state.catalog[${realIdx}].lab=Number(this.value); saveState();" class="w-28 border border-slate-200 rounded-lg px-2 py-1 text-slate-600" />
-                      </td>
+                      <td class="p-3"><input ${!canEdit ? 'disabled' : ''} type="number" value="${it.price}" onchange="state.catalog[${realIdx}].price=Number(this.value); saveState();" class="w-28 border border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-900" /></td>
+                      <td class="p-3"><input ${!canEdit ? 'disabled' : ''} type="number" value="${it.lab}" onchange="state.catalog[${realIdx}].lab=Number(this.value); saveState();" class="w-28 border border-slate-200 rounded-lg px-2 py-1 text-slate-600" /></td>
                     </tr>
                   `;
                 }).join('')}
@@ -2280,20 +2641,16 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     }
 
     function applyInflationAdjustment() {
-      const pct = Number(prompt('¿Qué porcentaje de actualización querés aplicar a toda tu lista de precios? (Ej: 10 para +10%)', '10'));
+      const pct = Number(prompt('¿Porcentaje de ajuste masivo a aplicar sobre toda la lista? (Ej: 10 para +10%)', '10'));
       if (!pct || isNaN(pct)) return;
-      state.catalog.forEach(i => {
-        i.price = Math.round((i.price * (1 + pct / 100)) / 500) * 500;
-      });
-      saveState();
-      render();
+      state.catalog.forEach(i => { i.price = Math.round((i.price * (1 + pct / 100)) / 500) * 500; });
+      saveState(); render();
     }
 
     function reloadSuggested52() {
-      if (!confirm('¿Cargar las 52 prácticas odontológicas sugeridas?')) return;
+      if (!confirm('¿Restaurar las 52 prácticas odontológicas sugeridas?')) return;
       state.catalog = getSuggested52Catalog();
-      saveState();
-      render();
+      saveState(); render();
     }
 
     function addCustomPriceItem() {
@@ -2302,13 +2659,9 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       if (!code || !name) return;
       const price = Number(prompt('Arancel en $ ARS:', '55000') || 55000);
       state.catalog.unshift({ code, cat: 'Personalizada', name, duration: 45, price, lab: 0 });
-      saveState();
-      render();
+      saveState(); render();
     }
 
-    // =========================================================================
-    // BLOQUE 3B: LABORATORIOS Y TÉCNICOS DENTALES (ÓRDENES + CUENTA CORRIENTE)
-    // =========================================================================
     function renderLaboratorioView() {
       let totalCost = 0, totalPaid = 0;
       state.labOrders.forEach(o => { totalCost += o.cost; totalPaid += o.paid; });
@@ -2325,35 +2678,20 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div class="bg-white rounded-2xl border border-slate-200 p-4">
-              <span class="text-xs text-slate-500">Total encargado</span>
-              <p class="text-2xl font-bold text-slate-900 mt-1">${formatARS(totalCost)}</p>
-            </div>
-            <div class="bg-white rounded-2xl border border-slate-200 p-4">
-              <span class="text-xs text-slate-500">Abonado a protésicos</span>
-              <p class="text-2xl font-bold text-emerald-600 mt-1">${formatARS(totalPaid)}</p>
-            </div>
-            <div class="bg-white rounded-2xl border border-slate-200 p-4">
-              <span class="text-xs text-slate-500">Saldo pendiente con Laboratorios</span>
-              <p class="text-2xl font-bold text-rose-600 mt-1">${formatARS(debt)}</p>
-            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 p-4"><span class="text-xs text-slate-500">Total encargado</span><p class="text-2xl font-bold text-slate-900 mt-1">${formatARS(totalCost)}</p></div>
+            <div class="bg-white rounded-2xl border border-slate-200 p-4"><span class="text-xs text-slate-500">Abonado a protésicos</span><p class="text-2xl font-bold text-emerald-600 mt-1">${formatARS(totalPaid)}</p></div>
+            <div class="bg-white rounded-2xl border border-slate-200 p-4"><span class="text-xs text-slate-500">Saldo pendiente con Laboratorios</span><p class="text-2xl font-bold text-rose-600 mt-1">${formatARS(debt)}</p></div>
           </div>
 
           <div class="bg-white rounded-2xl border border-slate-200/90 overflow-x-auto shadow-2xs">
             <table class="w-full text-xs text-left">
               <thead>
                 <tr class="border-b border-slate-200 bg-slate-50 text-slate-500">
-                  <th class="p-3.5">Laboratorio</th>
-                  <th class="p-3.5">Paciente</th>
-                  <th class="p-3.5">Trabajo / Color</th>
-                  <th class="p-3.5">Entrega</th>
-                  <th class="p-3.5">Estado en Clínica</th>
-                  <th class="p-3.5">Costo / Saldo</th>
-                  <th class="p-3.5 text-right">Acciones</th>
+                  <th class="p-3.5">Laboratorio</th><th class="p-3.5">Paciente</th><th class="p-3.5">Trabajo / Color</th><th class="p-3.5">Entrega</th><th class="p-3.5">Estado</th><th class="p-3.5">Costo / Saldo</th><th class="p-3.5 text-right">Acción</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100">
-                ${state.labOrders.length === 0 ? '<tr><td colspan="7" class="p-6 text-center text-slate-400">No hay órdenes de laboratorio registradas.</td></tr>' : state.labOrders.map(o => {
+                ${state.labOrders.length === 0 ? '<tr><td colspan="7" class="p-6 text-center text-slate-400">No hay órdenes registradas.</td></tr>' : state.labOrders.map(o => {
                   const pt = getPatientById(o.patientId);
                   const rem = Math.max(0, o.cost - o.paid);
                   return `
@@ -2364,16 +2702,11 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
                       <td class="p-3.5 text-slate-500">${o.dueDate}</td>
                       <td class="p-3.5">
                         <button onclick="toggleLabOrderStatus('${o.id}')" class="px-2.5 py-1 rounded-full font-semibold ${o.status === 'en_clinica' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-800 border border-amber-200'}">
-                          ${o.status === 'en_clinica' ? '🟢 Recibido en clínica' : '🟠 En laboratorio (clic al recibir)'}
+                          ${o.status === 'en_clinica' ? '🟢 Recibido en clínica' : '🟠 En laboratorio'}
                         </button>
                       </td>
-                      <td class="p-3.5">
-                        <div>Costo: ${formatARS(o.cost)}</div>
-                        <div class="${rem > 0 ? 'text-rose-600 font-bold' : 'text-emerald-600'}">${rem > 0 ? 'Debe: ' + formatARS(rem) : 'Saldado'}</div>
-                      </td>
-                      <td class="p-3.5 text-right">
-                        ${rem > 0 ? `<button onclick="payLabOrder('${o.id}')" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-semibold">Saldar e impactar Caja</button>` : '<span class="text-slate-400">✓ Pagado</span>'}
-                      </td>
+                      <td class="p-3.5"><div>Costo: ${formatARS(o.cost)}</div><div class="${rem > 0 ? 'text-rose-600 font-bold' : 'text-emerald-600'}">${rem > 0 ? 'Debe: ' + formatARS(rem) : 'Saldado'}</div></td>
+                      <td class="p-3.5 text-right">${rem > 0 ? `<button onclick="payLabOrder('${o.id}')" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-semibold">Saldar en Caja</button>` : '<span class="text-slate-400">✓ Pagado</span>'}</td>
                     </tr>
                   `;
                 }).join('')}
@@ -2394,30 +2727,20 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     function saveLabOrder(e) {
       e.preventDefault();
       state.labOrders.unshift({
-        id: 'lo_' + Date.now(),
-        labName: document.getElementById('lo-lab').value.trim(),
-        patientId: document.getElementById('lo-patient').value,
-        work: document.getElementById('lo-work').value.trim(),
-        cost: Number(document.getElementById('lo-cost').value || 0),
-        dueDate: document.getElementById('lo-due').value,
-        status: 'pendiente',
-        paid: 0
+        id: 'lo_' + Date.now(), labName: document.getElementById('lo-lab').value.trim(),
+        patientId: document.getElementById('lo-patient').value, work: document.getElementById('lo-work').value.trim(),
+        cost: Number(document.getElementById('lo-cost').value || 0), dueDate: document.getElementById('lo-due').value,
+        status: 'pendiente', paid: 0
       });
-      saveState();
-      closeModal('modal-lab-order');
-      render();
+      saveState(); closeModal('modal-lab-order'); render();
     }
 
     function toggleLabOrderStatus(id) {
       const o = state.labOrders.find(x => x.id === id);
       if (!o) return;
       o.status = o.status === 'en_clinica' ? 'pendiente' : 'en_clinica';
-      // Sincronizar semáforo en los turnos del paciente
-      state.appointments.forEach(ap => {
-        if (ap.patientId === o.patientId && ap.labStatus !== 'no_aplica') ap.labStatus = o.status;
-      });
-      saveState();
-      render();
+      state.appointments.forEach(ap => { if (ap.patientId === o.patientId && ap.labStatus !== 'no_aplica') ap.labStatus = o.status; });
+      saveState(); render();
     }
 
     function payLabOrder(id) {
@@ -2427,53 +2750,32 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       if (rem <= 0) return;
       o.paid = o.cost;
       state.cashMovements.unshift({
-        id: 'c_' + Date.now(),
-        date: TODAY_ISO,
-        concept: `Pago ${o.labName} (${o.work})`,
-        type: 'egreso',
-        method: 'Transferencia',
-        amount: rem,
-        doctor: 'Clínica',
-        labDeduct: 0,
-        commPct: 0
+        id: 'c_' + Date.now(), date: TODAY_ISO, concept: `Pago ${o.labName} (${o.work})`,
+        type: 'egreso', method: 'Transferencia', amount: rem, doctor: 'Clínica', labDeduct: 0, commPct: 0
       });
-      saveState();
-      render();
+      saveState(); render();
     }
 
-    // =========================================================================
-    // BLOQUE 3C: EQUIPO DE PROFESIONALES + CAJA Y PAGO DE LIQUIDACIONES
-    // =========================================================================
     function renderEquipoView() {
       return `
         <div class="space-y-5">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h1 class="text-xl font-bold text-slate-900">🩺 Equipo y Especialistas</h1>
-              <p class="text-xs text-slate-500">Configurá horarios de atención y el porcentaje de comisión (los cambios futuros no alteran liquidaciones pasadas).</p>
+              <p class="text-xs text-slate-500">Configurá horarios y % de comisión sobre lo cobrado limpio.</p>
             </div>
             ${state.role === 'director' ? `<button onclick="addTeamDoctor()" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold">+ Sumar profesional</button>` : ''}
           </div>
-
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             ${state.team.map((d, idx) => `
               <div class="bg-white rounded-2xl border border-slate-200/90 p-5 space-y-3 shadow-2xs">
                 <div class="flex items-start justify-between">
-                  <div>
-                    <h3 class="font-bold text-base text-slate-900">${d.name}</h3>
-                    <p class="text-xs text-slate-500">${d.specialty} · <strong>${d.license}</strong></p>
-                  </div>
+                  <div><h3 class="font-bold text-base text-slate-900">${d.name}</h3><p class="text-xs text-slate-500">${d.specialty} · <strong>${d.license}</strong></p></div>
                   <span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold">${d.commissionPct}% comisión</span>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs pt-2 border-t border-slate-100">
-                  <div>
-                    <label class="block text-slate-400 mb-1">Días y franja horaria</label>
-                    <input type="text" value="${d.schedule}" onchange="state.team[${idx}].schedule=this.value; saveState();" class="w-full border border-slate-200 rounded-lg px-2.5 py-1.5" />
-                  </div>
-                  <div>
-                    <label class="block text-slate-400 mb-1">% Comisión s/cobrado limpio</label>
-                    <input ${state.role !== 'director' ? 'disabled' : ''} type="number" min="0" max="100" value="${d.commissionPct}" onchange="state.team[${idx}].commissionPct=Number(this.value); saveState(); render();" class="w-full border border-slate-200 rounded-lg px-2.5 py-1.5 font-bold" />
-                  </div>
+                  <div><label class="block text-slate-400 mb-1">Días y horarios</label><input type="text" value="${d.schedule}" onchange="state.team[${idx}].schedule=this.value; saveState();" class="w-full border border-slate-200 rounded-lg px-2.5 py-1.5" /></div>
+                  <div><label class="block text-slate-400 mb-1">% Comisión</label><input ${state.role !== 'director' ? 'disabled' : ''} type="number" min="0" max="100" value="${d.commissionPct}" onchange="state.team[${idx}].commissionPct=Number(this.value); saveState(); render();" class="w-full border border-slate-200 rounded-lg px-2.5 py-1.5 font-bold" /></div>
                 </div>
               </div>
             `).join('')}
@@ -2489,26 +2791,16 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       const license = prompt('Matrícula:', 'M.P. 22.110') || 'M.P. —';
       const commissionPct = Number(prompt('% de Comisión sobre lo cobrado limpio:', '50') || 50);
       state.team.push({ id: 'doc_' + Date.now(), name, specialty, license, commissionPct, schedule: 'Mar y Jue · 14:00 a 19:00', paidOut: 0 });
-      saveState();
-      render();
+      saveState(); render();
     }
 
     function renderCajaView() {
       if (state.role === 'secretaria') {
-        return `
-          <div class="bg-white rounded-2xl border border-slate-200 p-8 text-center max-w-lg mx-auto space-y-2">
-            <div class="text-2xl">🔒</div>
-            <h2 class="font-bold text-base text-slate-900">Totales mensuales restringidos para Secretaría</h2>
-            <p class="text-xs text-slate-500">Podés registrar cobros y señas desde la ficha de cada paciente o al agendar turnos.</p>
-          </div>
-        `;
+        return `<div class="bg-white rounded-2xl border border-slate-200 p-8 text-center max-w-lg mx-auto space-y-2"><div class="text-2xl">🔒</div><h2 class="font-bold text-base text-slate-900">Totales restringidos para Secretaría</h2><p class="text-xs text-slate-500">Podés registrar cobros y señas desde cada paciente o en Agenda.</p></div>`;
       }
-
       let ingresos = 0, egresos = 0;
       const commByDoc = {};
-      state.team.forEach(d => {
-        commByDoc[d.name] = { cobrado: 0, lab: 0, net: 0, earned: 0, paidOut: d.paidOut || 0 };
-      });
+      state.team.forEach(d => { commByDoc[d.name] = { cobrado: 0, lab: 0, net: 0, earned: 0, paidOut: d.paidOut || 0 }; });
 
       state.cashMovements.forEach(m => {
         if (m.type === 'ingreso') {
@@ -2530,57 +2822,35 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h1 class="text-xl font-bold text-slate-900">💳 Caja Diaria y Liquidaciones</h1>
-              <p class="text-xs text-slate-500">Comisiones calculadas estrictamente sobre <strong>lo cobrado menos laboratorio</strong>. Pagar al especialista asienta el egreso en Caja.</p>
+              <p class="text-xs text-slate-500">Comisiones devengadas sobre <strong>lo cobrado menos laboratorio</strong>.</p>
             </div>
-            <button onclick="addManualExpense()" class="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50">- Registrar gasto / insumo</button>
+            <button onclick="addManualExpense()" class="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-semibold">- Registrar gasto / insumo</button>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div class="bg-white rounded-2xl border border-slate-200 p-4">
-              <span class="text-xs text-slate-500">Ingresos cobrados</span>
-              <p class="text-2xl font-bold text-emerald-600 mt-1">${formatARS(ingresos)}</p>
-            </div>
-            <div class="bg-white rounded-2xl border border-slate-200 p-4">
-              <span class="text-xs text-slate-500">Egresos (Labs, Honorarios e Insumos)</span>
-              <p class="text-2xl font-bold text-rose-600 mt-1">${formatARS(egresos)}</p>
-            </div>
-            <div class="bg-white rounded-2xl border border-slate-200 p-4">
-              <span class="text-xs text-slate-500">Saldo Neto en Caja</span>
-              <p class="text-2xl font-bold text-slate-900 mt-1">${formatARS(ingresos - egresos)}</p>
-            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 p-4"><span class="text-xs text-slate-500">Ingresos cobrados</span><p class="text-2xl font-bold text-emerald-600 mt-1">${formatARS(ingresos)}</p></div>
+            <div class="bg-white rounded-2xl border border-slate-200 p-4"><span class="text-xs text-slate-500">Egresos</span><p class="text-2xl font-bold text-rose-600 mt-1">${formatARS(egresos)}</p></div>
+            <div class="bg-white rounded-2xl border border-slate-200 p-4"><span class="text-xs text-slate-500">Saldo Neto en Caja</span><p class="text-2xl font-bold text-slate-900 mt-1">${formatARS(ingresos - egresos)}</p></div>
           </div>
 
-          <!-- Tabla Liquidación a Profesionales con Botón de Pago Directo -->
           <div class="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 shadow-2xs">
             <h2 class="font-bold text-sm text-slate-900">Liquidación de Honorarios Profesionales</h2>
             <div class="overflow-x-auto">
               <table class="w-full text-xs text-left">
-                <thead>
-                  <tr class="border-b border-slate-200 text-slate-500">
-                    <th class="py-2">Profesional</th>
-                    <th class="py-2">Cobrado</th>
-                    <th class="py-2">Desc. Lab</th>
-                    <th class="py-2">Base Limpia</th>
-                    <th class="py-2">Devengado</th>
-                    <th class="py-2">Ya Liquidado</th>
-                    <th class="py-2 text-right">Saldo a Pagar</th>
-                  </tr>
-                </thead>
+                <thead><tr class="border-b border-slate-200 text-slate-500"><th class="py-2">Profesional</th><th>Cobrado</th><th>Desc. Lab</th><th>Base Limpia</th><th>Devengado</th><th>Ya Liquidado</th><th class="text-right">Saldo a Pagar</th></tr></thead>
                 <tbody class="divide-y divide-slate-100">
                   ${Object.entries(commByDoc).map(([docName, d]) => {
                     const pendingPay = Math.max(0, d.earned - d.paidOut);
                     return `
                       <tr>
                         <td class="py-2.5 font-bold text-slate-900">${docName}</td>
-                        <td class="py-2.5">${formatARS(d.cobrado)}</td>
-                        <td class="py-2.5 text-rose-600">- ${formatARS(d.lab)}</td>
-                        <td class="py-2.5 font-semibold">${formatARS(d.net)}</td>
-                        <td class="py-2.5">${formatARS(d.earned)}</td>
-                        <td class="py-2.5 text-emerald-700">${formatARS(d.paidOut)}</td>
-                        <td class="py-2.5 text-right">
-                          ${pendingPay > 0 && docName !== state.clinicProfile.ownerDoctor ? `
-                            <button onclick="payDoctorCommission('${docName}', ${pendingPay})" class="px-3 py-1 rounded-lg bg-blue-600 text-white font-semibold">Liquidar ${formatARS(pendingPay)}</button>
-                          ` : `<span class="font-bold text-slate-700">${formatARS(pendingPay)}</span>`}
+                        <td>${formatARS(d.cobrado)}</td>
+                        <td class="text-rose-600">- ${formatARS(d.lab)}</td>
+                        <td class="font-semibold">${formatARS(d.net)}</td>
+                        <td>${formatARS(d.earned)}</td>
+                        <td class="text-emerald-700">${formatARS(d.paidOut)}</td>
+                        <td class="text-right">
+                          ${pendingPay > 0 && docName !== state.clinicProfile.ownerDoctor ? `<button onclick="payDoctorCommission('${docName}', ${pendingPay})" class="px-3 py-1 rounded-lg bg-blue-600 text-white font-semibold">Liquidar ${formatARS(pendingPay)}</button>` : `<span class="font-bold">${formatARS(pendingPay)}</span>`}
                         </td>
                       </tr>
                     `;
@@ -2589,54 +2859,90 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
               </table>
             </div>
           </div>
-
-          <!-- Libro de Movimientos de Caja -->
-          <div class="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 shadow-2xs">
-            <h2 class="font-bold text-sm text-slate-900">Movimientos recientes de Caja</h2>
-            <div class="divide-y divide-slate-100 text-xs">
-              ${state.cashMovements.length === 0 ? '<p class="py-4 text-slate-400 text-center">Sin movimientos aún.</p>' : state.cashMovements.map(m => `
-                <div class="py-2.5 flex items-center justify-between gap-2">
-                  <div>
-                    <span class="font-semibold text-slate-900">${m.concept}</span>
-                    <span class="text-slate-400 ml-1">· ${m.date} (${m.method})</span>
-                  </div>
-                  <span class="font-bold ${m.type === 'ingreso' ? 'text-emerald-600' : 'text-rose-600'}">
-                    ${m.type === 'ingreso' ? '+' : '-'} ${formatARS(m.amount)}
-                  </span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
         </div>
       `;
     }
 
     function payDoctorCommission(docName, amount) {
-      if (!confirm(`¿Confirmar pago de liquidación a ${docName} por ${formatARS(amount)} e impactar el egreso en Caja?`)) return;
+      if (!confirm(`¿Confirmar liquidación a ${docName} por ${formatARS(amount)}?`)) return;
       const doc = state.team.find(d => d.name === docName);
       if (doc) doc.paidOut = (doc.paidOut || 0) + amount;
-      state.cashMovements.unshift({
-        id: 'c_' + Date.now(), date: TODAY_ISO, concept: `Liquidación honorarios · ${docName}`,
-        type: 'egreso', method: 'Transferencia', amount, doctor: 'Clínica', labDeduct: 0, commPct: 0
-      });
-      saveState();
-      render();
+      state.cashMovements.unshift({ id: 'c_' + Date.now(), date: TODAY_ISO, concept: `Liquidación honorarios · ${docName}`, type: 'egreso', method: 'Transferencia', amount, doctor: 'Clínica', labDeduct: 0, commPct: 0 });
+      saveState(); render();
     }
 
     function addManualExpense() {
-      const concept = prompt('Concepto del gasto (ej: Compra cajas anestesia / Descartables):');
+      const concept = prompt('Concepto del gasto:');
       if (!concept) return;
       const amount = Number(prompt('Monto en $ ARS:', '35000') || 0);
       if (amount <= 0) return;
-      state.cashMovements.unshift({
-        id: 'c_' + Date.now(), date: TODAY_ISO, concept, type: 'egreso', method: 'Efectivo', amount, doctor: 'Clínica', labDeduct: 0, commPct: 0
-      });
-      saveState();
-      render();
+      state.cashMovements.unshift({ id: 'c_' + Date.now(), date: TODAY_ISO, concept, type: 'egreso', method: 'Efectivo', amount, doctor: 'Clínica', labDeduct: 0, commPct: 0 });
+      saveState(); render();
     }
 
     // =========================================================================
-    // MODALES COMPLEMENTARIOS Y FIRMA SHA-256
+    // IMPRESIÓN LIMPIA A4 / PDF CON MEMBRETE OFICIAL (SIN FONDO DE LA APP)
+    // =========================================================================
+    function printHtmlSheet(innerHtml) {
+      const sheet = document.getElementById('print-sheet');
+      sheet.innerHTML = innerHtml;
+      window.print();
+    }
+
+    function printCleanDentalScan() {
+      const p = getPatientById(state.activePatientId);
+      const checks = Array.from(document.querySelectorAll('.ds-check:checked')).map(c => c.value);
+      const zone = document.getElementById('ds-zone').value || 'Según indicación clínica';
+      const diag = document.getElementById('ds-diag').value || 'Evaluación diagnóstica';
+
+      printHtmlSheet(`
+        <div style="max-width:680px;margin:0 auto;font-family:Inter,sans-serif;border:1px solid #CBD5E1;border-radius:16px;padding:32px;">
+          <div style="display:flex;justify-content:space-between;border-bottom:2px solid #0F172A;padding-bottom:16px;margin-bottom:20px;">
+            <div>
+              <h1 style="font-size:20px;font-weight:700;margin:0;">${state.clinicProfile.name}</h1>
+              <p style="font-size:12px;color:#475569;margin:4px 0 0 0;">Orden Oficial de Diagnóstico por Imágenes Odontológicas</p>
+            </div>
+            <div style="text-align:right;font-size:12px;">
+              <strong>Fecha:</strong> ${new Date().toLocaleDateString('es-AR')}<br/>
+              <strong>${state.clinicProfile.ownerDoctor}</strong> (${state.clinicProfile.license})
+            </div>
+          </div>
+          <div style="background:#F8FAFC;padding:12px 16px;border-radius:10px;font-size:13px;margin-bottom:20px;">
+            <strong>Paciente:</strong> ${p.name} &nbsp;|&nbsp; <strong>DNI:</strong> ${p.dni} &nbsp;|&nbsp; <strong>Cobertura:</strong> ${p.insurance}
+          </div>
+          <h2 style="font-size:14px;font-weight:700;margin-bottom:8px;">Estudios solicitados:</h2>
+          <ul style="font-size:13px;line-height:1.7;margin-bottom:20px;">
+            ${checks.map(c => `<li>• <strong>${c}</strong></li>`).join('')}
+          </ul>
+          <p style="font-size:13px;margin:6px 0;"><strong>Piezas / Zona de interés:</strong> ${zone}</p>
+          <p style="font-size:13px;margin:6px 0 36px 0;"><strong>Diagnóstico presuntivo:</strong> ${diag}</p>
+          <div style="border-top:1px dashed #94A3B8;padding-top:16px;text-align:right;font-size:12px;">
+            <strong>${state.clinicProfile.ownerDoctor}</strong><br/>${state.clinicProfile.license} · Firma y Sello Profesional
+          </div>
+        </div>
+      `);
+    }
+
+    function printCleanCertificate() {
+      const p = getPatientById(state.activePatientId);
+      printHtmlSheet(`
+        <div style="max-width:640px;margin:0 auto;font-family:Inter,sans-serif;border:1px solid #CBD5E1;border-radius:16px;padding:36px;">
+          <h1 style="font-size:18px;font-weight:700;border-bottom:2px solid #0F172A;padding-bottom:12px;">${state.clinicProfile.name.toUpperCase()}</h1>
+          <h2 style="font-size:15px;font-weight:700;margin:24px 0 16px 0;">CERTIFICADO ODONTOLÓGICO DE ASISTENCIA</h2>
+          <p style="font-size:14px;line-height:1.8;">
+            Por la presente dejo constancia que <strong>${p.name}</strong> (DNI ${p.dni}) asistió a consulta y atención odontológica en el día de la fecha (<strong>${new Date().toLocaleDateString('es-AR')}</strong>), extendiéndose el presente certificado para ser presentado ante quien corresponda.
+          </p>
+          <div style="margin-top:64px;text-align:right;font-size:13px;">
+            _____________________________________<br/>
+            <strong>${state.clinicProfile.ownerDoctor}</strong><br/>
+            ${state.clinicProfile.license}
+          </div>
+        </div>
+      `);
+    }
+
+    // =========================================================================
+    // MODALES AUXILIARES Y FIRMA SHA-256
     // =========================================================================
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
@@ -2708,7 +3014,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       const hex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
       p.evolutions.unshift({
         id: 'ev_' + Date.now(), date: new Date().toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' }),
-        doctor: 'Portal Paciente', tooth: 'Legal', treatment: docType, note: 'Firmado electrónicamente y bloqueado.',
+        doctor: 'Firma en Consultorio', tooth: 'Legal', treatment: docType, note: 'Firmado en dispositivo táctil y sellado con Hash SHA-256.',
         fee: 0, labCost: 0, paid: 0, payMethod: '-', commissionPctSnapshot: 0, signedHash: hex.slice(0, 10) + '...' + hex.slice(-4), previousVersions: []
       });
       saveState(); closeModal('modal-portal'); openPatientDetail(p.id, 'evoluciones');
@@ -2717,17 +3023,9 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
     function saveSupabaseConfig() {
       const url = document.getElementById('sb-url').value.trim();
       const key = document.getElementById('sb-key').value.trim();
-      if (!url || !key) return alert('Completá URL y Anon Key.');
+      if (!url || !key) return alert('Completá URL y Key.');
       localStorage.setItem('odontos_sb_url', url);
       localStorage.setItem('odontos_sb_key', key);
-      initSupabaseClient();
-      closeModal('modal-supabase');
-      alert('Cloud Supabase activado. Ahora los usuarios que se registren quedarán guardados en la nube de manera independiente.');
-    }
-
-    function disconnectSupabase() {
-      localStorage.removeItem('odontos_sb_url');
-      localStorage.removeItem('odontos_sb_key');
       initSupabaseClient();
       closeModal('modal-supabase');
     }
@@ -2740,9 +3038,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
       a.click();
     }
 
-    // =========================================================================
-    // BOOTSTRAP AL CARGAR LA PÁGINA
-    // =========================================================================
+    // BOOTSTRAP
     (async function bootstrap() {
       initSupabaseClient();
       const savedSess = localStorage.getItem('odontos_active_session');
@@ -2756,7 +3052,7 @@ const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_rzVU0T9wgxDY3DSedrM1Uw_jLEvr2V
               if (row?.state_json) return startSession(sess, row.state_json);
             }
           } else {
-            const storageKey = sess.isDemo ? 'odontos_tenant_demo' : 'odontos_tenant_' + sess.email;
+            const storageKey = sess.isDemo ? 'odontos_tenant_demo_v36' : 'odontos_tenant_' + sess.email;
             const raw = localStorage.getItem(storageKey);
             if (raw) return startSession(sess, JSON.parse(raw));
           }
